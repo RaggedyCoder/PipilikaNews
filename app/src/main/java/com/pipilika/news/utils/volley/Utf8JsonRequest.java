@@ -15,9 +15,11 @@ import java.io.UnsupportedEncodingException;
  */
 public class Utf8JsonRequest extends JsonRequest<JSONObject> {
 
+
     public Utf8JsonRequest(int method, String url, String requestBody, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
         super(method, url, requestBody, listener, errorListener);
     }
+
 
     @Override
     protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
@@ -31,4 +33,5 @@ public class Utf8JsonRequest extends JsonRequest<JSONObject> {
         }
         return null;
     }
+
 }

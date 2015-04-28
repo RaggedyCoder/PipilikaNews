@@ -3,11 +3,12 @@ package com.pipilika.news.adapters.listview;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -18,7 +19,7 @@ import com.pipilika.news.R;
 import com.pipilika.news.adapters.viewpager.ClusterPagerAdapter;
 import com.pipilika.news.application.AppController;
 import com.pipilika.news.items.listview.ClusterListItem;
-import com.pipilika.news.utils.volley.Utf8JsonRequest;
+import com.pipilika.news.utils.volley.TrackedRequest;
 
 import org.json.JSONObject;
 
@@ -28,7 +29,7 @@ import java.util.List;
 /**
  * Created by tuman on 21/4/2015.
  */
-public class ClusterListAdapter extends ArrayAdapter<ClusterListItem> implements Response.Listener<JSONObject>, Response.ErrorListener {
+public class ClusterListAdapter extends BaseAdapter implements Response.ErrorListener {
 
     private List<ClusterListItem> clusterListItems;
     private ClusterPagerAdapter clusterPagerAdapter;
@@ -36,9 +37,9 @@ public class ClusterListAdapter extends ArrayAdapter<ClusterListItem> implements
     private Activity activity;
 
     public ClusterListAdapter(Activity activity, List<ClusterListItem> clusterListItems) {
-        super(activity, R.layout.cluster_list_item, clusterListItems);
         this.activity = activity;
         this.clusterListItems = clusterListItems;
+        Log.e("TAG SIZE", clusterListItems.size() + "size");
         inflater = (LayoutInflater) this.activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -58,7 +59,7 @@ public class ClusterListAdapter extends ArrayAdapter<ClusterListItem> implements
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.cluster_list_item, parent, false);
@@ -68,33 +69,55 @@ public class ClusterListAdapter extends ArrayAdapter<ClusterListItem> implements
             holder.clusterPager.setPageMargin((int) TypedValue.
                     applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, activity.getResources().getDisplayMetrics()));
 
-            holder.clusterPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                public void onPageScrollStateChanged(int state) {
-                }
-
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                }
-
-                public void onPageSelected(int pos) {
-                    if (pos == clusterListItems.get(position).getNews().size()) {
-
-                        String url = clusterListItems.get(position).getNext_url();
-                        Utf8JsonRequest jsonObjectRequest = new Utf8JsonRequest(Request.Method.GET, url,
-                                null, ClusterListAdapter.this, ClusterListAdapter.this);
-                        AppController.getInstance().addToRequestQueue(jsonObjectRequest);
-
-                    }
-                    // Toast.makeText(activity, "Selected page-" + pos, Toast.LENGTH_SHORT).show();
-                }
-            });
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        Log.e("TAG", position + " of list");
+        final int rr = position;
+        holder.clusterPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            public void onPageScrollStateChanged(int state) {
+            }
+
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            public void onPageSelected(int pos) {
+                if (pos == clusterListItems.get(rr).getNews().size()) {
+
+                    String url = clusterListItems.get(rr).getNext_url();
+                    TrackedRequest jsonObjectRequest = new TrackedRequest(Request.Method.GET, url,
+                            null, new TrackedRequest.ListenerTracker<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject jsonObject, int id) {
+                            String string = null;
+                            try {
+                                string = new String(jsonObject.toString().getBytes(), "UTF-8");
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
+                            Gson gson = new GsonBuilder().create();
+                            ClusterListItem clusterListItem = gson.fromJson(jsonObject.toString(), ClusterListItem.class);
+                            clusterListItems.get(id).getNews().addAll(clusterListItem.getNews());
+                            notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onResponse(JSONObject jsonObject) {
+
+                        }
+                    }, ClusterListAdapter.this, rr);
+                    AppController.getInstance().addToRequestQueue(jsonObjectRequest);
+
+                }
+                Log.e("TAG", rr + " Selected page-" + pos);
+            }
+        });
         holder.clusterPager.setPageMargin(15);
         holder.clusterPager.setPageMargin(15);
         holder.clusterPager.setClipChildren(false);
-        clusterPagerAdapter = new ClusterPagerAdapter(activity, clusterListItems.get(position).getNews());
+        clusterPagerAdapter = new ClusterPagerAdapter(activity, clusterListItems.get(position).getNews(),
+                clusterListItems.get(position).getCategory());
         holder.clusterPager.setAdapter(clusterPagerAdapter);
         return convertView;
     }
@@ -102,20 +125,6 @@ public class ClusterListAdapter extends ArrayAdapter<ClusterListItem> implements
     @Override
     public void onErrorResponse(VolleyError volleyError) {
 
-    }
-
-    @Override
-    public void onResponse(JSONObject jsonObject) {
-        String string = null;
-        try {
-            string = new String(jsonObject.toString().getBytes(), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        Gson gson = new GsonBuilder().create();
-        ClusterListItem clusterListItem = gson.fromJson(jsonObject.toString(), ClusterListItem.class);
-        clusterListItems.get(0).getNews().addAll(clusterListItem.getNews());
-        notifyDataSetChanged();
     }
 
     public static class ViewHolder {

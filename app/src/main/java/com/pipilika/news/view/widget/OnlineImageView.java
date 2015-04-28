@@ -3,9 +3,7 @@ package com.pipilika.news.view.widget;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.RelativeLayout;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
@@ -166,9 +164,9 @@ public class OnlineImageView extends RoundedImageView {
                         if (response.getBitmap() != null) {
 
                             setImageBitmap(response.getBitmap());
-                            bWidth = response.getBitmap().getWidth();
-                            bHeight = response.getBitmap().getHeight();
-                            adjustImageAspect(bWidth, bHeight);
+                            //bWidth = response.getBitmap().getWidth();
+                            //bHeight = response.getBitmap().getHeight();
+                            //adjustImageAspect(bWidth, bHeight);
 
                         } else if (mDefaultImageId != 0) {
                             setImageResource(mDefaultImageId);
@@ -221,26 +219,10 @@ public class OnlineImageView extends RoundedImageView {
         invalidate();
     }
 
-    /*
-     * Adjusting imageview height
-     * */
-    private void adjustImageAspect(int bWidth, int bHeight) {
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) getLayoutParams();
-
-        if (bWidth == 0 || bHeight == 0)
-            return;
-
-        int swidth = getWidth();
-        int new_height = 0;
-        new_height = swidth * bHeight / bWidth;
-        params.width = swidth;
-        params.height = new_height;
-        setLayoutParams(params);
-    }
 
     public interface ResponseObserver {
-        public void onError();
+        void onError();
 
-        public void onSuccess();
+        void onSuccess();
     }
 }

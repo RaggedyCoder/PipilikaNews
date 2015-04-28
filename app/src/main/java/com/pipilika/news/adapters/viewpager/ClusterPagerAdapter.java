@@ -19,6 +19,9 @@ import com.pipilika.news.application.AppController;
 import com.pipilika.news.items.viewpager.ClusterPagerItem;
 import com.pipilika.news.view.widget.OnlineImageView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,28 +31,30 @@ public class ClusterPagerAdapter extends PagerAdapter {
 
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
     private ViewPager clusterPager;
+    private String category;
     private LayoutInflater inflater;
     private List<ClusterPagerItem> clusterPagerItems;
 
     private Activity activity;
 
-    public ClusterPagerAdapter(Activity activity, List<ClusterPagerItem> clusterPagerItems) {
+    public ClusterPagerAdapter(Activity activity, List<ClusterPagerItem> clusterPagerItems, String category) {
         super();
         this.activity = activity;
         this.clusterPagerItems = clusterPagerItems;
         Log.e("TAG", "" + clusterPagerItems.size());
+        this.category = category;
         inflater = (LayoutInflater) this.activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        return clusterPagerItems.size()+1;
+        return clusterPagerItems.size() + 1;
     }
 
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return view == ((View) object);
+        return view == object;
     }
 
     @Override
@@ -68,10 +73,20 @@ public class ClusterPagerAdapter extends PagerAdapter {
             headline.setText(clusterPagerItems.get(position).getHeadline());
             TextView newsPaper = (TextView) view.findViewById(R.id.news_paper_name);
             newsPaper.setText(clusterPagerItems.get(position).getNewspaper());
-            TextView newsTime = (TextView) view.findViewById(R.id.news_time);
-            newsTime.setText(clusterPagerItems.get(position).getPublished_time());
             TextView newsSummary = (TextView) view.findViewById(R.id.news_summary);
             newsSummary.setText(clusterPagerItems.get(position).getSummary());
+            TextView tagText = (TextView) view.findViewById(R.id.news_category);
+            TextView newsTime = (TextView) view.findViewById(R.id.news_time);
+            SimpleDateFormat nonReadableFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
+            Date date = new Date();
+            try {
+                date = nonReadableFormat.parse(clusterPagerItems.get(position).getPublished_time());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            SimpleDateFormat readableFormat = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss");
+            newsTime.setText(readableFormat.format(date));
+            tagText.setText(category);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -80,7 +95,7 @@ public class ClusterPagerAdapter extends PagerAdapter {
             });
             container.addView(view, 0);
         }
-        ((LinearLayout)view).setGravity(Gravity.CENTER);
+        ((LinearLayout) view).setGravity(Gravity.CENTER);
         return view;
     }
 
