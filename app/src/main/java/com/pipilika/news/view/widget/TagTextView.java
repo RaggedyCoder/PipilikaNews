@@ -4,10 +4,10 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
+import android.graphics.RectF;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.TextView;
@@ -18,7 +18,9 @@ import com.pipilika.news.R;
  * Created by tuman on 21/4/2015.
  */
 public class TagTextView extends TextView {
-    int tagColor;
+    private int tagColor;
+    private RectF mRectF;
+
     public TagTextView(Context context) {
         super(context);
     }
@@ -28,6 +30,7 @@ public class TagTextView extends TextView {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TagTextView);
         tagColor = a.getColor(R.styleable.TagTextView_tagBackgroundColor, 0);
         a.recycle();
+        mRectF = new RectF();
     }
 
     public TagTextView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -35,7 +38,7 @@ public class TagTextView extends TextView {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TagTextView);
         tagColor = a.getColor(R.styleable.TagTextView_tagBackgroundColor, 0);
         a.recycle();
-
+        mRectF = new RectF();
     }
 
 
@@ -45,6 +48,7 @@ public class TagTextView extends TextView {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TagTextView);
         tagColor = a.getColor(R.styleable.TagTextView_tagBackgroundColor, 0);
         a.recycle();
+        mRectF = new RectF();
     }
 
     @Override
@@ -54,12 +58,12 @@ public class TagTextView extends TextView {
     }
 
     private void drawBackground(Canvas canvas) {
-        int width = (int) getWidth();
-        int height = (int) getHeight();
+        int width = getWidth();
+        int height = getHeight();
         Point a = new Point(0, height);
         Point b = new Point(width, height);
         Point c = new Point(width, 0);
-        Point d = new Point(0,height);
+        Point d = new Point(0, height);
 
         Path path = new Path();
         path.moveTo(a.x, a.y);
@@ -67,8 +71,9 @@ public class TagTextView extends TextView {
         path.lineTo(c.x, c.y);
         path.lineTo(d.x, d.y);
         path.close();
-        Paint paint= getPaint();
+        path.computeBounds(mRectF, true);
+        Paint paint = getPaint();
         paint.setColor(tagColor);
-        canvas.drawPath(path,  getPaint());
+        canvas.drawPath(path, getPaint());
     }
 }
