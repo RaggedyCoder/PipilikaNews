@@ -1,30 +1,40 @@
 package com.pipilika.news.utils.graphics;
 
-import android.graphics.Point;
-import android.graphics.Rect;
+import android.graphics.PointF;
+import android.graphics.RectF;
 import android.os.Parcel;
 import android.os.Parcelable;
+
 
 /**
  * Created by tuman on 29/4/2015.
  */
-public class RightTriangle implements Parcelable {
+public class RightTriangleF implements Parcelable {
 
-    public Point top;
-    public int height;
-    public int width;
+    public PointF top;
+    private float height;
+    private float width;
 
-    public RightTriangle() {
-        this(new Point(0, 0), 0, 0);
+    public RightTriangleF() {
+        this(new PointF(0, 0), 0, 0);
     }
 
-    public RightTriangle(Point top, int height, int width) {
+    public RightTriangleF(PointF top, float height, float width) {
         this.top = top;
         this.height = height;
         this.width = width;
     }
 
-    public RightTriangle(RightTriangle r) {
+    public RightTriangleF(RightTriangle r) {
+        if (r != null) {
+            this.top.x = r.top.x;
+            this.top.y = r.top.y;
+            this.height = r.height;
+            this.width = r.width;
+        }
+    }
+
+    public RightTriangleF(RightTriangleF r) {
         top = r.top;
         height = r.height;
         width = r.width;
@@ -35,22 +45,22 @@ public class RightTriangle implements Parcelable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        RightTriangle r = (RightTriangle) o;
+        RightTriangleF r = (RightTriangleF) o;
         return top == r.top && height == r.height && width == r.width;
     }
 
     @Override
     public int hashCode() {
-        int result = height;
-        result = 31 * result + top.x;
-        result = 31 * result + top.y;
-        result = 31 * result + width;
+        int result = (height != +0.0f ? Float.floatToIntBits(height) : 0);
+        result = 31 * result + (top.x != +0.0f ? Float.floatToIntBits(top.x) : 0);
+        result = 31 * result + (top.y != +0.0f ? Float.floatToIntBits(top.y) : 0);
+        result = 31 * result + (width != +0.0f ? Float.floatToIntBits(width) : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        return "RightTriangle{" +
+        return "RightTriangleF{" +
                 "top=" + top +
                 ", height=" + height +
                 ", width=" + width +
@@ -72,54 +82,54 @@ public class RightTriangle implements Parcelable {
         top.x = top.y = height = width = 0;
     }
 
-    public void offset(int dx, int dy) {
+    public void offset(float dx, float dy) {
         top.x += dx;
         top.y += dy;
     }
 
-    public void offsetTo(int newTopX, int newTopY) {
-        top.x += newTopX;
-        top.y += newTopY;
+    public void offsetTo(float newTopX, float newTopY) {
+        top.x = newTopX;
+        top.y = newTopY;
     }
 
-    public void offsetTo(Point newTop) {
+    public void offsetTo(PointF newTop) {
         top = newTop;
     }
 
-    public boolean contains(int x, int y) {
+    public boolean contains(float x, float y) {
         return height != 0 && width != 0 // check for empty first
                 && x <= top.x && x >= (top.x - width) && y >= top.y && y >= (top.y + height)
                 && y < (((point(2).y - top.y) / (point(2).x - top.x)) * x + (((point(2).x - top.x) * top.x) - ((point(2).y - top.y) * top.x)) / (point(2).x - top.x));
     }
 
-    public boolean contains(Point p) {
+    public boolean contains(PointF p) {
         return contains(p.x, p.y);
     }
 
-    public boolean contains(Rect r) {
+    public boolean contains(RectF r) {
         return contains(r.left, r.top) && contains(r.right, r.top)
                 && contains(r.right, r.bottom) && contains(r.left, r.bottom);
     }
 
-    public boolean contains(RightTriangle r) {
+    public boolean contains(RightTriangleF r) {
         return contains(r.top) && contains(r.top.x, r.top.y + height)
                 && contains(r.top.x - width, r.top.y + height);
     }
 
     // Given three colinear points p, q, r, the function checks if
     // point q lies on line segment 'pr'
-    private boolean onSegment(Point p, Point q, Point r) {
+    private boolean onSegment(PointF p, PointF q, PointF r) {
         return q.x <= Math.max(p.x, r.x) && q.x >= Math.min(p.x, r.x) &&
                 q.y <= Math.max(p.y, r.y) && q.y >= Math.min(p.y, r.y);
     }
 
-    private boolean intersect(Point p1, Point q1, Point p2, Point q2) {
+    private boolean intersect(PointF p1, PointF q1, PointF p2, PointF q2) {
         // Find the four orientations needed for general and
         // special cases
-        int o1 = orientation(p1, q1, p2);
-        int o2 = orientation(p1, q1, q2);
-        int o3 = orientation(p2, q2, p1);
-        int o4 = orientation(p2, q2, q1);
+        float o1 = orientation(p1, q1, p2);
+        float o2 = orientation(p1, q1, q2);
+        float o3 = orientation(p2, q2, p1);
+        float o4 = orientation(p2, q2, q1);
 
         // General case
         if (o1 != o2 && o3 != o4)
@@ -140,15 +150,15 @@ public class RightTriangle implements Parcelable {
 
     }
 
-    private boolean intersect(Rect r) {
-        Point rectLeftTop = new Point(r.left, r.top);
-        Point rectRightTop = new Point(r.right, r.top);
-        Point rectRightBottom = new Point(r.right, r.bottom);
-        Point rectLeftBottom = new Point(r.left, r.bottom);
+    private boolean intersect(RectF r) {
+        PointF rectLeftTop = new PointF(r.left, r.top);
+        PointF rectRightTop = new PointF(r.right, r.top);
+        PointF rectRightBottom = new PointF(r.right, r.bottom);
+        PointF rectLeftBottom = new PointF(r.left, r.bottom);
 
-        Point rtTop = this.top;
-        Point rtBottomRight = point(1);
-        Point rtBottomLeft = point(2);
+        PointF rtTop = this.top;
+        PointF rtBottomRight = point(1);
+        PointF rtBottomLeft = point(2);
         return intersect(rectLeftTop, rectRightTop, rtTop, rtBottomRight)
                 || intersect(rectLeftTop, rectRightTop, rtBottomRight, rtBottomLeft)
                 || intersect(rectLeftTop, rectRightTop, rtBottomLeft, rtTop)
@@ -166,8 +176,8 @@ public class RightTriangle implements Parcelable {
                 || intersect(rectLeftBottom, rectLeftTop, rtBottomLeft, rtTop);
     }
 
-    private int orientation(Point p, Point q, Point r) {
-        int val = (q.y - p.y) * (r.x - q.x) -
+    private float orientation(PointF p, PointF q, PointF r) {
+        float val = (q.y - p.y) * (r.x - q.x) -
                 (q.x - p.x) * (r.y - q.y);
 
         if (val == 0) return 0;  // colinear
@@ -175,17 +185,17 @@ public class RightTriangle implements Parcelable {
         return (val > 0) ? 1 : 2; // clock or counterclock wise
     }
 
-    public Point point(int number) {
-        Point[] points = new Point[3];
+    public PointF point(int number) {
+        PointF[] points = new PointF[3];
         allPoints(points);
         return points[number];
     }
 
 
-    public void allPoints(Point[] points) {
+    public void allPoints(PointF[] points) {
         points[0] = top;
-        points[1] = new Point(top.x, top.y + height);
-        points[2] = new Point(top.x - width, points[1].y);
+        points[1] = new PointF(top.x, top.y + height);
+        points[2] = new PointF(top.x - width, points[1].y);
     }
 
     @Override
@@ -198,3 +208,4 @@ public class RightTriangle implements Parcelable {
 
     }
 }
+
