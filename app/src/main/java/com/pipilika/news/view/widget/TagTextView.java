@@ -6,20 +6,21 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.Point;
-import android.graphics.RectF;
+import android.graphics.PointF;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.pipilika.news.R;
+import com.pipilika.news.utils.graphics.RightTriangleF;
 
 /**
  * Created by tuman on 21/4/2015.
  */
 public class TagTextView extends TextView {
     private int tagColor;
-    private RectF mRectF;
+    private RightTriangleF mRightTriangleF;
 
     public TagTextView(Context context) {
         super(context);
@@ -30,7 +31,7 @@ public class TagTextView extends TextView {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TagTextView);
         tagColor = a.getColor(R.styleable.TagTextView_tagBackgroundColor, 0);
         a.recycle();
-        mRectF = new RectF();
+        mRightTriangleF = new RightTriangleF(new PointF(getWidth(), 0), getHeight(), getWidth());
     }
 
     public TagTextView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -38,7 +39,7 @@ public class TagTextView extends TextView {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TagTextView);
         tagColor = a.getColor(R.styleable.TagTextView_tagBackgroundColor, 0);
         a.recycle();
-        mRectF = new RectF();
+        mRightTriangleF = new RightTriangleF(new PointF(getWidth(), 0), getHeight(), getWidth());
     }
 
 
@@ -48,7 +49,6 @@ public class TagTextView extends TextView {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TagTextView);
         tagColor = a.getColor(R.styleable.TagTextView_tagBackgroundColor, 0);
         a.recycle();
-        mRectF = new RectF();
     }
 
     @Override
@@ -58,22 +58,31 @@ public class TagTextView extends TextView {
     }
 
     private void drawBackground(Canvas canvas) {
-        int width = getWidth();
-        int height = getHeight();
-        Point a = new Point(0, height);
-        Point b = new Point(width, height);
-        Point c = new Point(width, 0);
-        Point d = new Point(0, height);
 
+        int[] location = new int[2];
+        getLocationOnScreen(location);
+        Log.e("Location of own", location[0] + " " + location[1]);
+        mRightTriangleF = new RightTriangleF(new PointF(getWidth(), 0), getHeight(), getWidth());
+        PointF[] points = new PointF[3];
+        Log.e("TAG", mRightTriangleF.height + "");
+        mRightTriangleF.allPoints(points);
         Path path = new Path();
-        path.moveTo(a.x, a.y);
-        path.lineTo(b.x, b.y);
-        path.lineTo(c.x, c.y);
-        path.lineTo(d.x, d.y);
+        path.moveTo(points[0].x, points[0].y);
+        path.lineTo(points[1].x, points[1].y);
+        path.lineTo(points[2].x, points[2].y);
+        path.lineTo(points[0].x, points[0].y);
         path.close();
-        path.computeBounds(mRectF, true);
         Paint paint = getPaint();
         paint.setColor(tagColor);
-        canvas.drawPath(path, getPaint());
+        canvas.drawPath(path, paint);
+    }
+
+    public RightTriangleF getmRightTriangleF() {
+        return mRightTriangleF;
+    }
+
+
+    public void setmRightTriangleF(RightTriangleF mRightTriangleF) {
+        this.mRightTriangleF = mRightTriangleF;
     }
 }

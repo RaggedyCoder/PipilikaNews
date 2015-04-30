@@ -6,6 +6,11 @@
         <attr name="tagBackgroundColor" format="color" />
     </declare-styleable>
 
+    <declare-styleable name="NewsSummaryTextView">
+        <!-- Background color for CardView. -->
+        <attr name="tagViewId" format="reference" />
+    </declare-styleable>
+
     <declare-styleable name="MaterialProgressBar">
         <attr name="matProg_progressIndeterminate" format="boolean" />
         <attr name="matProg_barColor" format="color" />

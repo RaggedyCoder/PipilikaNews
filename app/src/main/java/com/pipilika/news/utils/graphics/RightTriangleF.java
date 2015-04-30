@@ -1,6 +1,7 @@
 package com.pipilika.news.utils.graphics;
 
 import android.graphics.PointF;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -12,8 +13,8 @@ import android.os.Parcelable;
 public class RightTriangleF implements Parcelable {
 
     public PointF top;
-    private float height;
-    private float width;
+    public float height;
+    public float width;
 
     public RightTriangleF() {
         this(new PointF(0, 0), 0, 0);
@@ -27,6 +28,7 @@ public class RightTriangleF implements Parcelable {
 
     public RightTriangleF(RightTriangle r) {
         if (r != null) {
+            top = new PointF();
             this.top.x = r.top.x;
             this.top.y = r.top.y;
             this.height = r.height;
@@ -35,9 +37,13 @@ public class RightTriangleF implements Parcelable {
     }
 
     public RightTriangleF(RightTriangleF r) {
-        top = r.top;
-        height = r.height;
-        width = r.width;
+        if (r != null) {
+            top = new PointF();
+            this.top.x = r.top.x;
+            this.top.y = r.top.y;
+            this.height = r.height;
+            this.width = r.width;
+        }
     }
 
     @Override
@@ -88,7 +94,7 @@ public class RightTriangleF implements Parcelable {
     }
 
     public void offsetTo(float newTopX, float newTopY) {
-        top.x = newTopX;
+        top.x = newTopX + width;
         top.y = newTopY;
     }
 
@@ -150,7 +156,12 @@ public class RightTriangleF implements Parcelable {
 
     }
 
-    private boolean intersect(RectF r) {
+    public boolean intersect(Rect r) {
+        RectF rf = new RectF(r.left, r.top, r.right, r.bottom);
+        return intersect(rf);
+    }
+
+    public boolean intersect(RectF r) {
         PointF rectLeftTop = new PointF(r.left, r.top);
         PointF rectRightTop = new PointF(r.right, r.top);
         PointF rectRightBottom = new PointF(r.right, r.bottom);

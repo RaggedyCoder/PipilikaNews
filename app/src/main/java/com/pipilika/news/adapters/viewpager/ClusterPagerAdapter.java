@@ -17,7 +17,9 @@ import com.android.volley.toolbox.ImageLoader;
 import com.pipilika.news.R;
 import com.pipilika.news.application.AppController;
 import com.pipilika.news.items.viewpager.ClusterPagerItem;
+import com.pipilika.news.view.widget.NewsSummaryTextView;
 import com.pipilika.news.view.widget.OnlineImageView;
+import com.pipilika.news.view.widget.TagTextView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -73,10 +75,11 @@ public class ClusterPagerAdapter extends PagerAdapter {
             headline.setText(clusterPagerItems.get(position).getHeadline());
             TextView newsPaper = (TextView) view.findViewById(R.id.news_paper_name);
             newsPaper.setText(clusterPagerItems.get(position).getNewspaper());
-            TextView newsSummary = (TextView) view.findViewById(R.id.news_summary);
+            NewsSummaryTextView newsSummary = (NewsSummaryTextView) view.findViewById(R.id.news_summary);
             newsSummary.setText(clusterPagerItems.get(position).getSummary());
-            TextView tagText = (TextView) view.findViewById(R.id.news_category);
+            TagTextView tagText = (TagTextView) view.findViewById(R.id.news_category);
             TextView newsTime = (TextView) view.findViewById(R.id.news_time);
+            newsSummary.setTagTextView(tagText);
             SimpleDateFormat nonReadableFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
             Date date = new Date();
             try {
