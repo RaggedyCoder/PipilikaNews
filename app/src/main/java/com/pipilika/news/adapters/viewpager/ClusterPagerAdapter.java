@@ -75,10 +75,10 @@ public class ClusterPagerAdapter extends PagerAdapter {
             headline.setText(clusterPagerItems.get(position).getHeadline());
             TextView newsPaper = (TextView) view.findViewById(R.id.news_paper_name);
             newsPaper.setText(clusterPagerItems.get(position).getNewspaper());
-            NewsSummaryTextView newsSummary = (NewsSummaryTextView) view.findViewById(R.id.news_summary);
-            newsSummary.setText(clusterPagerItems.get(position).getSummary());
             TagTextView tagText = (TagTextView) view.findViewById(R.id.news_category);
             TextView newsTime = (TextView) view.findViewById(R.id.news_time);
+            NewsSummaryTextView newsSummary = (NewsSummaryTextView) view.findViewById(R.id.news_summary);
+            newsSummary.setText(clusterPagerItems.get(position).getSummary());
             newsSummary.setTagTextView(tagText);
             SimpleDateFormat nonReadableFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
             Date date = new Date();

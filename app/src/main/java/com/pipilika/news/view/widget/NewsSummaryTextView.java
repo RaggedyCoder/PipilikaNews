@@ -60,13 +60,15 @@ public class NewsSummaryTextView extends TextView {
     @Override
     protected void onDraw(@Nullable Canvas canvas) {
         super.onDraw(canvas);
-        setSummary(getText().toString());
+        setSummary(null);
     }
 
     public void setSummary(String string) {
+        //  setText(string);
         if (tagTextView == null) {
             createTagTextView(tagTextID);
         }
+        boolean change = false;
         Paint paint = getPaint();
         paint.setTextSize(TypedValue.
                 applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, getContext().getResources().getDisplayMetrics()));
@@ -76,6 +78,8 @@ public class NewsSummaryTextView extends TextView {
         int[] locationForSummary = new int[2];
         this.getLocationInWindow(locationForSummary);
         Log.e("Location of summary", locationForSummary[0] + " " + locationForSummary[1]);
+        Log.e("Line count", getLineCount() + "");
+        StringBuilder stringBuilder = new StringBuilder(getText());
         for (int i = 0; i < getLineCount(); i++) {
             Log.e("line count-", " " + getLineCount());
             float length = getLayout().getLineWidth(i);
@@ -84,19 +88,31 @@ public class NewsSummaryTextView extends TextView {
             rectf.offset(locationForSummary[0], locationForSummary[1]);
             rightTriangleF.offsetTo(locationForTag[0], locationForTag[1]);
             if (rightTriangleF.intersect(rectf)) {
-                StringBuilder stringBuilder = null;
+                change = true;
                 for (int j = getLayout().getLineEnd(i); j >= getLayout().getLineStart(i); j--) {
-                    if (getText().charAt(j) == ' ') {
-                        stringBuilder = new StringBuilder(getText().toString());
-                        stringBuilder.setCharAt(j, '\n');
-                        break;
+                    if (j != getText().length()) {
+                        if (getText().charAt(j) == ' ') {
+                            stringBuilder = new StringBuilder(getText().toString());
+                            stringBuilder.setCharAt(j, '\n');
+                            break;
+                        }
                     }
                 }
-                setText(stringBuilder);
-                Log.e("TAG", "tag");
+                Log.e("TAG", getText().toString());
             }
             Log.e("line-" + i, rightTriangleF.intersect(rectf) + " ");
         }
+        if (change)
+            setText(stringBuilder.toString());
+        int count = 0;
+        String strings = getText().toString();
+        for (int i = 0; i < strings.length(); i++) {
+            if (strings.charAt(i) == '\n') {
+                count++;
+            }
+        }
+        Log.e("count ", strings + " " + count);
+
     }
 
     public TagTextView getTagTextView() {
