@@ -60,7 +60,7 @@ public class ClusterPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(ViewGroup container, final int position) {
         LayoutInflater inflater = (LayoutInflater) container.getContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view;
@@ -77,9 +77,16 @@ public class ClusterPagerAdapter extends PagerAdapter {
             newsPaper.setText(clusterPagerItems.get(position).getNewspaper());
             TagTextView tagText = (TagTextView) view.findViewById(R.id.news_category);
             TextView newsTime = (TextView) view.findViewById(R.id.news_time);
-            NewsSummaryTextView newsSummary = (NewsSummaryTextView) view.findViewById(R.id.news_summary);
-            newsSummary.setText(clusterPagerItems.get(position).getSummary());
+            final NewsSummaryTextView newsSummary = (NewsSummaryTextView) view.findViewById(R.id.news_summary);
+            newsSummary.setSummary(clusterPagerItems.get(position).getSummary());
+            Log.e("pager view-", "" + view.getWidth());
             newsSummary.setTagTextView(tagText);
+            newsSummary.post(new Runnable() {
+                @Override
+                public void run() {
+                    Log.e("Line count", newsSummary.getLineCount() + "");
+                }
+            });
             SimpleDateFormat nonReadableFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
             Date date = new Date();
             try {
@@ -93,7 +100,8 @@ public class ClusterPagerAdapter extends PagerAdapter {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(activity, "pressed-", Toast.LENGTH_SHORT).show();
+                    newsSummary.setSummary(clusterPagerItems.get(position).getSummary());
+                    Toast.makeText(activity, "pressed-" + newsSummary.getLineCount(), Toast.LENGTH_SHORT).show();
                 }
             });
             container.addView(view, 0);

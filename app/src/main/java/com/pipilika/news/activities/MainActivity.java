@@ -1,12 +1,20 @@
 package com.pipilika.news.activities;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.pipilika.news.R;
+import com.pipilika.news.application.AppController;
 import com.pipilika.news.fragments.NewsClusterFragment;
+import com.pipilika.news.utils.volley.ZipRequest;
+
+import java.util.HashMap;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -20,6 +28,16 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, new NewsClusterFragment())
                     .commit();
         }
+        HashMap<String, String> params = new HashMap<>();
+        params.put("id", "1430559457027");
+        String url = "http://pipilika.com:60283/RecentNewsClusterEngine/TransferZipFile?id=1430581164691";
+        ZipRequest zipRequest = new ZipRequest(this, Request.Method.GET, url, null, null, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                VolleyLog.e(volleyError.getMessage());
+            }
+        });
+        AppController.getInstance().addToRequestQueue(zipRequest);
     }
 
     @Override
