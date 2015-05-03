@@ -29,9 +29,9 @@ public class MainActivity extends ActionBarActivity {
                     .commit();
         }
         HashMap<String, String> params = new HashMap<>();
-        params.put("id", "1430559457027");
-        String url = "http://pipilika.com:60283/RecentNewsClusterEngine/TransferZipFile?id=1430581164691";
-        ZipRequest zipRequest = new ZipRequest(this, Request.Method.GET, url, null, null, new Response.ErrorListener() {
+        params.put("id", "1430630045604");
+        String url = "http://pipilika.com:60283/RecentNewsClusterEngine/TransferZipFile?id=1430630045604";
+        ZipRequest zipRequest = new ZipRequest(this, Request.Method.GET, url, params, null, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 VolleyLog.e(volleyError.getMessage());
