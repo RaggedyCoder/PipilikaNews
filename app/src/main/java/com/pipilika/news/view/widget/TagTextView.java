@@ -10,7 +10,6 @@ import android.graphics.PointF;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.pipilika.news.R;
 import com.pipilika.news.utils.graphics.RightTriangleF;
@@ -18,7 +17,7 @@ import com.pipilika.news.utils.graphics.RightTriangleF;
 /**
  * Created by tuman on 21/4/2015.
  */
-public class TagTextView extends TextView {
+public class TagTextView extends CustomTextView {
     private int tagColor;
     private RightTriangleF mRightTriangleF;
 

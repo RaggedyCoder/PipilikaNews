@@ -1,20 +1,17 @@
 package com.pipilika.news.view.widget;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.os.Build;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 import com.pipilika.news.R;
 
 /**
  * Created by tuman on 29/4/2015.
  */
-public class NewsSummaryTextView extends TextView {
+public class NewsSummaryTextView extends CustomTextView {
     private TagTextView tagTextView;
     private int tagTextID;
 
@@ -39,7 +36,6 @@ public class NewsSummaryTextView extends TextView {
     }
 
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public NewsSummaryTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.NewsSummaryTextView);
