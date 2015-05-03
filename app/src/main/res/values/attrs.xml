@@ -11,6 +11,9 @@
         <attr name="tagViewId" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="CustomFont">
+        <attr name="font" format="string" />
+    </declare-styleable>
     <declare-styleable name="MaterialProgressBar">
         <attr name="matProg_progressIndeterminate" format="boolean" />
         <attr name="matProg_barColor" format="color" />

@@ -2,6 +2,7 @@ package com.pipilika.news.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -14,10 +15,17 @@ import com.pipilika.news.application.AppController;
 import com.pipilika.news.fragments.NewsClusterFragment;
 import com.pipilika.news.utils.volley.ZipRequest;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    byte[] bytes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +37,27 @@ public class MainActivity extends ActionBarActivity {
                     .commit();
         }
         HashMap<String, String> params = new HashMap<>();
-        params.put("id", "1430630045604");
-        String url = "http://pipilika.com:60283/RecentNewsClusterEngine/TransferZipFile?id=1430630045604";
-        ZipRequest zipRequest = new ZipRequest(this, Request.Method.GET, url, params, null, new Response.ErrorListener() {
+        params.put("id", "1430651781825");
+
+        String url = "http://pipilika.com:60283/RecentNewsClusterEngine/TransferZipFile?id=1430651781825";
+        ZipRequest zipRequest = new ZipRequest(this, Request.Method.GET, url, params, new Response.Listener<ZipFile>() {
+            @Override
+            public void onResponse(ZipFile zipFile) {
+                Enumeration<? extends ZipEntry> entries = zipFile.entries();
+                while (entries.hasMoreElements()) {
+                    ZipEntry zipEntry = entries.nextElement();
+                    try {
+                        InputStream zipInputStream = zipFile.getInputStream(zipEntry);
+                        bytes = new byte[(int) zipEntry.getSize()];
+                        Log.e("SIZE", zipEntry.getSize() + " and int-" + ((int) zipEntry.getSize()));
+                        zipInputStream.read(bytes);
+                        zipInputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 VolleyLog.e(volleyError.getMessage());
