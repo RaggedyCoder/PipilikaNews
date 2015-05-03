@@ -24,7 +24,7 @@ public class FontCache {
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage());
             }
-            if (fontCache != null) {
+            if (fontCache == null) {
                 return null;
             } else {
                 return fontCache.get(name);

@@ -4,19 +4,31 @@
     xmlns:wheel="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0BC70B"
+    android:background="#00F700"
     android:orientation="vertical">
 
     <com.pipilika.news.view.widget.CustomTextView
-        android:id="@+id/view"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/imageView"
         android:layout_centerHorizontal="true"
         android:text="Pipilika News"
-        android:textColor="#ffed372e"
+        android:textColor="#ED504F"
         android:textSize="40sp"
-        app:font="Roboto-Bold.ttf" />
+        app:font="Roboto-Light.ttf" />
+
+    <com.pipilika.news.view.widget.CustomTextView
+        android:id="@+id/loading_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view3"
+        android:layout_centerHorizontal="true"
+        android:text="Pipilika News"
+        android:textColor="#ff002944"
+        android:textSize="20sp"
+        app:font="Roboto-Regular.ttf" />
+
 
     <ImageView
         android:id="@+id/imageView"
@@ -27,11 +39,14 @@
         android:background="@drawable/pipilika_logo" />
 
     <com.pipilika.news.view.widget.MaterialProgressBar
+        android:id="@+id/view3"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_alignLeft="@+id/view"
-        android:layout_alignStart="@+id/view"
         android:layout_below="@+id/imageView"
-        wheel:matProg_barColor="#ffed372e"
+        android:layout_centerHorizontal="true"
+        wheel:matProg_barColor="#ffED504F"
+        wheel:matProg_barWidth="3dip"
+        wheel:matProg_fillRadius="true"
         wheel:matProg_progressIndeterminate="true" />
+
 </RelativeLayout>

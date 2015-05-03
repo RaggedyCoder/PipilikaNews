@@ -25,7 +25,6 @@ import java.util.zip.ZipFile;
 
 public class MainActivity extends ActionBarActivity {
 
-    byte[] bytes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +43,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onResponse(ZipFile zipFile) {
                 Enumeration<? extends ZipEntry> entries = zipFile.entries();
+                byte[] bytes;
                 while (entries.hasMoreElements()) {
                     ZipEntry zipEntry = entries.nextElement();
                     try {
