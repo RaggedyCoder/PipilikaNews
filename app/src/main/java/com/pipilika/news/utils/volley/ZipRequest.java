@@ -1,6 +1,7 @@
 package com.pipilika.news.utils.volley;
 
 import android.app.Activity;
+import android.os.Environment;
 import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -39,23 +40,25 @@ public class ZipRequest extends Request<ZipFile> {
         this.params = params;
         this.listener = listener;
         this.setRetryPolicy(new DefaultRetryPolicy(ZIP_TIMEOUT_MS, ZIP_MAX_RETRIES, ZIP_BACKOFF_MULTI));
-        mFile = new File("/sdcard/Android/data/com.pipilika.news/");
+        mFile = new File(Environment.getExternalStorageDirectory() + "/Android/data/com.pipilika.news/");
         if (!mFile.exists()) {
             mFile.mkdir();
-            mFile = new File("/sdcard/Android/data/com.pipilika.news/clusters/");
+            mFile = new File(Environment.getExternalStorageDirectory() + "/Android/data/com.pipilika.news/clusters/");
             mFile.mkdir();
         } else {
-            mFile = new File("/sdcard/Android/data/com.pipilika.news/clusters/" + params.get("id") + ".zip");
+            Log.e("PATH", Environment.getExternalStorageDirectory().getPath());
+            mFile = new File(Environment.getExternalStorageDirectory() + "/Android/data/com.pipilika.news/clusters/" + params.get("id") + ".zip");
         }
     }
 
     @Override
     protected Response<ZipFile> parseNetworkResponse(NetworkResponse networkResponse) {
         byte[] data = networkResponse.data;
-        Log.e("TAGG", networkResponse.statusCode + "");
+        Log.e("Content-Type", networkResponse.headers.get("Content-Type"));
+        Log.e("Content-Disposition", networkResponse.headers.get("Content-Disposition"));
         if (!mFile.exists()) {
             try {
-                FileOutputStream zipOutputStream = new FileOutputStream("/sdcard/Android/data/com.pipilika.news/clusters/" + params.get("id") + ".zip");
+                FileOutputStream zipOutputStream = new FileOutputStream(Environment.getExternalStorageDirectory() + "/Android/data/com.pipilika.news/clusters/" + params.get("id") + ".zip");
                 zipOutputStream.write(data);
                 zipOutputStream.flush();
                 zipOutputStream.close();
@@ -65,7 +68,7 @@ public class ZipRequest extends Request<ZipFile> {
         }
         ZipFile zipFile = null;
         try {
-            zipFile = new ZipFile("/sdcard/Android/data/com.pipilika.news/clusters/" + params.get("id") + ".zip");
+            zipFile = new ZipFile(Environment.getExternalStorageDirectory() + "/Android/data/com.pipilika.news/clusters/" + params.get("id") + ".zip");
         } catch (IOException e) {
             Log.e("TAGGGG", e.getMessage());
         } catch (OutOfMemoryError outOfMemoryError) {
