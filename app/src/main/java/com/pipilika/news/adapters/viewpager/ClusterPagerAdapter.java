@@ -74,7 +74,7 @@ public class ClusterPagerAdapter extends PagerAdapter {
             CustomTextView headline = (CustomTextView) view.findViewById(R.id.news_headline);
             headline.setText(clusterPagerItems.get(position).getHeadline());
             CustomTextView newsPaper = (CustomTextView) view.findViewById(R.id.news_paper_name);
-            newsPaper.setText(clusterPagerItems.get(position).getNewspaper());
+            newsPaper.setText(clusterPagerItems.get(position).getPapername());
             TagTextView tagText = (TagTextView) view.findViewById(R.id.news_category);
             CustomTextView newsTime = (CustomTextView) view.findViewById(R.id.news_time);
             final NewsSummaryTextView newsSummary = (NewsSummaryTextView) view.findViewById(R.id.news_summary);
