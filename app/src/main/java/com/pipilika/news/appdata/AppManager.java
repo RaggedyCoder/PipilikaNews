@@ -12,6 +12,7 @@ public class AppManager {
     private static final int PRIVATE_MODE = Context.MODE_PRIVATE;
     private static final String PREF_NAME = "PipilikaNewsPref";
     private static final String KEY_FIRST_TIMER = "timer";
+    private static final String KEY_LATEST_NEWS = "latest";
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor editor;
     private Activity activity;
@@ -34,6 +35,16 @@ public class AppManager {
 
     public void setFirstTime() {
         editor.putBoolean(KEY_FIRST_TIMER, false);
+        editor.commit();
+    }
+
+
+    public String getLatestNewsId() {
+        return mSharedPreferences.getString(KEY_LATEST_NEWS, "0");
+    }
+
+    public void setLatestNewsId(String id) {
+        editor.putString(KEY_LATEST_NEWS, id);
         editor.commit();
     }
 

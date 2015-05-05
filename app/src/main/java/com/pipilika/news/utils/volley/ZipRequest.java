@@ -45,6 +45,7 @@ public class ZipRequest extends Request<ZipFile> {
             mFile.mkdir();
             mFile = new File(Environment.getExternalStorageDirectory() + "/Android/data/com.pipilika.news/clusters/");
             mFile.mkdir();
+            Log.e("PATH", mFile.getAbsolutePath());
         } else {
             Log.e("PATH", Environment.getExternalStorageDirectory().getPath());
             mFile = new File(Environment.getExternalStorageDirectory() + "/Android/data/com.pipilika.news/clusters/" + params.get("id") + ".zip");
@@ -56,7 +57,7 @@ public class ZipRequest extends Request<ZipFile> {
         byte[] data = networkResponse.data;
         Log.e("Content-Type", networkResponse.headers.get("Content-Type"));
         Log.e("Content-Disposition", networkResponse.headers.get("Content-Disposition"));
-        if (!mFile.exists()) {
+        if (mFile.exists()) {
             try {
                 FileOutputStream zipOutputStream = new FileOutputStream(Environment.getExternalStorageDirectory() + "/Android/data/com.pipilika.news/clusters/" + params.get("id") + ".zip");
                 zipOutputStream.write(data);

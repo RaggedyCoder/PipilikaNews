@@ -16,8 +16,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.pipilika.news.R;
 import com.pipilika.news.adapters.listview.ClusterListAdapter;
-import com.pipilika.news.database.data.item.ZipDataItem;
-import com.pipilika.news.database.data.source.ZipDataSource;
+import com.pipilika.news.appdata.AppManager;
 import com.pipilika.news.items.listview.ClusterListItem;
 
 import org.json.JSONObject;
@@ -46,18 +45,13 @@ public class NewsClusterFragment extends Fragment implements Response.Listener<J
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.cluster_news_fragment, null, false);
         clusterListView = (ListView) rootView.findViewById(R.id.cluster_list_view);
-        ZipDataSource zipDataSource = new ZipDataSource(getActivity());
-        zipDataSource.open();
-        ZipDataItem zipDataItem = new ZipDataItem();
-        zipDataItem.setLatestOne(1);
-        zipDataItem = zipDataSource.getZipDataItem(zipDataItem);
+        AppManager appManager = new AppManager(getActivity());
         ZipFile zipFile = null;
         try {
-            zipFile = new ZipFile(Environment.getExternalStorageDirectory() + "/Android/data/com.pipilika.news/clusters" + "/" + zipDataItem.getId() + ".zip");
+            zipFile = new ZipFile(Environment.getExternalStorageDirectory() + "/Android/data/com.pipilika.news/clusters" + "/" + appManager.getLatestNewsId() + ".zip");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        zipDataSource.close();
         Enumeration<? extends ZipEntry> entries = zipFile.entries();
         byte[] bytes = null;
         while (entries.hasMoreElements()) {

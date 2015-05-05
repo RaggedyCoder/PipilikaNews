@@ -16,9 +16,6 @@ import com.pipilika.news.R;
 import com.pipilika.news.activities.MainActivity;
 import com.pipilika.news.appdata.AppManager;
 import com.pipilika.news.application.AppController;
-import com.pipilika.news.database.data.item.ZipDataItem;
-import com.pipilika.news.database.data.source.ZipDataSource;
-import com.pipilika.news.database.exception.DataSourceException;
 import com.pipilika.news.utils.volley.Utf8JsonRequest;
 import com.pipilika.news.utils.volley.ZipRequest;
 
@@ -31,25 +28,15 @@ import java.util.zip.ZipFile;
 
 public class SplashScreenFragment extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener {
 
-    private boolean isFirstTime;
-    private ZipDataSource zipDataSource;
+    private AppManager appManager;
     private String url = "http://pipilika.com:60283/RecentNewsCluster/GetLatestNews";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_splash_screen, null, false);
-        AppManager appManager = new AppManager(getActivity());
-        zipDataSource = new ZipDataSource(getActivity());
-        zipDataSource.open();
-        if (appManager.isFirstTime()) {
-            isFirstTime = true;
-            appManager.setFirstTime();
-        } else {
-            isFirstTime = false;
-        }
-        Utf8JsonRequest utf8JsonRequest = new Utf8JsonRequest(Request.Method.GET, url, null, this, this);
-        AppController.getInstance().addToRequestQueue(utf8JsonRequest);
+        appManager = new AppManager(getActivity());
+        jsonObjectRequest();
         return rootView;
     }
 
@@ -59,77 +46,52 @@ public class SplashScreenFragment extends Fragment implements Response.Listener<
 
     @Override
     public void onResponse(JSONObject jsonObject) {
-        ZipDataItem zipDataItem;
         Log.e("TAG", jsonObject.toString());
-        boolean needZipRequest = true;
-        if (isFirstTime) {
-            zipDataItem = new ZipDataItem();
-            zipDataItem.setLatestOne(1);
-            try {
-                zipDataItem.setId(jsonObject.getString("latest_id"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            try {
-                zipDataSource.insertZipDataItem(zipDataItem);
-            } catch (DataSourceException e) {
-                e.printStackTrace();
-            }
-        } else {
-            zipDataItem = new ZipDataItem();
-            zipDataItem.setLatestOne(1);
-            zipDataItem = zipDataSource.getZipDataItem(zipDataItem);
-            Log.e("TAG", zipDataItem.getId());
-            try {
-                needZipRequest = jsonObject.getBoolean("status");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        if (needZipRequest) {
-            if (!isFirstTime) {
-                zipDataItem.setLatestOne(0);
-                zipDataSource.updateZipDataItem(zipDataItem);
-                Log.e("isFirstTime", isFirstTime + "");
-            }
-            Log.e("isFirstTime", isFirstTime + "");
-            zipDataItem = new ZipDataItem();
-            zipDataItem.setLatestOne(1);
-            try {
-                zipDataItem.setId(jsonObject.getString("latest_id"));
-                zipDataSource.insertZipDataItem(zipDataItem);
-            } catch (DataSourceException | JSONException e) {
-                e.printStackTrace();
-            }
-            HashMap<String, String> params = new HashMap<>();
-            params.put("id", zipDataItem.getId());
-            url = "http://pipilika.com:60283/RecentNewsCluster/TransferZipFile?id=" + params.get("id");
-            ZipRequest zipRequest = new ZipRequest(getActivity(), Request.Method.GET, url, params, new Response.Listener<ZipFile>() {
-                @Override
-                public void onResponse(ZipFile zipFile) {
-                    Log.e("zip", zipFile.getName());
-                    zipDataSource.close();
+        try {
+            if (!jsonObject.getBoolean("status")) {
+                try {
+                    ZipFile zipFile = new ZipFile(Environment.getExternalStorageDirectory() + "/Android/data/com.pipilika.news/clusters" + "/" + appManager.getLatestNewsId() + ".zip");
                     Intent intent = new Intent(getActivity(), MainActivity.class);
                     startActivity(intent);
+                    Log.e("zip", zipFile.getName());
+                } catch (IOException e) {
+                    newZipFileRequest();
                 }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
+            } else {
+                appManager.setLatestNewsId(jsonObject.getString("latest_id"));
+                newZipFileRequest();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
-                }
-            });
-            AppController.getInstance().addToRequestQueue(zipRequest);
-        } else {
-            try {
-                ZipFile zipFile = new ZipFile(Environment.getExternalStorageDirectory() + "/Android/data/com.pipilika.news/clusters" + "/" + zipDataItem.getId() + ".zip");
-                zipDataSource.close();
+    private void jsonObjectRequest() {
+        url = "http://pipilika.com:60283/RecentNewsCluster/GetLatestNews";
+        if (!appManager.getLatestNewsId().equals("0")) {
+            url += "?id=" + appManager.getLatestNewsId();
+        }
+        Utf8JsonRequest utf8JsonRequest = new Utf8JsonRequest(Request.Method.GET, url, null, this, this);
+        AppController.getInstance().addToRequestQueue(utf8JsonRequest);
+    }
+
+    private void newZipFileRequest() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("id", appManager.getLatestNewsId());
+        url = "http://pipilika.com:60283/RecentNewsCluster/TransferZipFile?id=" + params.get("id");
+        ZipRequest zipRequest = new ZipRequest(getActivity(), Request.Method.GET, url, params, new Response.Listener<ZipFile>() {
+            @Override
+            public void onResponse(ZipFile zipFile) {
+                Log.e("zip", zipFile.getName());
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
-                Log.e("zip", zipFile.getName());
-            } catch (IOException e) {
-                Log.e("error", e.getMessage());
             }
-        }
-        Log.e("needZipRequest", needZipRequest + "");
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+        AppController.getInstance().addToRequestQueue(zipRequest);
     }
 }
