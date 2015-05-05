@@ -50,7 +50,7 @@ public class ClusterPagerAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return clusterPagerItems.size() + 1;
+        return clusterPagerItems.size();
     }
 
 
@@ -64,48 +64,44 @@ public class ClusterPagerAdapter extends PagerAdapter {
         LayoutInflater inflater = (LayoutInflater) container.getContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view;
-        if (position == getCount() - 1) {
-            view = inflater.inflate(R.layout.cluster_pager_new_loader, null);
-            container.addView(view, 0);
-        } else {
-            view = inflater.inflate(R.layout.cluster_pager_item, null);
-            OnlineImageView onlineImageView = (OnlineImageView) view.findViewById(R.id.news_image);
-            onlineImageView.setImageUrl(clusterPagerItems.get(position).getImage(), imageLoader);
-            CustomTextView headline = (CustomTextView) view.findViewById(R.id.news_headline);
-            headline.setText(clusterPagerItems.get(position).getHeadline());
-            CustomTextView newsPaper = (CustomTextView) view.findViewById(R.id.news_paper_name);
-            newsPaper.setText(clusterPagerItems.get(position).getPapername());
-            TagTextView tagText = (TagTextView) view.findViewById(R.id.news_category);
-            CustomTextView newsTime = (CustomTextView) view.findViewById(R.id.news_time);
-            final NewsSummaryTextView newsSummary = (NewsSummaryTextView) view.findViewById(R.id.news_summary);
-            newsSummary.setSummary(clusterPagerItems.get(position).getSummary());
-            Log.e("pager view-", "" + view.getWidth());
-            newsSummary.setTagTextView(tagText);
-            newsSummary.post(new Runnable() {
-                @Override
-                public void run() {
-                    Log.e("Line count", newsSummary.getLineCount() + "");
-                }
-            });
-            SimpleDateFormat nonReadableFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
-            Date date = new Date();
-            try {
-                date = nonReadableFormat.parse(clusterPagerItems.get(position).getPublished_time());
-            } catch (ParseException e) {
-                e.printStackTrace();
+        view = inflater.inflate(R.layout.cluster_pager_item, null);
+        OnlineImageView onlineImageView = (OnlineImageView) view.findViewById(R.id.news_image);
+        onlineImageView.setImageUrl(clusterPagerItems.get(position).getImage(), imageLoader);
+        CustomTextView headline = (CustomTextView) view.findViewById(R.id.news_headline);
+        headline.setText(clusterPagerItems.get(position).getHeadline());
+        CustomTextView newsPaper = (CustomTextView) view.findViewById(R.id.news_paper_name);
+        newsPaper.setText(clusterPagerItems.get(position).getBanglaname());
+        TagTextView tagText = (TagTextView) view.findViewById(R.id.news_category);
+        CustomTextView newsTime = (CustomTextView) view.findViewById(R.id.news_time);
+        final NewsSummaryTextView newsSummary = (NewsSummaryTextView) view.findViewById(R.id.news_summary);
+        newsSummary.setSummary(clusterPagerItems.get(position).getSummary().replace('\n', ' '));
+        Log.e("pager view-", "" + view.getWidth());
+        newsSummary.setTagTextView(tagText);
+        newsSummary.post(new Runnable() {
+            @Override
+            public void run() {
+                Log.e("Line count", newsSummary.getLineCount() + "");
             }
-            SimpleDateFormat readableFormat = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss");
-            newsTime.setText(readableFormat.format(date));
-            tagText.setText(category);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    newsSummary.setSummary(clusterPagerItems.get(position).getSummary());
-                    Toast.makeText(activity, "pressed-" + newsSummary.getLineCount(), Toast.LENGTH_SHORT).show();
-                }
-            });
-            container.addView(view, 0);
+        });
+        SimpleDateFormat nonReadableFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
+        Date date = new Date();
+        try {
+            date = nonReadableFormat.parse(clusterPagerItems.get(position).getPublished_time());
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
+        SimpleDateFormat readableFormat = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss");
+        newsTime.setText(readableFormat.format(date));
+        tagText.setText(category);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newsSummary.setSummary(clusterPagerItems.get(position).getSummary());
+                Toast.makeText(activity, "pressed-" + newsSummary.getLineCount(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        container.addView(view, 0);
+        container.setMinimumHeight(view.getHeight());
         ((LinearLayout) view).setGravity(Gravity.CENTER);
         return view;
     }
