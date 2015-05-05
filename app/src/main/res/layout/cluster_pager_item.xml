@@ -88,7 +88,7 @@
             android:paddingRight="10dp"
             android:text="Arsene Wenger’s Arsenal press conferences are boring at the best of times, with the Frenchman famed for his classic straight bat responses.Arsene Wenger’s Arsenal press conferences are boring at the best of times, with the Frenchman famed for his classic straight bat responses.Arsene Wenger’s Arsenal press conferences are boring at the best of times, with the Frenchman famed for his classic straight bat responses."
             android:textColor="#333333"
-            android:textSize="13sp"
+            android:textSize="12sp"
             app:font="kalpurush.ttf"
             summarytext:tagViewId="@+id/news_category" />
     </RelativeLayout>
