@@ -10,7 +10,7 @@ public class ClusterPagerItem extends PagerItem {
     private String image;
     private String content;
     private String published_time;
-    private String papername;
+    private String banglaname;
     private String detail_url;
 
     public ClusterPagerItem() {
@@ -18,14 +18,14 @@ public class ClusterPagerItem extends PagerItem {
     }
 
     public ClusterPagerItem(int id, String headline, String summary, String image, String content,
-                            String published_time, String papername, String detail_url) {
+                            String published_time, String banglaname, String detail_url) {
         this.id = id;
         this.headline = headline;
         this.summary = summary;
         this.image = image;
         this.content = content;
         this.published_time = published_time;
-        this.papername = papername;
+        this.banglaname = banglaname;
         this.detail_url = detail_url;
     }
 
@@ -69,12 +69,12 @@ public class ClusterPagerItem extends PagerItem {
         this.published_time = published_time;
     }
 
-    public String getPapername() {
-        return papername;
+    public String getBanglaname() {
+        return banglaname;
     }
 
-    public void setPapername(String papername) {
-        this.papername = papername;
+    public void setBanglaname(String banglaname) {
+        this.banglaname = banglaname;
     }
 
     public String getDetail_url() {
@@ -102,7 +102,7 @@ public class ClusterPagerItem extends PagerItem {
                 ", image='" + image + '\'' +
                 ", content='" + content + '\'' +
                 ", published_time='" + published_time + '\'' +
-                ", papername='" + papername + '\'' +
+                ", banglaname='" + banglaname + '\'' +
                 ", detail_url='" + detail_url + '\'' +
                 '}';
     }
