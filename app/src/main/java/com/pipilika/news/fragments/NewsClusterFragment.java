@@ -18,6 +18,7 @@ import com.pipilika.news.R;
 import com.pipilika.news.adapters.listview.ClusterListAdapter;
 import com.pipilika.news.appdata.AppManager;
 import com.pipilika.news.items.listview.ClusterListItem;
+import com.pipilika.news.items.viewpager.ClusterPagerItem;
 
 import org.json.JSONObject;
 
@@ -73,9 +74,26 @@ public class NewsClusterFragment extends Fragment implements Response.Listener<J
             e.printStackTrace();
         }
         Gson gson = new GsonBuilder().create();
-        string.trim();
         List<ClusterListItem> clusters = gson.fromJson(string, new TypeToken<ArrayList<ClusterListItem>>() {
         }.getType());
+        for (int i = 0; i < clusters.size() - 1; i++) {
+            ClusterListItem clusterListItem1 = clusters.get(i);
+            for (int j = i + 1; j < clusters.size(); ) {
+                ClusterListItem clusterListItem2 = clusters.get(j);
+                if (clusterListItem1.getCategory().equals(clusterListItem2.getCategory())) {
+                    List<ClusterPagerItem> clusterPagerItem1 = clusterListItem1.getNews();
+                    List<ClusterPagerItem> clusterPagerItem2 = clusterListItem2.getNews();
+                    Log.e("match", i + " " + clusterListItem1.getCategory() + " = " + j + " " + clusterListItem2.getCategory());
+                    for (int k = 0; k < clusterPagerItem2.size(); k++) {
+                        clusterPagerItem1.add(clusterPagerItem2.get(k));
+                    }
+                    clusters.remove(j);
+                } else {
+                    j++;
+                    Log.e("not match", i + " " + clusterListItem1.getCategory() + " != " + j + " " + clusterListItem2.getCategory());
+                }
+            }
+        }
         ClusterListAdapter clusterListAdapter = new ClusterListAdapter(getActivity(), clusters);
         clusterListView.setAdapter(clusterListAdapter);
         //Log.e("URL", allNewsItem.toString());
