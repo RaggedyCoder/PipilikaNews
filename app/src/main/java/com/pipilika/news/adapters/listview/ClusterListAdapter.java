@@ -2,7 +2,6 @@ package com.pipilika.news.adapters.listview;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -10,20 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.pipilika.news.R;
 import com.pipilika.news.adapters.viewpager.ClusterPagerAdapter;
-import com.pipilika.news.application.AppController;
 import com.pipilika.news.items.listview.ClusterListItem;
-import com.pipilika.news.utils.volley.TrackedRequest;
+import com.pipilika.news.view.widget.CustomViewPager;
 
-import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -64,7 +56,7 @@ public class ClusterListAdapter extends BaseAdapter implements Response.ErrorLis
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.cluster_list_item, parent, false);
             holder = new ViewHolder();
-            holder.clusterPager = (ViewPager) convertView.findViewById(R.id.cluster_pager);
+            holder.clusterPager = (CustomViewPager) convertView.findViewById(R.id.cluster_pager);
             holder.clusterPager.setClipToPadding(false);
             holder.clusterPager.setPageMargin((int) TypedValue.
                     applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, activity.getResources().getDisplayMetrics()));
@@ -74,45 +66,6 @@ public class ClusterListAdapter extends BaseAdapter implements Response.ErrorLis
             holder = (ViewHolder) convertView.getTag();
         }
         Log.e("TAG", position + " of list");
-        final int rr = position;
-        holder.clusterPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            public void onPageScrollStateChanged(int state) {
-            }
-
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            public void onPageSelected(int pos) {
-                if (pos == clusterListItems.get(rr).getNews().size()) {
-
-                    String url = clusterListItems.get(rr).getNext_url();
-                    TrackedRequest jsonObjectRequest = new TrackedRequest(Request.Method.GET, url,
-                            null, new TrackedRequest.ListenerTracker<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject jsonObject, int id) {
-                            String string = null;
-                            try {
-                                string = new String(jsonObject.toString().getBytes(), "UTF-8");
-                            } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
-                            }
-                            Gson gson = new GsonBuilder().create();
-                            ClusterListItem clusterListItem = gson.fromJson(jsonObject.toString(), ClusterListItem.class);
-                            clusterListItems.get(id).getNews().addAll(clusterListItem.getNews());
-                            notifyDataSetChanged();
-                        }
-
-                        @Override
-                        public void onResponse(JSONObject jsonObject) {
-
-                        }
-                    }, ClusterListAdapter.this, rr);
-                    AppController.getInstance().addToRequestQueue(jsonObjectRequest);
-
-                }
-                Log.e("TAG", rr + " Selected page-" + pos);
-            }
-        });
         holder.clusterPager.setPageMargin(15);
         holder.clusterPager.setPageMargin(15);
         holder.clusterPager.setClipChildren(false);
@@ -128,6 +81,6 @@ public class ClusterListAdapter extends BaseAdapter implements Response.ErrorLis
     }
 
     public static class ViewHolder {
-        private ViewPager clusterPager;
+        private CustomViewPager clusterPager;
     }
 }
