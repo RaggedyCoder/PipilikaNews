@@ -2,50 +2,56 @@ package com.pipilika.news.adapters.viewpager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.pipilika.news.R;
+import com.pipilika.news.activities.FullNewsActivity;
 import com.pipilika.news.application.AppController;
 import com.pipilika.news.items.viewpager.ClusterPagerItem;
+import com.pipilika.news.utils.Constants;
 import com.pipilika.news.view.widget.CustomTextView;
 import com.pipilika.news.view.widget.NewsSummaryTextView;
 import com.pipilika.news.view.widget.OnlineImageView;
 import com.pipilika.news.view.widget.TagTextView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by tuman on 20/4/2015.
- */
 public class ClusterPagerAdapter extends PagerAdapter {
 
+    private static final String TAG = ClusterPagerAdapter.class.getSimpleName();
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
-    private ViewPager clusterPager;
     private String category;
     private LayoutInflater inflater;
     private List<ClusterPagerItem> clusterPagerItems;
+    private String zipId;
 
     private Activity activity;
 
-    public ClusterPagerAdapter(Activity activity, List<ClusterPagerItem> clusterPagerItems, String category) {
+    public ClusterPagerAdapter(Activity activity, List<ClusterPagerItem> clusterPagerItems, String category, String zipId) {
         super();
         this.activity = activity;
         this.clusterPagerItems = clusterPagerItems;
         Log.e("TAG", "" + clusterPagerItems.size());
         this.category = category;
         inflater = (LayoutInflater) this.activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.zipId = zipId;
     }
 
     @Override
@@ -61,49 +67,77 @@ public class ClusterPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
-        LayoutInflater inflater = (LayoutInflater) container.getContext()
+        final LayoutInflater inflater = (LayoutInflater) container.getContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view;
-        view = inflater.inflate(R.layout.cluster_pager_item, null);
-        OnlineImageView onlineImageView = (OnlineImageView) view.findViewById(R.id.news_image);
-        onlineImageView.setImageUrl(clusterPagerItems.get(position).getImage(), imageLoader);
-        CustomTextView headline = (CustomTextView) view.findViewById(R.id.news_headline);
-        headline.setText(clusterPagerItems.get(position).getHeadline());
-        CustomTextView newsPaper = (CustomTextView) view.findViewById(R.id.news_paper_name);
-        newsPaper.setText(clusterPagerItems.get(position).getBanglaname());
-        TagTextView tagText = (TagTextView) view.findViewById(R.id.news_category);
-        CustomTextView newsTime = (CustomTextView) view.findViewById(R.id.news_time);
-        final NewsSummaryTextView newsSummary = (NewsSummaryTextView) view.findViewById(R.id.news_summary);
-        newsSummary.setSummary(clusterPagerItems.get(position).getSummary().replace('\n', ' '));
-        Log.e("pager view-", "" + view.getWidth());
+        View convertView;
+        ClusterPagerItem clusterPagerItem = clusterPagerItems.get(position);
+        if (checkCache(position)) {
+            convertView = inflater.inflate(R.layout.cache_cluster_pager_item, null);
+            ImageView onlineImageView = (ImageView) convertView.findViewById(R.id.news_image);
+            File file = new File(Constants.IMAMGE_CACHE_PATH + zipId + "/" + category + "/" + position + ".png");
+            FileInputStream fi = null;
+            try {
+                fi = new FileInputStream(file);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            Bitmap bitmap = BitmapFactory.decodeStream(fi);
+            onlineImageView.setImageBitmap(bitmap);
+        } else {
+            convertView = inflater.inflate(R.layout.cluster_pager_item, null);
+            OnlineImageView onlineImageView = (OnlineImageView) convertView.findViewById(R.id.news_image);
+            onlineImageView.setDrawingCacheEnabled(true);
+            onlineImageView.setImageUrl(clusterPagerItem.getImage(), imageLoader, zipId, category, position);
+        }
+
+        CustomTextView headline = (CustomTextView) convertView.findViewById(R.id.news_headline);
+        CustomTextView newsPaper = (CustomTextView) convertView.findViewById(R.id.news_paper_name);
+        TagTextView tagText = (TagTextView) convertView.findViewById(R.id.news_category);
+        NewsSummaryTextView newsSummary = (NewsSummaryTextView) convertView.findViewById(R.id.news_summary);
+        CustomTextView newsTime = (CustomTextView) convertView.findViewById(R.id.news_time);
+
+        headline.setText(clusterPagerItem.getHeadline());
+        newsPaper.setText(clusterPagerItem.getBanglaname());
+        newsSummary.setSummary(clusterPagerItem.getSummary().replace('\n', ' '));
         newsSummary.setTagTextView(tagText);
-        newsSummary.post(new Runnable() {
+        newsTime.setText(getReadableDate(clusterPagerItem.getPublished_time()));
+        tagText.setText(category);
+
+        convertView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                Log.e("Line count", newsSummary.getLineCount() + "");
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, FullNewsActivity.class);
+                intent.putExtra("news", clusterPagerItems.get(position));
+                intent.putExtra("location", zipId + "/" + category + "/" + position);
+                activity.startActivity(intent);
             }
         });
+        container.addView(convertView, 0);
+        ((LinearLayout) convertView).setGravity(Gravity.CENTER);
+        return convertView;
+    }
+
+    private String getReadableDate(String published_time) {
         SimpleDateFormat nonReadableFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
         Date date = new Date();
         try {
-            date = nonReadableFormat.parse(clusterPagerItems.get(position).getPublished_time());
+            date = nonReadableFormat.parse(published_time);
         } catch (ParseException e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
         }
         SimpleDateFormat readableFormat = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss");
-        newsTime.setText(readableFormat.format(date));
-        tagText.setText(category);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                newsSummary.setSummary(clusterPagerItems.get(position).getSummary());
-                Toast.makeText(activity, "pressed-" + newsSummary.getLineCount(), Toast.LENGTH_SHORT).show();
-            }
-        });
-        container.addView(view, 0);
-        container.setMinimumHeight(view.getHeight());
-        ((LinearLayout) view).setGravity(Gravity.CENTER);
-        return view;
+        return readableFormat.format(date);
+
+
+    }
+
+    private boolean checkCache(int position) {
+        File file = new File(Constants.IMAMGE_CACHE_PATH + zipId + " / " + category + "/");
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        file = new File(Constants.IMAMGE_CACHE_PATH + zipId + "/" + category + "/" + position + ".png");
+        return file.exists();
     }
 
     @Override
