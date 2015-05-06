@@ -83,7 +83,9 @@ public class FullNewsFragment extends Fragment {
         } else {
             rootView = inflater.inflate(R.layout.fragment_full_news_download, container, false);
             onlineImageView = (OnlineImageView) rootView.findViewById(R.id.news_image);
-            onlineImageView.setImageUrl(news.getImage(), imageLoader, location);
+            File file = new File(Constants.IMAMGE_CACHE_PATH);
+            file.mkdirs();
+            onlineImageView.setImageUrl(news.getImage(), imageLoader, "/" + location);
         }
         headline = (CustomTextView) rootView.findViewById(R.id.news_headline);
         newsPaper = (CustomTextView) rootView.findViewById(R.id.news_paper_name);
