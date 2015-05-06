@@ -81,7 +81,7 @@ public class SplashScreenFragment extends Fragment implements Response.Listener<
         params.put("id", appManager.getLatestNewsId());
         url = "http://pipilika.com:60283/RecentNewsCluster/TransferZipFile?id=" + params.get("id");
         Log.e("URL", url);
-        ZipRequest zipRequest = new ZipRequest(getActivity(), Request.Method.GET, url, params, new Response.Listener<ZipFile>() {
+        ZipRequest zipRequest = new ZipRequest(Request.Method.GET, url, params, new Response.Listener<ZipFile>() {
             @Override
             public void onResponse(ZipFile zipFile) {
                 Log.e("zip", zipFile.getName());
