@@ -1,9 +1,21 @@
 package com.pipilika.news.items.viewpager;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by tuman on 20/4/2015.
  */
-public class ClusterPagerItem extends PagerItem {
+public class ClusterPagerItem extends PagerItem implements Parcelable {
+    public static final Parcelable.Creator<ClusterPagerItem> CREATOR = new Parcelable.Creator<ClusterPagerItem>() {
+        public ClusterPagerItem createFromParcel(Parcel in) {
+            return new ClusterPagerItem(in);
+        }
+
+        public ClusterPagerItem[] newArray(int size) {
+            return new ClusterPagerItem[size];
+        }
+    };
     private int id;
     private String headline;
     private String summary;
@@ -27,6 +39,17 @@ public class ClusterPagerItem extends PagerItem {
         this.published_time = published_time;
         this.banglaname = banglaname;
         this.detail_url = detail_url;
+    }
+
+    public ClusterPagerItem(Parcel in) {
+        this.id = in.readInt();
+        this.headline = in.readString();
+        this.summary = in.readString();
+        this.image = in.readString();
+        this.content = in.readString();
+        this.published_time = in.readString();
+        this.banglaname = in.readString();
+        this.detail_url = in.readString();
     }
 
     public int getId() {
@@ -105,6 +128,23 @@ public class ClusterPagerItem extends PagerItem {
                 ", banglaname='" + banglaname + '\'' +
                 ", detail_url='" + detail_url + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.getId());
+        dest.writeString(this.getHeadline());
+        dest.writeString(this.getSummary());
+        dest.writeString(this.getImage());
+        dest.writeString(this.getContent());
+        dest.writeString(this.getPublished_time());
+        dest.writeString(this.getBanglaname());
+        dest.writeString(this.getDetail_url());
     }
 }
 

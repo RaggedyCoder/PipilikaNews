@@ -1,20 +1,26 @@
 package com.pipilika.news.view.widget;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.ImageLoader.ImageContainer;
 import com.android.volley.toolbox.ImageLoader.ImageListener;
-import com.makeramen.roundedimageview.RoundedImageView;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 /**
  * Created by tuman on 23/4/2015.
  */
-public class OnlineImageView extends RoundedImageView {
+public class OnlineImageView extends ImageView {
 
     private ResponseObserver mObserver;
     /**
@@ -39,6 +45,11 @@ public class OnlineImageView extends RoundedImageView {
      */
     private ImageContainer mImageContainer;
 
+    private String mZipId;
+    private String mCategory;
+    private String mLocation;
+    private int mPosition;
+
     public OnlineImageView(Context context) {
         this(context, null);
     }
@@ -56,12 +67,6 @@ public class OnlineImageView extends RoundedImageView {
         mObserver = observer;
     }
 
-    public void setImageUrl(String url, ImageLoader imageLoader) {
-        mUrl = url;
-        mImageLoader = imageLoader;
-        // The URL has potentially changed. See if we need to load it.
-        loadImageIfNecessary(false);
-    }
 
     /**
      * Sets the default image resource ID to be used for this view until the
@@ -167,14 +172,20 @@ public class OnlineImageView extends RoundedImageView {
                             //bWidth = response.getBitmap().getWidth();
                             //bHeight = response.getBitmap().getHeight();
                             //adjustImageAspect(bWidth, bHeight);
+                            File file = new File(Environment.getExternalStorageDirectory() + "/Android/data/com.pipilika.news/images" + mLocation + ".png");
+                            FileOutputStream outStream = null;
+                            try {
+                                outStream = new FileOutputStream(file);
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
+                            response.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, outStream);
 
                         } else if (mDefaultImageId != 0) {
                             setImageResource(mDefaultImageId);
                         }
-
                         if (mObserver != null) {
                             mObserver.onSuccess();
-
                         }
                     }
                 });
@@ -217,6 +228,25 @@ public class OnlineImageView extends RoundedImageView {
     protected void drawableStateChanged() {
         super.drawableStateChanged();
         invalidate();
+    }
+
+    public void setImageUrl(String url, ImageLoader imageLoader, String zipId, String category, int position) {
+        mUrl = url;
+        mCategory = category;
+        mPosition = position;
+        mZipId = zipId;
+        mLocation = "/" + mZipId + "/" + mCategory + "/" + mPosition;
+        mImageLoader = imageLoader;
+        // The URL has potentially changed. See if we need to load it.
+        loadImageIfNecessary(false);
+    }
+
+    public void setImageUrl(String image, ImageLoader imageLoader, String location) {
+
+        mLocation = location;
+        mImageLoader = imageLoader;
+        // The URL has potentially changed. See if we need to load it.
+        loadImageIfNecessary(false);
     }
 
 

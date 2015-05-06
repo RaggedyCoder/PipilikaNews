@@ -52,6 +52,7 @@ public class SplashScreenFragment extends Fragment implements Response.Listener<
                 try {
                     ZipFile zipFile = new ZipFile(Environment.getExternalStorageDirectory() + "/Android/data/com.pipilika.news/clusters" + "/" + appManager.getLatestNewsId() + ".zip");
                     Intent intent = new Intent(getActivity(), MainActivity.class);
+                    getActivity().finish();
                     startActivity(intent);
                     Log.e("zip", zipFile.getName());
                 } catch (IOException e) {
@@ -79,11 +80,13 @@ public class SplashScreenFragment extends Fragment implements Response.Listener<
         HashMap<String, String> params = new HashMap<>();
         params.put("id", appManager.getLatestNewsId());
         url = "http://pipilika.com:60283/RecentNewsCluster/TransferZipFile?id=" + params.get("id");
+        Log.e("URL", url);
         ZipRequest zipRequest = new ZipRequest(getActivity(), Request.Method.GET, url, params, new Response.Listener<ZipFile>() {
             @Override
             public void onResponse(ZipFile zipFile) {
                 Log.e("zip", zipFile.getName());
                 Intent intent = new Intent(getActivity(), MainActivity.class);
+                getActivity().finish();
                 startActivity(intent);
             }
         }, new Response.ErrorListener() {

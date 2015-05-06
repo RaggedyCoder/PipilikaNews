@@ -21,19 +21,18 @@ public class CustomViewPager extends ViewPager {
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    protected void onMeasure(final int widthMeasureSpec, int heightMeasureSpec) {
 
-        int height = 0;
         for (int i = 0; i < getChildCount(); i++) {
-            View child = getChildAt(i);
-            child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+            final View child = getChildAt(i);
+            child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(10, MeasureSpec.UNSPECIFIED));
             int h = child.getMeasuredHeight();
-            Log.e("TAG" + i, h + "");
-            if (h > max) max = h;
+            if (h > max) {
+                max = h;
+            }
+            Log.e("TAG" + getChildCount(), "height" + child.getHeight());
         }
-
         heightMeasureSpec = MeasureSpec.makeMeasureSpec(max, MeasureSpec.EXACTLY);
-
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 }

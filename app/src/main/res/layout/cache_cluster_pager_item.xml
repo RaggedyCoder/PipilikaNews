@@ -23,7 +23,7 @@
             android:textSize="18sp"
             app:font="Roboto-Black.ttf" />
 
-        <com.pipilika.news.view.widget.OnlineImageView
+        <ImageView
             android:id="@+id/news_image"
             android:layout_width="fill_parent"
             android:layout_height="150dip"

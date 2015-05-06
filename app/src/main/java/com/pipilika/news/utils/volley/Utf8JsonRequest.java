@@ -1,5 +1,7 @@
 package com.pipilika.news.utils.volley;
 
+import android.util.Log;
+
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
@@ -15,6 +17,7 @@ import java.io.UnsupportedEncodingException;
  */
 public class Utf8JsonRequest extends JsonRequest<JSONObject> {
 
+    private static final String TAG = Utf8JsonRequest.class.getSimpleName();
 
     public Utf8JsonRequest(int method, String url, String requestBody, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
         super(method, url, requestBody, listener, errorListener);
@@ -26,10 +29,8 @@ public class Utf8JsonRequest extends JsonRequest<JSONObject> {
         try {
             String utf8String = new String(response.data, "UTF-8");
             return Response.success(new JSONObject(utf8String), HttpHeaderParser.parseCacheHeaders(response));
-        } catch (UnsupportedEncodingException e) {
-            // log error
-        } catch (JSONException e) {
-            // log error
+        } catch (UnsupportedEncodingException | JSONException e) {
+            Log.e(TAG, e.getMessage());
         }
         return null;
     }
