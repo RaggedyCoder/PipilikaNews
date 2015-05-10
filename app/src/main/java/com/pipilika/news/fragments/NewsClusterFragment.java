@@ -18,11 +18,6 @@ import com.pipilika.news.items.listview.ClusterListItem;
 import com.pipilika.news.items.viewpager.ClusterPagerItem;
 import com.pipilika.news.utils.Constants;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -45,7 +40,7 @@ public class NewsClusterFragment extends Fragment {
         rootView = inflater.inflate(R.layout.cluster_news_fragment, null, false);
         clusterListView = (ListView) rootView.findViewById(R.id.cluster_list_view);
         AppManager appManager = new AppManager(getActivity());
-        File file = new File(Constants.ZIP_CACHE_PATH + appManager.getLatestNewsId() + ".json");
+        File file = new File(Constants.ZIP_CACHE_PATH + appManager.getLatestNewsId() + ".txt");
         byte[] bytes = null;
         try {
             InputStream inputStream = new FileInputStream(file);
@@ -69,18 +64,6 @@ public class NewsClusterFragment extends Fragment {
             }.getType());
         } catch (Exception e) {
             Log.e("gson parsing", e.getMessage());
-            try {
-                JSONObject jsonObject = new JSONObject(jsonData.trim());
-            } catch (JSONException e1) {
-                Log.e("json parsing", e1.getMessage());
-                ObjectMapper objectMapper = new ObjectMapper();
-                try {
-                    clusters = objectMapper.readValue(file, new TypeReference<ArrayList<ClusterListItem>>() {
-                    });
-                } catch (IOException e2) {
-                    Log.e("jackson parsing", e2.getMessage());
-                }
-            }
         }
         if (clusters != null) {
             margeAllCategory(clusters);

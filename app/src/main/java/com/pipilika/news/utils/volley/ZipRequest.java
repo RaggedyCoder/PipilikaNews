@@ -58,7 +58,7 @@ public class ZipRequest extends Request<ZipFile> {
             Log.e(TAG, e.getMessage());
             return Response.error(new VolleyError(e));
         } catch (OutOfMemoryError outOfMemoryError) {
-            Log.e(TAG, String.format("Caught OOM for %d byte image, url=%s", networkResponse.data.length, this.getUrl()));
+            Log.e(TAG, String.format("Caught OOM for %d byte zip, url=%s", networkResponse.data.length, this.getUrl()));
             return Response.error(new ParseError(outOfMemoryError));
         }
         return Response.success(zipFile, HttpHeaderParser.parseCacheHeaders(networkResponse));

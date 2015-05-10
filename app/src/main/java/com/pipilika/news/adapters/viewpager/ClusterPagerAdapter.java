@@ -123,7 +123,12 @@ public class ClusterPagerAdapter extends PagerAdapter {
         try {
             date = nonReadableFormat.parse(published_time);
         } catch (ParseException e) {
-            Log.e(TAG, e.getMessage());
+            nonReadableFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+            try {
+                date = nonReadableFormat.parse(published_time);
+            } catch (ParseException e1) {
+                Log.e(TAG, e.getMessage());
+            }
         }
         SimpleDateFormat readableFormat = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss");
         return readableFormat.format(date);

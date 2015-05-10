@@ -2,7 +2,6 @@ package com.pipilika.news.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,19 +22,21 @@ import com.pipilika.news.utils.volley.ZipRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 
 public class SplashScreenFragment extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener {
 
     private static final String TAG = SplashScreenFragment.class.getSimpleName();
+    private static int BUFFER_SIZE = 4096;
     private AppManager appManager;
     private String url = "http://pipilika.com:60283/RecentNewsCluster/GetLatestNews";
 
@@ -60,7 +61,7 @@ public class SplashScreenFragment extends Fragment implements Response.Listener<
         Log.e("TAG", jsonObject.toString());
         try {
             if (!jsonObject.getBoolean("status")) {
-                File file = new File(Constants.ZIP_CACHE_PATH + appManager.getLatestNewsId() + ".json");
+                File file = new File(Constants.ZIP_CACHE_PATH + appManager.getLatestNewsId() + ".txt");
                 if (file.exists()) {
                     Intent intent = new Intent(getActivity(), MainActivity.class);
                     getActivity().finish();
@@ -94,36 +95,18 @@ public class SplashScreenFragment extends Fragment implements Response.Listener<
         ZipRequest zipRequest = new ZipRequest(Request.Method.GET, url, params, new Response.Listener<ZipFile>() {
             @Override
             public void onResponse(ZipFile zipFile) {
-                Enumeration<? extends ZipEntry> entries = zipFile.entries();
-                byte[] bytes = null;
-                while (entries.hasMoreElements()) {
-                    ZipEntry zipEntry = entries.nextElement();
-                    try {
-                        InputStream zipInputStream = zipFile.getInputStream(zipEntry);
-                        bytes = new byte[(int) zipEntry.getSize()];
-                        zipInputStream.read(bytes);
-                        zipInputStream.close();
-                    } catch (IOException e) {
-                        Log.e(TAG, e.getMessage());
-                    }
-                    File file = new File(Environment.getExternalStorageDirectory() + "/Android/data/com.pipilika.news/clusters" + "/" + appManager.getLatestNewsId() + ".json");
-                    FileOutputStream fos = null;
-                    try {
-                        fos = new FileOutputStream(file);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    int len = bytes.length;
-                    try {
-                        fos.write(bytes, 0, len);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        fos.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                ZipInputStream zipInputStream;
+                ZipEntry zipEntry;
+                try {
+                    zipInputStream = new ZipInputStream(new FileInputStream(Constants.ZIP_CACHE_PATH + appManager.getLatestNewsId() + ".zip"));
+                    zipEntry = zipInputStream.getNextEntry();
+                    extrarctFile(zipInputStream, zipEntry.getName());
+                    zipInputStream.closeEntry();
+                    zipInputStream.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 getActivity().finish();
@@ -136,5 +119,15 @@ public class SplashScreenFragment extends Fragment implements Response.Listener<
             }
         });
         AppController.getInstance().addToRequestQueue(zipRequest);
+    }
+
+    private void extrarctFile(ZipInputStream zipInputStream, String name) throws IOException {
+        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(Constants.ZIP_CACHE_PATH + name));
+        byte[] bytesIn = new byte[BUFFER_SIZE];
+        int read;
+        while ((read = zipInputStream.read(bytesIn)) != -1) {
+            bos.write(bytesIn, 0, read);
+        }
+        bos.close();
     }
 }
