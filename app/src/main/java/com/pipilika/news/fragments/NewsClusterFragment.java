@@ -18,14 +18,17 @@ import com.pipilika.news.items.listview.ClusterListItem;
 import com.pipilika.news.items.viewpager.ClusterPagerItem;
 import com.pipilika.news.utils.Constants;
 
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 public class NewsClusterFragment extends Fragment {
 
@@ -41,41 +44,49 @@ public class NewsClusterFragment extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.cluster_news_fragment, null, false);
         clusterListView = (ListView) rootView.findViewById(R.id.cluster_list_view);
-
         AppManager appManager = new AppManager(getActivity());
-        ZipFile zipFile = null;
+        File file = new File(Constants.ZIP_CACHE_PATH + appManager.getLatestNewsId() + ".json");
+        byte[] bytes = null;
         try {
-            zipFile = new ZipFile(Constants.ZIP_CACHE_PATH + appManager.getLatestNewsId() + ".zip");
+            InputStream inputStream = new FileInputStream(file);
+            bytes = new byte[(int) file.length()];
+            inputStream.read(bytes);
+            inputStream.close();
         } catch (IOException e) {
             Log.e(TAG, e.getMessage());
         }
 
-        Enumeration<? extends ZipEntry> entries = zipFile.entries();
-        byte[] bytes = null;
-        while (entries.hasMoreElements()) {
-            ZipEntry zipEntry = entries.nextElement();
-            try {
-                InputStream zipInputStream = zipFile.getInputStream(zipEntry);
-                bytes = new byte[(int) zipEntry.getSize()];
-                zipInputStream.read(bytes);
-                zipInputStream.close();
-            } catch (IOException e) {
-                Log.e(TAG, e.getMessage());
-            }
-        }
         String jsonData = null;
         try {
-            jsonData = new String(bytes, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
+            jsonData = new String(bytes);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         Gson gson = new GsonBuilder().create();
-        List<ClusterListItem> clusters = gson.fromJson(jsonData.trim(), new TypeToken<ArrayList<ClusterListItem>>() {
-        }.getType());
-
-        margeAllCategory(clusters);
-        ClusterListAdapter clusterListAdapter = new ClusterListAdapter(getActivity(), clusters, appManager.getLatestNewsId());
-        clusterListView.setAdapter(clusterListAdapter);
+        List<ClusterListItem> clusters = null;
+        try {
+            clusters = gson.fromJson(jsonData.trim(), new TypeToken<ArrayList<ClusterListItem>>() {
+            }.getType());
+        } catch (Exception e) {
+            Log.e("gson parsing", e.getMessage());
+            try {
+                JSONObject jsonObject = new JSONObject(jsonData.trim());
+            } catch (JSONException e1) {
+                Log.e("json parsing", e1.getMessage());
+                ObjectMapper objectMapper = new ObjectMapper();
+                try {
+                    clusters = objectMapper.readValue(file, new TypeReference<ArrayList<ClusterListItem>>() {
+                    });
+                } catch (IOException e2) {
+                    Log.e("jackson parsing", e2.getMessage());
+                }
+            }
+        }
+        if (clusters != null) {
+            margeAllCategory(clusters);
+            ClusterListAdapter clusterListAdapter = new ClusterListAdapter(getActivity(), clusters, appManager.getLatestNewsId());
+            clusterListView.setAdapter(clusterListAdapter);
+        }
         return rootView;
     }
 

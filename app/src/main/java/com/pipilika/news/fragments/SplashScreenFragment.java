@@ -16,18 +16,26 @@ import com.pipilika.news.R;
 import com.pipilika.news.activities.MainActivity;
 import com.pipilika.news.appdata.AppManager;
 import com.pipilika.news.application.AppController;
+import com.pipilika.news.utils.Constants;
 import com.pipilika.news.utils.volley.Utf8JsonRequest;
 import com.pipilika.news.utils.volley.ZipRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class SplashScreenFragment extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener {
 
+    private static final String TAG = SplashScreenFragment.class.getSimpleName();
     private AppManager appManager;
     private String url = "http://pipilika.com:60283/RecentNewsCluster/GetLatestNews";
 
@@ -42,6 +50,9 @@ public class SplashScreenFragment extends Fragment implements Response.Listener<
 
     @Override
     public void onErrorResponse(VolleyError volleyError) {
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        getActivity().finish();
+        startActivity(intent);
     }
 
     @Override
@@ -49,13 +60,12 @@ public class SplashScreenFragment extends Fragment implements Response.Listener<
         Log.e("TAG", jsonObject.toString());
         try {
             if (!jsonObject.getBoolean("status")) {
-                try {
-                    ZipFile zipFile = new ZipFile(Environment.getExternalStorageDirectory() + "/Android/data/com.pipilika.news/clusters" + "/" + appManager.getLatestNewsId() + ".zip");
+                File file = new File(Constants.ZIP_CACHE_PATH + appManager.getLatestNewsId() + ".json");
+                if (file.exists()) {
                     Intent intent = new Intent(getActivity(), MainActivity.class);
                     getActivity().finish();
                     startActivity(intent);
-                    Log.e("zip", zipFile.getName());
-                } catch (IOException e) {
+                } else {
                     newZipFileRequest();
                 }
             } else {
@@ -84,7 +94,37 @@ public class SplashScreenFragment extends Fragment implements Response.Listener<
         ZipRequest zipRequest = new ZipRequest(Request.Method.GET, url, params, new Response.Listener<ZipFile>() {
             @Override
             public void onResponse(ZipFile zipFile) {
-                Log.e("zip", zipFile.getName());
+                Enumeration<? extends ZipEntry> entries = zipFile.entries();
+                byte[] bytes = null;
+                while (entries.hasMoreElements()) {
+                    ZipEntry zipEntry = entries.nextElement();
+                    try {
+                        InputStream zipInputStream = zipFile.getInputStream(zipEntry);
+                        bytes = new byte[(int) zipEntry.getSize()];
+                        zipInputStream.read(bytes);
+                        zipInputStream.close();
+                    } catch (IOException e) {
+                        Log.e(TAG, e.getMessage());
+                    }
+                    File file = new File(Environment.getExternalStorageDirectory() + "/Android/data/com.pipilika.news/clusters" + "/" + appManager.getLatestNewsId() + ".json");
+                    FileOutputStream fos = null;
+                    try {
+                        fos = new FileOutputStream(file);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    int len = bytes.length;
+                    try {
+                        fos.write(bytes, 0, len);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        fos.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 getActivity().finish();
                 startActivity(intent);
