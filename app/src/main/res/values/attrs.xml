@@ -11,6 +11,11 @@
         <attr name="tagViewId" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="OnlineImageView">
+        <!-- Background color for CardView. -->
+        <attr name="loaderViewId" format="reference" />
+    </declare-styleable>
+
     <declare-styleable name="CustomFont">
         <attr name="font" format="string" />
     </declare-styleable>

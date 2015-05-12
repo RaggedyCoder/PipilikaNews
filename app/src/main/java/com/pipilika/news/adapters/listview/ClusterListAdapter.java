@@ -2,6 +2,7 @@ package com.pipilika.news.adapters.listview;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,6 @@ import com.android.volley.VolleyError;
 import com.pipilika.news.R;
 import com.pipilika.news.adapters.viewpager.ClusterPagerAdapter;
 import com.pipilika.news.items.listview.ClusterListItem;
-import com.pipilika.news.view.widget.CustomViewPager;
 
 import java.util.List;
 
@@ -50,21 +50,17 @@ public class ClusterListAdapter extends BaseAdapter implements Response.ErrorLis
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
-        if (convertView == null) {
-            convertView = inflater.inflate(R.layout.cluster_list_item, parent, false);
-            holder = new ViewHolder();
-            holder.clusterPager = (CustomViewPager) convertView.findViewById(R.id.cluster_pager);
-            holder.clusterPager.setClipToPadding(false);
-            holder.clusterPager.setPageMargin((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, activity.getResources().getDisplayMetrics()));
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
-        }
+        convertView = inflater.inflate(R.layout.cluster_list_item, parent, false);
+        holder = new ViewHolder();
+        holder.clusterPager = (ViewPager) convertView.findViewById(R.id.cluster_pager);
+        holder.clusterPager.setClipToPadding(false);
+        holder.clusterPager.setPageMargin((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, activity.getResources().getDisplayMetrics()));
+        convertView.setTag(holder);
         holder.clusterPager.setPageMargin(15);
         holder.clusterPager.setPageMargin(15);
         holder.clusterPager.setClipChildren(false);
         ClusterListItem clusterListItem = clusterListItems.get(position);
-        clusterPagerAdapter = new ClusterPagerAdapter(activity, clusterListItem.getNews(), clusterListItem.getCategory(), zipId);
+        clusterPagerAdapter = new ClusterPagerAdapter(activity, clusterListItem.getNews(), clusterListItem.getCategory(), zipId, position);
         holder.clusterPager.setAdapter(clusterPagerAdapter);
         return convertView;
     }
@@ -75,6 +71,6 @@ public class ClusterListAdapter extends BaseAdapter implements Response.ErrorLis
     }
 
     public static class ViewHolder {
-        private CustomViewPager clusterPager;
+        private ViewPager clusterPager;
     }
 }

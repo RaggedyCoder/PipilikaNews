@@ -10,10 +10,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.pipilika.news.R;
+import com.pipilika.news.appdata.AppManager;
 import com.pipilika.news.application.AppController;
 import com.pipilika.news.items.viewpager.ClusterPagerItem;
 import com.pipilika.news.utils.Constants;
@@ -35,6 +37,7 @@ public class FullNewsFragment extends Fragment {
 
     private String location;
     private ClusterPagerItem news;
+    private CustomTextView category;
     private CustomTextView content;
 
     private ImageView imageView;
@@ -42,6 +45,7 @@ public class FullNewsFragment extends Fragment {
     private CustomTextView headline;
     private CustomTextView newsPaper;
     private CustomTextView newsTime;
+    private ImageButton back;
     private View rootView;
 
     public FullNewsFragment() {
@@ -90,8 +94,25 @@ public class FullNewsFragment extends Fragment {
         headline = (CustomTextView) rootView.findViewById(R.id.news_headline);
         newsPaper = (CustomTextView) rootView.findViewById(R.id.news_paper_name);
         content = (CustomTextView) rootView.findViewById(R.id.news_content);
+        category = (CustomTextView) rootView.findViewById(R.id.news_category);
         newsTime = (CustomTextView) rootView.findViewById(R.id.news_time);
-
+        back = (ImageButton) rootView.findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+                Log.e("TAG", "clicked");
+            }
+        });
+        String temp = "";
+        AppManager appManager = new AppManager(getActivity());
+        for (int i = (appManager.getLatestNewsId() + "/").length();
+             i < location.length(); i++) {
+            if (location.charAt(i) == '/')
+                break;
+            temp += location.charAt(i);
+        }
+        category.setText(temp);
         headline.setText(news.getHeadline());
         content.setText(news.getContent());
         newsPaper.setText(news.getBanglaname());

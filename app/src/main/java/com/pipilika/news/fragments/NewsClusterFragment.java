@@ -15,7 +15,6 @@ import com.pipilika.news.R;
 import com.pipilika.news.adapters.listview.ClusterListAdapter;
 import com.pipilika.news.appdata.AppManager;
 import com.pipilika.news.items.listview.ClusterListItem;
-import com.pipilika.news.items.viewpager.ClusterPagerItem;
 import com.pipilika.news.utils.Constants;
 
 import java.io.File;
@@ -66,30 +65,9 @@ public class NewsClusterFragment extends Fragment {
             Log.e("gson parsing", e.getMessage());
         }
         if (clusters != null) {
-            margeAllCategory(clusters);
             ClusterListAdapter clusterListAdapter = new ClusterListAdapter(getActivity(), clusters, appManager.getLatestNewsId());
             clusterListView.setAdapter(clusterListAdapter);
         }
         return rootView;
-    }
-
-    private void margeAllCategory(List<ClusterListItem> clusters) {
-
-        for (int i = 0; i < clusters.size() - 1; i++) {
-            ClusterListItem clusterListItem1 = clusters.get(i);
-            for (int j = i + 1; j < clusters.size(); ) {
-                ClusterListItem clusterListItem2 = clusters.get(j);
-                if (clusterListItem1.getCategory().equals(clusterListItem2.getCategory())) {
-                    List<ClusterPagerItem> clusterPagerItem1 = clusterListItem1.getNews();
-                    List<ClusterPagerItem> clusterPagerItem2 = clusterListItem2.getNews();
-                    for (int k = 0; k < clusterPagerItem2.size(); k++) {
-                        clusterPagerItem1.add(clusterPagerItem2.get(k));
-                    }
-                    clusters.remove(j);
-                } else {
-                    j++;
-                }
-            }
-        }
     }
 }

@@ -53,14 +53,6 @@ public class NewsSummaryTextView extends CustomTextView {
         super.onDraw(canvas);
     }
 
-    public void setSummary(String string) {
-        setText(string);
-        if (tagTextView == null) {
-            createTagTextView(tagTextID);
-        }
-
-    }
-
     public TagTextView getTagTextView() {
         return tagTextView;
     }

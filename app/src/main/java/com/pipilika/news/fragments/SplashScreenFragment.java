@@ -100,7 +100,7 @@ public class SplashScreenFragment extends Fragment implements Response.Listener<
                 try {
                     zipInputStream = new ZipInputStream(new FileInputStream(Constants.ZIP_CACHE_PATH + appManager.getLatestNewsId() + ".zip"));
                     zipEntry = zipInputStream.getNextEntry();
-                    extrarctFile(zipInputStream, zipEntry.getName());
+                    extractFile(zipInputStream, zipEntry.getName());
                     zipInputStream.closeEntry();
                     zipInputStream.close();
                 } catch (FileNotFoundException e) {
@@ -121,7 +121,7 @@ public class SplashScreenFragment extends Fragment implements Response.Listener<
         AppController.getInstance().addToRequestQueue(zipRequest);
     }
 
-    private void extrarctFile(ZipInputStream zipInputStream, String name) throws IOException {
+    private void extractFile(ZipInputStream zipInputStream, String name) throws IOException {
         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(Constants.ZIP_CACHE_PATH + name));
         byte[] bytesIn = new byte[BUFFER_SIZE];
         int read;

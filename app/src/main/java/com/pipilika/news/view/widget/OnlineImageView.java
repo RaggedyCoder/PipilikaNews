@@ -1,17 +1,20 @@
 package com.pipilika.news.view.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.ProgressBar;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.ImageLoader.ImageContainer;
 import com.android.volley.toolbox.ImageLoader.ImageListener;
+import com.pipilika.news.R;
 import com.pipilika.news.utils.Constants;
 
 import java.io.File;
@@ -23,6 +26,8 @@ import java.io.FileOutputStream;
  */
 public class OnlineImageView extends ImageView {
 
+    private int tagTextID;
+    private ProgressBar view;
     private ResponseObserver mObserver;
     /**
      * The URL of the network image to load
@@ -49,6 +54,7 @@ public class OnlineImageView extends ImageView {
     private String mZipId;
     private String mCategory;
     private String mLocation;
+    private int mPositionInList;
     private int mPosition;
 
     public OnlineImageView(Context context) {
@@ -62,6 +68,11 @@ public class OnlineImageView extends ImageView {
     public OnlineImageView(Context context, AttributeSet attrs,
                            int defStyle) {
         super(context, attrs, defStyle);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.OnlineImageView);
+        tagTextID = a.getResourceId(R.styleable.OnlineImageView_loaderViewId, 0);
+        view = (ProgressBar) getRootView().findViewById(tagTextID);
+        a.recycle();
+
     }
 
     public void setResponseObserver(ResponseObserver observer) {
@@ -170,10 +181,12 @@ public class OnlineImageView extends ImageView {
                         if (response.getBitmap() != null) {
 
                             setImageBitmap(response.getBitmap());
+                            setBackgroundResource(R.drawable.background);
                             //bWidth = response.getBitmap().getWidth();
                             //bHeight = response.getBitmap().getHeight();
                             //adjustImageAspect(bWidth, bHeight);
                             File file = new File(Constants.IMAMGE_CACHE_PATH + mLocation + ".png");
+                            Log.e("TAG", file.getAbsolutePath());
                             FileOutputStream outStream = null;
                             try {
                                 outStream = new FileOutputStream(file);
@@ -189,6 +202,10 @@ public class OnlineImageView extends ImageView {
                         if (mObserver != null) {
                             mObserver.onSuccess();
                         }
+                        if (view == null) {
+                            view = (ProgressBar) getRootView().findViewById(tagTextID);
+                        }
+                        view.setVisibility(GONE);
                     }
                 });
 
@@ -232,15 +249,17 @@ public class OnlineImageView extends ImageView {
         invalidate();
     }
 
-    public void setImageUrl(String url, ImageLoader imageLoader, String zipId, String category, int position) {
+    public void setImageUrl(String url, ImageLoader imageLoader, String zipId, String category, int positionInList, int position) {
         mUrl = url;
         mCategory = category;
+        mPositionInList = positionInList;
         mPosition = position;
         mZipId = zipId;
         Log.e("TAG", mUrl);
-        mLocation = "/" + mZipId + "/" + mCategory + "/" + mPosition;
+        mLocation = mZipId + "/" + mCategory + "/" + "cluster" + mPositionInList + "/" + mPosition;
         mImageLoader = imageLoader;
-        File file = new File(Constants.IMAMGE_CACHE_PATH + "/" + mZipId + "/" + mCategory + "/");
+        File file = new File(Constants.IMAMGE_CACHE_PATH + mZipId + "/" + mCategory + "/" + "cluster" + mPositionInList + "/");
+        Log.e("TAG", file.getAbsolutePath());
         file.mkdirs();
         loadImageIfNecessary(false);
     }
