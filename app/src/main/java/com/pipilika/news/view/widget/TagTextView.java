@@ -19,6 +19,7 @@ import com.pipilika.news.utils.graphics.RightTriangleF;
  */
 public class TagTextView extends CustomTextView {
     private int tagColor;
+    private boolean mirror;
     private RightTriangleF mRightTriangleF;
 
     public TagTextView(Context context) {
@@ -29,8 +30,9 @@ public class TagTextView extends CustomTextView {
         super(context, attrs);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TagTextView);
         tagColor = a.getColor(R.styleable.TagTextView_tagBackgroundColor, 0);
+        mirror = a.getBoolean(R.styleable.TagTextView_mirror, false);
         a.recycle();
-        mRightTriangleF = new RightTriangleF(new PointF(getWidth(), 0), getHeight(), getWidth());
+        mRightTriangleF = new RightTriangleF(new PointF(getWidth(), 0), getHeight(), getWidth(), mirror);
     }
 
     public TagTextView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -38,7 +40,7 @@ public class TagTextView extends CustomTextView {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TagTextView);
         tagColor = a.getColor(R.styleable.TagTextView_tagBackgroundColor, 0);
         a.recycle();
-        mRightTriangleF = new RightTriangleF(new PointF(getWidth(), 0), getHeight(), getWidth());
+        mRightTriangleF = new RightTriangleF(new PointF(getWidth(), 0), getHeight(), getWidth(), mirror);
     }
 
 
@@ -48,6 +50,7 @@ public class TagTextView extends CustomTextView {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TagTextView);
         tagColor = a.getColor(R.styleable.TagTextView_tagBackgroundColor, 0);
         a.recycle();
+        mRightTriangleF = new RightTriangleF(new PointF(getWidth(), 0), getHeight(), getWidth(), mirror);
     }
 
     @Override
@@ -61,7 +64,7 @@ public class TagTextView extends CustomTextView {
         int[] location = new int[2];
         getLocationOnScreen(location);
         Log.e("Location of own", location[0] + " " + location[1]);
-        mRightTriangleF = new RightTriangleF(new PointF(getWidth(), 0), getHeight(), getWidth());
+        mRightTriangleF = new RightTriangleF(new PointF(getWidth(), 0), getHeight(), getWidth(), mirror);
         PointF[] points = new PointF[3];
         Log.e("TAG", mRightTriangleF.height + "");
         mRightTriangleF.allPoints(points);

@@ -15,34 +15,43 @@ public class RightTriangleF implements Parcelable {
     public PointF top;
     public float height;
     public float width;
+    public boolean mirror;
 
     public RightTriangleF() {
         this(new PointF(0, 0), 0, 0);
     }
 
     public RightTriangleF(PointF top, float height, float width) {
+        this(top, height, width, false);
+    }
+
+    public RightTriangleF(PointF top, float height, float width, boolean mirror) {
         this.top = top;
         this.height = height;
         this.width = width;
+        this.mirror = mirror;
     }
 
     public RightTriangleF(RightTriangle r) {
-        if (r != null) {
-            top = new PointF();
-            this.top.x = r.top.x;
-            this.top.y = r.top.y;
-            this.height = r.height;
-            this.width = r.width;
-        }
+        this(r, false);
+    }
+
+    public RightTriangleF(RightTriangle r, boolean mirror) {
+        this(new RightTriangleF(r), mirror);
     }
 
     public RightTriangleF(RightTriangleF r) {
+        this(r, false);
+    }
+
+    public RightTriangleF(RightTriangleF r, boolean mirror) {
         if (r != null) {
             top = new PointF();
             this.top.x = r.top.x;
             this.top.y = r.top.y;
             this.height = r.height;
             this.width = r.width;
+            this.mirror = mirror;
         }
     }
 
@@ -206,7 +215,7 @@ public class RightTriangleF implements Parcelable {
     public void allPoints(PointF[] points) {
         points[0] = top;
         points[1] = new PointF(top.x, top.y + height);
-        points[2] = new PointF(top.x - width, points[1].y);
+        points[2] = new PointF(mirror ? top.x + width : top.x - width, points[1].y);
     }
 
     @Override
