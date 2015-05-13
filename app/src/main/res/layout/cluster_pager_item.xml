@@ -90,6 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_below="@+id/news_image"
             android:layout_centerHorizontal="true"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -98,7 +99,5 @@
             android:textSize="12sp"
             app:font="kalpurush.ttf"
             summarytext:tagViewId="@+id/news_category" />
-
-
     </RelativeLayout>
 </LinearLayout>

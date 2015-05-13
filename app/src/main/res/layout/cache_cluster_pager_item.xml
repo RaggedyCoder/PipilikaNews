@@ -31,9 +31,8 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/news_paper_name"
             android:layout_margin="5dp"
-            android:background="@drawable/image_background"
-            android:scaleType="centerCrop"
-            android:src="@drawable/arsene_wenger_1869548b" />
+            android:background="#00000000"
+            android:scaleType="centerCrop" />
 
         <com.pipilika.news.view.widget.CustomTextView
             android:id="@+id/news_paper_name"
@@ -81,6 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_below="@+id/news_image"
             android:layout_centerHorizontal="true"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
