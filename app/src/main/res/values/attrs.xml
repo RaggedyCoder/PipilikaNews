@@ -2,13 +2,18 @@
 <resources>
 
     <declare-styleable name="TagTextView">
-        <!-- Background color for CardView. -->
         <attr name="tagBackgroundColor" format="color" />
+        <attr name="mirror" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="NewsSummaryTextView">
         <!-- Background color for CardView. -->
         <attr name="tagViewId" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="PaddingView">
+        <!-- Background color for CardView. -->
+        <attr name="viewId" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="OnlineImageView">
