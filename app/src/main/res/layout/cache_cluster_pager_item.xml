@@ -18,7 +18,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="Arsene Wenger perfectly trolled Chelsea with ‘1-0 is usual’ jibe after Arsenal v Reading clash"
             android:textColor="#ff339aff"
             android:textSize="18sp"
             app:font="Roboto-Black.ttf" />
@@ -32,7 +31,7 @@
             android:layout_below="@+id/news_paper_name"
             android:layout_margin="5dp"
             android:background="#00000000"
-            android:scaleType="centerCrop" />
+            android:scaleType="fitCenter" />
 
         <com.pipilika.news.view.widget.CustomTextView
             android:id="@+id/news_paper_name"
@@ -43,8 +42,9 @@
             android:layout_below="@+id/news_headline"
             android:paddingLeft="10dip"
             android:text="Metro News"
+            android:textColor="#ff004f9b"
             android:textSize="14sp"
-            app:font="kalpurush.ttf" />
+            app:font="Roboto-Bold.ttf" />
 
         <com.pipilika.news.view.widget.CustomTextView
             android:id="@+id/news_time"
@@ -54,9 +54,8 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/news_headline"
             android:paddingRight="20dip"
-            android:text="21 Apr 2015 10:49 am"
             android:textSize="12sp"
-            app:font="Roboto-Bold.ttf" />
+            app:font="Roboto-Light.ttf" />
 
 
         <com.pipilika.news.view.widget.TagTextView
@@ -69,8 +68,8 @@
             android:gravity="bottom|end"
             android:paddingBottom="10dp"
             android:paddingEnd="10dp"
+            android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="Full News"
             android:textColor="#FFFFFF"
             app:font="Roboto-Regular.ttf"
             tagtext:tagBackgroundColor="#ff339aff" />
