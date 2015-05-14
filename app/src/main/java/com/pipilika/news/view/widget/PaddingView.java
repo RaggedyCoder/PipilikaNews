@@ -17,6 +17,7 @@ public class PaddingView extends View {
 
     private View mView;
     private int viewID;
+    private int viewHeight;
 
     public PaddingView(Context context) {
         super(context);
@@ -49,8 +50,17 @@ public class PaddingView extends View {
         if (mView == null) {
             mView = getRootView().findViewById(viewID);
         }
+        viewHeight = mView.getHeight();
         heightMeasureSpec = MeasureSpec.makeMeasureSpec(mView.getHeight(), MeasureSpec.EXACTLY);
         Log.e("height", "" + mView.getHeight());
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    public int getViewHeight() {
+        return viewHeight;
+    }
+
+    public void setViewHeight(int viewHeight) {
+        this.viewHeight = viewHeight;
     }
 }
