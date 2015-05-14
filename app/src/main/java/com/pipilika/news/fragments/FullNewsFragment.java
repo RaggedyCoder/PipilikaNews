@@ -10,10 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.nineoldandroids.view.ViewHelper;
 import com.pipilika.news.R;
 import com.pipilika.news.appdata.AppManager;
 import com.pipilika.news.application.AppController;
@@ -21,6 +24,7 @@ import com.pipilika.news.items.viewpager.ClusterPagerItem;
 import com.pipilika.news.utils.Constants;
 import com.pipilika.news.view.widget.CustomTextView;
 import com.pipilika.news.view.widget.OnlineImageView;
+import com.pipilika.news.view.widget.PaddingView;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,6 +43,8 @@ public class FullNewsFragment extends Fragment {
     private ClusterPagerItem news;
     private CustomTextView category;
     private CustomTextView content;
+    private ScrollView scrollView;
+    private PaddingView paddingView;
 
     private ImageView imageView;
     private OnlineImageView onlineImageView;
@@ -58,6 +64,10 @@ public class FullNewsFragment extends Fragment {
         args.putParcelable(NEWS, news);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public static float clamp(float value, float max, float min) {
+        return Math.max(Math.min(value, min), max);
     }
 
     @Override
@@ -91,6 +101,8 @@ public class FullNewsFragment extends Fragment {
             file.mkdirs();
             onlineImageView.setImageUrl(news.getImage(), imageLoader, "/" + location);
         }
+        paddingView = (PaddingView) rootView.findViewById(R.id.padding_view);
+        scrollView = (ScrollView) rootView.findViewById(R.id.scroll_view);
         headline = (CustomTextView) rootView.findViewById(R.id.news_headline);
         newsPaper = (CustomTextView) rootView.findViewById(R.id.news_paper_name);
         content = (CustomTextView) rootView.findViewById(R.id.news_content);
@@ -102,6 +114,12 @@ public class FullNewsFragment extends Fragment {
             public void onClick(View v) {
                 getActivity().finish();
                 Log.e("TAG", "clicked");
+            }
+        });
+        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                OnScroll(scrollView.getScrollY());
             }
         });
         String temp = "";
@@ -118,6 +136,27 @@ public class FullNewsFragment extends Fragment {
         newsPaper.setText(news.getBanglaname());
         newsTime.setText(getReadableDate(news.getPublished_time()));
         return rootView;
+    }
+
+    private void OnScroll(int scrollY) {
+        final int mMinHeaderTranslation = paddingView.getViewHeight();
+        if (onlineImageView != null) {
+            ViewHelper.setTranslationY(onlineImageView, -scrollY * 0.35f);
+        } else {
+            ViewHelper.setTranslationY(imageView, -scrollY * 0.35f);
+        }
+        final float ratio;
+        if (imageView != null)
+            ratio = clamp(-(ViewHelper.getTranslationY(imageView) * (1 / 0.35f)) / mMinHeaderTranslation, 0.0f, 1.0f);
+        else
+            ratio = clamp(-(ViewHelper.getTranslationY(onlineImageView) * (1 / 0.35f)) / mMinHeaderTranslation, 0.0f, 1.0f);
+        setTitleAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
+        // Log.e("TAG", mMinHeaderTranslation + " "+ViewHelper.getTranslationY(imageView) / mMinHeaderTranslation);
+    }
+
+    private void setTitleAlpha(float alpha) {
+        Log.e("alpha", alpha + "");
+        ViewHelper.setAlpha(back, 1.0f - alpha);
     }
 
     private String getReadableDate(String published_time) {
