@@ -21,9 +21,7 @@ import com.pipilika.news.application.AppController;
 import com.pipilika.news.items.viewpager.ClusterPagerItem;
 import com.pipilika.news.utils.Constants;
 import com.pipilika.news.view.widget.CustomTextView;
-import com.pipilika.news.view.widget.NewsSummaryTextView;
 import com.pipilika.news.view.widget.OnlineImageView;
-import com.pipilika.news.view.widget.TagTextView;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -94,15 +92,14 @@ public class ClusterPagerAdapter extends PagerAdapter {
 
         CustomTextView headline = (CustomTextView) convertView.findViewById(R.id.news_headline);
         CustomTextView newsPaper = (CustomTextView) convertView.findViewById(R.id.news_paper_name);
-        TagTextView tagText = (TagTextView) convertView.findViewById(R.id.news_category);
-        NewsSummaryTextView newsSummary = (NewsSummaryTextView) convertView.findViewById(R.id.news_summary);
+        CustomTextView tagText = (CustomTextView) convertView.findViewById(R.id.news_category);
+        CustomTextView newsSummary = (CustomTextView) convertView.findViewById(R.id.news_summary);
         CustomTextView newsTime = (CustomTextView) convertView.findViewById(R.id.news_time);
 
         headline.setText(clusterPagerItem.getHeadline());
         newsPaper.setText(clusterPagerItem.getBanglaname());
         newsSummary.setText(clusterPagerItem.getSummary().replace('\n', ' '));
 
-        newsSummary.setTagTextView(tagText);
         newsTime.setText(getReadableDate(clusterPagerItem.getPublished_time()));
         tagText.setText(category);
         convertView.setOnClickListener(new View.OnClickListener() {
