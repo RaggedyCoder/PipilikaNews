@@ -17,6 +17,7 @@
         android:src="@drawable/arsene_wenger_1869548b" />
 
     <ScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="#00000000">
@@ -28,6 +29,7 @@
             android:orientation="vertical">
 
             <com.pipilika.news.view.widget.PaddingView
+                android:id="@+id/padding_view"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="#00000000"
