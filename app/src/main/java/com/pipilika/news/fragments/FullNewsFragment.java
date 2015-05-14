@@ -156,6 +156,11 @@ public class FullNewsFragment extends Fragment {
 
     private void setTitleAlpha(float alpha) {
         Log.e("alpha", alpha + "");
+        if (alpha == 1.0) {
+            back.setVisibility(View.GONE);
+        } else {
+            back.setVisibility(View.VISIBLE);
+        }
         ViewHelper.setAlpha(back, 1.0f - alpha);
     }
 
