@@ -23,7 +23,7 @@ import com.pipilika.news.application.AppController;
 import com.pipilika.news.items.viewpager.ClusterPagerItem;
 import com.pipilika.news.utils.Constants;
 import com.pipilika.news.view.widget.CustomTextView;
-import com.pipilika.news.view.widget.OnlineImageView;
+import com.pipilika.news.view.widget.NewsImageView;
 import com.pipilika.news.view.widget.PaddingView;
 
 import java.io.File;
@@ -47,7 +47,7 @@ public class FullNewsFragment extends Fragment {
     private PaddingView paddingView;
 
     private ImageView imageView;
-    private OnlineImageView onlineImageView;
+    private NewsImageView onlineImageView;
     private CustomTextView headline;
     private CustomTextView newsPaper;
     private CustomTextView newsTime;
@@ -96,10 +96,10 @@ public class FullNewsFragment extends Fragment {
             imageView.setImageBitmap(bitmap);
         } else {
             rootView = inflater.inflate(R.layout.fragment_full_news_download, container, false);
-            onlineImageView = (OnlineImageView) rootView.findViewById(R.id.news_image);
+            onlineImageView = (NewsImageView) rootView.findViewById(R.id.news_image);
             File file = new File(Constants.IMAMGE_CACHE_PATH);
             file.mkdirs();
-            onlineImageView.setImageUrl(news.getImage(), imageLoader, "/" + location);
+            onlineImageView.setImageUrl(news.getImage(), "/" + location);
         }
         paddingView = (PaddingView) rootView.findViewById(R.id.padding_view);
         scrollView = (ScrollView) rootView.findViewById(R.id.scroll_view);

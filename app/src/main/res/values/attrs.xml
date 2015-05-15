@@ -16,7 +16,7 @@
         <attr name="viewId" format="reference" />
     </declare-styleable>
 
-    <declare-styleable name="OnlineImageView">
+    <declare-styleable name="NewsImageView">
         <!-- Background color for CardView. -->
         <attr name="loaderViewId" format="reference" />
     </declare-styleable>

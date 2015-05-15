@@ -11,7 +11,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -21,7 +20,7 @@ import com.pipilika.news.application.AppController;
 import com.pipilika.news.items.viewpager.ClusterPagerItem;
 import com.pipilika.news.utils.Constants;
 import com.pipilika.news.view.widget.CustomTextView;
-import com.pipilika.news.view.widget.OnlineImageView;
+import com.pipilika.news.view.widget.NewsImageView;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -69,11 +68,10 @@ public class ClusterPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, final int position) {
         final LayoutInflater inflater = (LayoutInflater) container.getContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View convertView;
+        final View convertView = inflater.inflate(R.layout.cluster_pager_item, null);
         ClusterPagerItem clusterPagerItem = clusterPagerItems.get(position);
+        NewsImageView newsImageView = (NewsImageView) convertView.findViewById(R.id.news_image);
         if (checkCache(position)) {
-            convertView = inflater.inflate(R.layout.cache_cluster_pager_item, null);
-            ImageView onlineImageView = (ImageView) convertView.findViewById(R.id.news_image);
             File file = new File(Constants.IMAMGE_CACHE_PATH + zipId + "/" + category + "/" + "cluster" + positionInList + "/" + position + ".png");
             FileInputStream fi = null;
             try {
@@ -82,12 +80,10 @@ public class ClusterPagerAdapter extends PagerAdapter {
                 e.printStackTrace();
             }
             Bitmap bitmap = BitmapFactory.decodeStream(fi);
-            onlineImageView.setImageBitmap(bitmap);
+            newsImageView.setImageBitmap(bitmap);
         } else {
-            convertView = inflater.inflate(R.layout.cluster_pager_item, null);
-            OnlineImageView onlineImageView = (OnlineImageView) convertView.findViewById(R.id.news_image);
-            onlineImageView.setDrawingCacheEnabled(true);
-            onlineImageView.setImageUrl(clusterPagerItem.getImage(), imageLoader, zipId, category, positionInList, position);
+            newsImageView.setDrawingCacheEnabled(true);
+            newsImageView.setImageUrl(clusterPagerItem.getImage(), zipId, category, positionInList, position);
         }
 
         CustomTextView headline = (CustomTextView) convertView.findViewById(R.id.news_headline);
