@@ -26,4 +26,16 @@
         <item name="colorAccent">#FF4285F4</item>
     </style>
 
+    <style name="fullNews" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@null</item>
+        <item name="colorPrimaryDark">#FF3367D6</item>
+        <item name="actionBarDivider">@null</item>
+        <item name="elevation">0dip</item>
+        <item name="backgroundStacked">@null</item>
+        <item name="backgroundSplit">@null</item>
+        <item name="colorAccent">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+
 </resources>

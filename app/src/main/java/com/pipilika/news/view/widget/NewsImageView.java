@@ -96,6 +96,9 @@ public class NewsImageView extends ImageView {
                 }
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
                 setImageBitmap(bitmap);
+                view = getRootView().findViewById(progressBarID);
+                view.setVisibility(GONE);
+                Log.e("TAG", progressBarID + " " + (view.getVisibility() == GONE));
             }
         }, getWidth(), getHeight(), Bitmap.Config.ARGB_8888, new Response.ErrorListener() {
             @Override
@@ -126,5 +129,6 @@ public class NewsImageView extends ImageView {
         super.setImageBitmap(bm);
         view = getRootView().findViewById(progressBarID);
         view.setVisibility(GONE);
+        Log.e("TAG", progressBarID + " " + (view.getVisibility() == GONE));
     }
 }
