@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="floating_circle_width">36dp</dimen>
+    <dimen name="floating_circle_height">36dp</dimen>
+    <dimen name="actionbar_text_size">14sp</dimen>
+</resources>

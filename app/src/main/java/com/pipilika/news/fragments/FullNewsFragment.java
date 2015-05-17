@@ -13,13 +13,12 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
-import com.android.volley.toolbox.ImageLoader;
 import com.nineoldandroids.view.ViewHelper;
 import com.pipilika.news.R;
 import com.pipilika.news.appdata.AppManager;
-import com.pipilika.news.application.AppController;
 import com.pipilika.news.items.viewpager.ClusterPagerItem;
 import com.pipilika.news.utils.Constants;
 import com.pipilika.news.view.widget.CustomTextView;
@@ -37,11 +36,11 @@ public class FullNewsFragment extends Fragment {
     private static final String LOCATION = "location";
     private static final String NEWS = "news";
     private static final String TAG = FullNewsFragment.class.getSimpleName();
-    ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
     private String location;
     private ClusterPagerItem news;
     private CustomTextView category;
+    private CustomTextView title;
     private CustomTextView content;
     private ScrollView scrollView;
     private PaddingView paddingView;
@@ -50,6 +49,7 @@ public class FullNewsFragment extends Fragment {
     private NewsImageView onlineImageView;
     private CustomTextView headline;
     private CustomTextView newsPaper;
+    private LinearLayout actionBar;
     private CustomTextView newsTime;
     private ImageButton back;
     private View rootView;
@@ -82,9 +82,9 @@ public class FullNewsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.fragment_full_news, container, false);
         if (checkCache()) {
             File file = new File(Constants.IMAMGE_CACHE_PATH + location + ".png");
-            rootView = inflater.inflate(R.layout.fragment_full_news, container, false);
             imageView = (ImageView) rootView.findViewById(R.id.news_image);
             FileInputStream fi = null;
             try {
@@ -95,18 +95,19 @@ public class FullNewsFragment extends Fragment {
             Bitmap bitmap = BitmapFactory.decodeStream(fi);
             imageView.setImageBitmap(bitmap);
         } else {
-            rootView = inflater.inflate(R.layout.fragment_full_news_download, container, false);
             onlineImageView = (NewsImageView) rootView.findViewById(R.id.news_image);
             File file = new File(Constants.IMAMGE_CACHE_PATH);
             file.mkdirs();
             onlineImageView.setImageUrl(news.getImage(), "/" + location);
         }
+        actionBar = (LinearLayout) rootView.findViewById(R.id.action_bar);
         paddingView = (PaddingView) rootView.findViewById(R.id.padding_view);
         scrollView = (ScrollView) rootView.findViewById(R.id.scroll_view);
         headline = (CustomTextView) rootView.findViewById(R.id.news_headline);
         newsPaper = (CustomTextView) rootView.findViewById(R.id.news_paper_name);
         content = (CustomTextView) rootView.findViewById(R.id.news_content);
         category = (CustomTextView) rootView.findViewById(R.id.news_category);
+        title = (CustomTextView) rootView.findViewById(R.id.news_category_title);
         newsTime = (CustomTextView) rootView.findViewById(R.id.news_time);
         back = (ImageButton) rootView.findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -122,6 +123,7 @@ public class FullNewsFragment extends Fragment {
                 OnScroll(scrollView.getScrollY());
             }
         });
+        setTitleAlpha(0f);
         String temp = "";
         AppManager appManager = new AppManager(getActivity());
         for (int i = (appManager.getLatestNewsId() + "/").length();
@@ -131,6 +133,7 @@ public class FullNewsFragment extends Fragment {
             temp += location.charAt(i);
         }
         category.setText(temp);
+        title.setText(temp);
         headline.setText(news.getHeadline());
         content.setText(news.getContent());
         newsPaper.setText(news.getBanglaname());
@@ -156,12 +159,8 @@ public class FullNewsFragment extends Fragment {
 
     private void setTitleAlpha(float alpha) {
         Log.e("alpha", alpha + "");
-        if (alpha == 1.0) {
-            back.setVisibility(View.GONE);
-        } else {
-            back.setVisibility(View.VISIBLE);
-        }
-        ViewHelper.setAlpha(back, 1.0f - alpha);
+        ViewHelper.setAlpha(actionBar, alpha);
+        ViewHelper.setAlpha(title, alpha);
     }
 
     private String getReadableDate(String published_time) {

@@ -98,6 +98,7 @@ public class NewsImageView extends ImageView {
                 setImageBitmap(bitmap);
                 view = getRootView().findViewById(progressBarID);
                 view.setVisibility(GONE);
+                setBackgroundResource(R.drawable.background);
                 Log.e("TAG", progressBarID + " " + (view.getVisibility() == GONE));
             }
         }, getWidth(), getHeight(), Bitmap.Config.ARGB_8888, new Response.ErrorListener() {

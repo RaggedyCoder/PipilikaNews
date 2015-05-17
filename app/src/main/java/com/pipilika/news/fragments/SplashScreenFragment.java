@@ -1,5 +1,7 @@
 package com.pipilika.news.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,6 +20,7 @@ import com.pipilika.news.application.AppController;
 import com.pipilika.news.utils.Constants;
 import com.pipilika.news.utils.volley.Utf8JsonRequest;
 import com.pipilika.news.utils.volley.ZipRequest;
+import com.pipilika.news.view.widget.CustomTextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,23 +40,43 @@ public class SplashScreenFragment extends Fragment implements Response.Listener<
 
     private static final String TAG = SplashScreenFragment.class.getSimpleName();
     private static int BUFFER_SIZE = 4096;
+    AlertDialog alertDialog;
     private AppManager appManager;
+    private CustomTextView loadingTitle;
     private String url = "http://pipilika.com:60283/RecentNewsCluster/GetLatestNews";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_splash_screen, null, false);
+        loadingTitle = (CustomTextView) rootView.findViewById(R.id.loading_title);
+        loadingTitle.setText("Checking Available News");
         appManager = new AppManager(getActivity());
         jsonObjectRequest();
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setCancelable(false);
+        alertDialogBuilder.setMessage("Unable to connect to the internet.Please try again later.");
+        alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                alertDialog.dismiss();
+                getActivity().finish();
+            }
+        });
+        alertDialogBuilder.setPositiveButton("Try Again", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                jsonObjectRequest();
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog = alertDialogBuilder.create();
         return rootView;
     }
 
     @Override
     public void onErrorResponse(VolleyError volleyError) {
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        getActivity().finish();
-        startActivity(intent);
+        alertDialog.show();
     }
 
     @Override
@@ -90,6 +113,7 @@ public class SplashScreenFragment extends Fragment implements Response.Listener<
     private void newZipFileRequest() {
         HashMap<String, String> params = new HashMap<>();
         params.put("id", appManager.getLatestNewsId());
+        loadingTitle.setText("Downloading News Content");
         url = "http://pipilika.com:60283/RecentNewsCluster/TransferZipFile?id=" + params.get("id");
         Log.e("URL", url);
         ZipRequest zipRequest = new ZipRequest(Request.Method.GET, url, params, new Response.Listener<ZipFile>() {

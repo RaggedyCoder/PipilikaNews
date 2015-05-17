@@ -26,7 +26,7 @@ public class FullNewsActivity extends AppCompatActivity {
                     break;
                 temp += location.charAt(i);
             }
-            getSupportActionBar().setTitle(temp);
+            //getSupportActionBar().setTitle(temp);
             FullNewsFragment fullNewsFragment = FullNewsFragment.newInstance(location, clusterPagerItem);
             getSupportFragmentManager().beginTransaction().add(R.id.container, fullNewsFragment).commit();
         }

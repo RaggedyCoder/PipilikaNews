@@ -26,7 +26,7 @@
         <item name="colorAccent">#FF4285F4</item>
     </style>
 
-    <style name="fullNews" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+    <style name="fullNews" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@null</item>
         <item name="colorPrimaryDark">#FF3367D6</item>
         <item name="actionBarDivider">@null</item>

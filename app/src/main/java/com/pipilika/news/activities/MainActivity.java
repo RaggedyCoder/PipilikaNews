@@ -2,8 +2,6 @@ package com.pipilika.news.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.pipilika.news.R;
 import com.pipilika.news.fragments.NewsClusterFragment;
@@ -22,18 +20,5 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         }
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        return id == R.id.action_settings || super.onOptionsItemSelected(item);
-    }
-
 
 }

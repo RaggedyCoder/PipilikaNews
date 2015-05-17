@@ -16,6 +16,7 @@
         android:scaleType="fitCenter"
         android:src="@drawable/arsene_wenger_1869548b" />
 
+
     <ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="fill_parent"
@@ -32,7 +33,7 @@
                 android:id="@+id/padding_view"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="#00000000"
+                android:background="#004285F4"
                 paddingview:viewId="@+id/news_image" />
 
             <LinearLayout
@@ -50,8 +51,7 @@
                     android:padding="10dp"
                     android:text="Metro News"
                     android:textColor="#ff002944"
-                    android:textSize="20sp"
-                    app:font="Roboto-Medium.ttf" />
+                    android:textSize="20sp" />
 
                 <com.pipilika.news.view.widget.CustomTextView
                     android:id="@+id/news_headline"
@@ -112,11 +112,49 @@
 
     </ScrollView>
 
-    <ImageButton
-        android:id="@+id/back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:background="#00000000"
-        android:src="@drawable/back_news_36dp" />
+    <LinearLayout
+        android:id="@+id/action_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/abc_action_bar_default_height_material"
+        android:background="#4285F4"
+        android:elevation="5dp"
+        android:orientation="horizontal" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/abc_action_bar_default_height_material"
+        android:background="#004285F4"
+        android:elevation="5dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="@dimen/abc_action_bar_default_height_material"
+            android:layout_height="@dimen/abc_action_bar_default_height_material">
+
+            <View
+                android:layout_width="@dimen/floating_circle_width"
+                android:layout_height="@dimen/floating_circle_height"
+                android:layout_margin="6dp"
+                android:background="@drawable/floating_circle" />
+
+            <ImageButton
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:background="#00000000"
+                android:src="@drawable/abc_ic_ab_back_mtrl_am_alpha" />
+        </RelativeLayout>
+
+        <com.pipilika.news.view.widget.CustomTextView
+            android:id="@+id/news_category_title"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/abc_action_bar_default_height_material"
+            android:gravity="center|start"
+            android:text="Entertainment"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/actionbar_text_size"
+            app:font="Roboto-Medium.ttf" />
+    </LinearLayout>
+
 </RelativeLayout>
