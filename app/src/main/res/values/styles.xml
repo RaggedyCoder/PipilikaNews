@@ -15,7 +15,7 @@
         <item name="colorAccent">#FF00F601</item>
     </style>
 
-    <style name="cluster" parent="Theme.AppCompat.Light">
+    <style name="cluster" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Main theme colors -->
         <!--   your app branding color for the app bar -->
         <item name="colorPrimary">#FF4285F4</item>

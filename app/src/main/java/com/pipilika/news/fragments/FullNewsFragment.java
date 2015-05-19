@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
@@ -45,8 +44,7 @@ public class FullNewsFragment extends Fragment {
     private ScrollView scrollView;
     private PaddingView paddingView;
 
-    private ImageView imageView;
-    private NewsImageView onlineImageView;
+    private NewsImageView imageView;
     private CustomTextView headline;
     private CustomTextView newsPaper;
     private LinearLayout actionBar;
@@ -85,7 +83,7 @@ public class FullNewsFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_full_news, container, false);
         if (checkCache()) {
             File file = new File(Constants.IMAMGE_CACHE_PATH + location + ".png");
-            imageView = (ImageView) rootView.findViewById(R.id.news_image);
+            imageView = (NewsImageView) rootView.findViewById(R.id.news_image);
             FileInputStream fi = null;
             try {
                 fi = new FileInputStream(file);
@@ -95,10 +93,10 @@ public class FullNewsFragment extends Fragment {
             Bitmap bitmap = BitmapFactory.decodeStream(fi);
             imageView.setImageBitmap(bitmap);
         } else {
-            onlineImageView = (NewsImageView) rootView.findViewById(R.id.news_image);
+            imageView = (NewsImageView) rootView.findViewById(R.id.news_image);
             File file = new File(Constants.IMAMGE_CACHE_PATH);
             file.mkdirs();
-            onlineImageView.setImageUrl(news.getImage(), "/" + location);
+            imageView.setImageUrl(news.getImage(), "/" + location);
         }
         actionBar = (LinearLayout) rootView.findViewById(R.id.action_bar);
         paddingView = (PaddingView) rootView.findViewById(R.id.padding_view);
@@ -143,8 +141,8 @@ public class FullNewsFragment extends Fragment {
 
     private void OnScroll(int scrollY) {
         final int mMinHeaderTranslation = paddingView.getViewHeight();
-        if (onlineImageView != null) {
-            ViewHelper.setTranslationY(onlineImageView, -scrollY * 0.35f);
+        if (imageView != null) {
+            ViewHelper.setTranslationY(imageView, -scrollY * 0.35f);
         } else {
             ViewHelper.setTranslationY(imageView, -scrollY * 0.35f);
         }
@@ -152,7 +150,7 @@ public class FullNewsFragment extends Fragment {
         if (imageView != null)
             ratio = clamp(-(ViewHelper.getTranslationY(imageView) * (1 / 0.35f)) / mMinHeaderTranslation, 0.0f, 1.0f);
         else
-            ratio = clamp(-(ViewHelper.getTranslationY(onlineImageView) * (1 / 0.35f)) / mMinHeaderTranslation, 0.0f, 1.0f);
+            ratio = clamp(-(ViewHelper.getTranslationY(imageView) * (1 / 0.35f)) / mMinHeaderTranslation, 0.0f, 1.0f);
         setTitleAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
         // Log.e("TAG", mMinHeaderTranslation + " "+ViewHelper.getTranslationY(imageView) / mMinHeaderTranslation);
     }

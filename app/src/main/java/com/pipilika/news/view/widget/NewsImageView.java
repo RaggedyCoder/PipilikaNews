@@ -97,7 +97,8 @@ public class NewsImageView extends ImageView {
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
                 setImageBitmap(bitmap);
                 view = getRootView().findViewById(progressBarID);
-                view.setVisibility(GONE);
+                if (view != null)
+                    view.setVisibility(GONE);
                 setBackgroundResource(R.drawable.background);
                 Log.e("TAG", progressBarID + " " + (view.getVisibility() == GONE));
             }
@@ -127,9 +128,11 @@ public class NewsImageView extends ImageView {
 
     @Override
     public void setImageBitmap(Bitmap bm) {
+        setScaleType(ScaleType.FIT_CENTER);
         super.setImageBitmap(bm);
         view = getRootView().findViewById(progressBarID);
-        view.setVisibility(GONE);
+        view.setVisibility(INVISIBLE);
         Log.e("TAG", progressBarID + " " + (view.getVisibility() == GONE));
+
     }
 }

@@ -4,14 +4,10 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity$PlaceholderFragment">
 
-
-    <ListView
-        android:id="@+id/cluster_list_view"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/cluster_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#DADADA"
-        android:divider="@null"
-        android:dividerHeight="0dp" />
-
-
+        android:layout_centerHorizontal="true"
+        android:background="#DADADA" />
 </RelativeLayout>
