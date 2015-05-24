@@ -22,6 +22,7 @@ import com.pipilika.news.utils.volley.Utf8JsonRequest;
 import com.pipilika.news.utils.volley.ZipRequest;
 import com.pipilika.news.view.widget.CustomTextView;
 
+import org.apache.commons.io.FileUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -93,10 +94,17 @@ public class SplashScreenFragment extends Fragment implements Response.Listener<
                     newZipFileRequest();
                 }
             } else {
+                File file = new File(Constants.IMAMGE_CACHE_PATH + appManager.getLatestNewsId());
+                Log.e("TAG", file.isDirectory() + " ");
+                FileUtils.deleteDirectory(file);
+                file = new File(Constants.IMAMGE_CACHE_PATH + appManager.getLatestNewsId() + ".zip");
+                FileUtils.forceDelete(file);
+                file = new File(Constants.IMAMGE_CACHE_PATH + appManager.getLatestNewsId() + ".txt");
+                FileUtils.forceDelete(file);
                 appManager.setLatestNewsId(jsonObject.getString("latest_id"));
                 newZipFileRequest();
             }
-        } catch (JSONException e) {
+        } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
     }
