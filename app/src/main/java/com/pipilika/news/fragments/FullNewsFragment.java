@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.nineoldandroids.view.ViewHelper;
@@ -39,7 +38,6 @@ public class FullNewsFragment extends Fragment {
     private String location;
     private ClusterPagerItem news;
     private CustomTextView category;
-    private CustomTextView title;
     private CustomTextView content;
     private ScrollView scrollView;
     private PaddingView paddingView;
@@ -47,7 +45,6 @@ public class FullNewsFragment extends Fragment {
     private NewsImageView imageView;
     private CustomTextView headline;
     private CustomTextView newsPaper;
-    private LinearLayout actionBar;
     private CustomTextView newsTime;
     private ImageButton back;
     private View rootView;
@@ -98,14 +95,12 @@ public class FullNewsFragment extends Fragment {
             file.mkdirs();
             imageView.setImageUrl(news.getImage(), "/" + location);
         }
-        actionBar = (LinearLayout) rootView.findViewById(R.id.action_bar);
         paddingView = (PaddingView) rootView.findViewById(R.id.padding_view);
         scrollView = (ScrollView) rootView.findViewById(R.id.scroll_view);
         headline = (CustomTextView) rootView.findViewById(R.id.news_headline);
         newsPaper = (CustomTextView) rootView.findViewById(R.id.news_paper_name);
         content = (CustomTextView) rootView.findViewById(R.id.news_content);
         category = (CustomTextView) rootView.findViewById(R.id.news_category);
-        title = (CustomTextView) rootView.findViewById(R.id.news_category_title);
         newsTime = (CustomTextView) rootView.findViewById(R.id.news_time);
         back = (ImageButton) rootView.findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +116,6 @@ public class FullNewsFragment extends Fragment {
                 OnScroll(scrollView.getScrollY());
             }
         });
-        setTitleAlpha(0f);
         String temp = "";
         AppManager appManager = new AppManager(getActivity());
         for (int i = (appManager.getLatestNewsId() + "/").length();
@@ -131,7 +125,6 @@ public class FullNewsFragment extends Fragment {
             temp += location.charAt(i);
         }
         category.setText(temp);
-        title.setText(temp);
         headline.setText(news.getHeadline());
         content.setText(news.getContent());
         newsPaper.setText(news.getBanglaname());
@@ -146,20 +139,8 @@ public class FullNewsFragment extends Fragment {
         } else {
             ViewHelper.setTranslationY(imageView, -scrollY * 0.35f);
         }
-        final float ratio;
-        if (imageView != null)
-            ratio = clamp(-(ViewHelper.getTranslationY(imageView) * (1 / 0.35f)) / mMinHeaderTranslation, 0.0f, 1.0f);
-        else
-            ratio = clamp(-(ViewHelper.getTranslationY(imageView) * (1 / 0.35f)) / mMinHeaderTranslation, 0.0f, 1.0f);
-        setTitleAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
-        // Log.e("TAG", mMinHeaderTranslation + " "+ViewHelper.getTranslationY(imageView) / mMinHeaderTranslation);
     }
 
-    private void setTitleAlpha(float alpha) {
-        Log.e("alpha", alpha + "");
-        ViewHelper.setAlpha(actionBar, alpha);
-        ViewHelper.setAlpha(title, alpha);
-    }
 
     private String getReadableDate(String published_time) {
         SimpleDateFormat nonReadableFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");

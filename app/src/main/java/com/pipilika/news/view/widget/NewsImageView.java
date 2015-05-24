@@ -21,9 +21,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
-/**
- * Created by tuman on 12/5/2015.
- */
 public class NewsImageView extends ImageView {
 
     private String mUrl;
@@ -133,6 +130,5 @@ public class NewsImageView extends ImageView {
         view = getRootView().findViewById(progressBarID);
         view.setVisibility(INVISIBLE);
         Log.e("TAG", progressBarID + " " + (view.getVisibility() == GONE));
-
     }
 }

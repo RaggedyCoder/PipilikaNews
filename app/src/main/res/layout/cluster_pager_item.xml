@@ -19,7 +19,7 @@
             android:padding="5dp"
             android:text="Headline"
             android:textColor="#ff339aff"
-            android:textSize="16sp"
+            android:textSize="17sp"
             app:font="Roboto-Black.ttf" />
 
         <ProgressBar
@@ -44,13 +44,14 @@
 
         <com.pipilika.news.view.widget.CustomTextView
             android:id="@+id/news_category"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/news_headline"
+            android:background="#ff2c4171"
             android:gravity="center"
             android:padding="5dp"
             android:text="Entertainment"
-            android:textColor="#ff339aff"
+            android:textColor="#ffffff"
             android:textSize="15sp"
             app:font="Roboto-Bold.ttf" />
 
@@ -86,12 +87,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/news_paper_name"
             android:layout_centerHorizontal="true"
-            android:maxLines="15"
+            android:maxLength="400"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="@string/dummy_summary"
             android:textColor="#333333"
-            android:textSize="11sp"
+            android:textSize="12sp"
             app:font="kalpurush.ttf" />
     </RelativeLayout>
 </LinearLayout>

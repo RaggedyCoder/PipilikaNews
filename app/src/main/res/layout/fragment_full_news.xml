@@ -56,7 +56,7 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/news_background"
+                android:background="#FFFFFF"
                 android:orientation="vertical">
 
                 <com.pipilika.news.view.widget.CustomTextView
@@ -129,43 +129,12 @@
 
     </ScrollView>
 
-    <LinearLayout
-        android:id="@+id/action_bar"
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/abc_action_bar_default_height_material"
-        android:background="#4285F4"
-        android:elevation="5dp"
-        android:orientation="horizontal" />
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/abc_action_bar_default_height_material"
-        android:background="#004285F4"
-        android:elevation="5dp"
-        android:orientation="horizontal">
-
-        <RelativeLayout
-            android:layout_width="@dimen/abc_action_bar_default_height_material"
-            android:layout_height="@dimen/abc_action_bar_default_height_material">
-
-            <ImageButton
-                android:id="@+id/back"
-                android:layout_width="@dimen/abc_action_bar_default_height_material"
-                android:layout_height="@dimen/abc_action_bar_default_height_material"
-                android:layout_margin="6dp"
-                android:background="@drawable/floating_circle"
-                android:src="@drawable/abc_ic_ab_back_mtrl_am_alpha" />
-        </RelativeLayout>
-
-        <com.pipilika.news.view.widget.CustomTextView
-            android:id="@+id/news_category_title"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/abc_action_bar_default_height_material"
-            android:gravity="center|start"
-            android:text="Entertainment"
-            android:textColor="#FFFFFF"
-            android:textSize="@dimen/actionbar_text_size"
-            app:font="Roboto-Medium.ttf" />
-    </LinearLayout>
+    <ImageButton
+        android:id="@+id/back"
+        android:layout_width="@dimen/floating_circle_width"
+        android:layout_height="@dimen/floating_circle_height"
+        android:layout_margin="6dp"
+        android:background="@drawable/floating_circle"
+        android:src="@drawable/abc_ic_ab_back_mtrl_am_alpha" />
 
 </RelativeLayout>

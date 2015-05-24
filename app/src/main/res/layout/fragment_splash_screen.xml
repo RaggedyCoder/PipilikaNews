@@ -26,7 +26,7 @@
         android:layout_centerHorizontal="true"
         android:text="Pipilika News"
         android:textColor="#ff002944"
-        android:textSize="20sp"
+        android:textSize="14sp"
         app:font="Roboto-Regular.ttf" />
 
 
