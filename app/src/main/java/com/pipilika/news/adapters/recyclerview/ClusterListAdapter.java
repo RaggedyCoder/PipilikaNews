@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.pipilika.news.R;
-import com.pipilika.news.adapters.viewpager.ClusterPagerAdapter;
+import com.pipilika.news.adapters.viewpager.CardClusterPagerAdapter;
 import com.pipilika.news.items.listview.ClusterListItem;
 
 import java.util.List;
@@ -34,17 +34,35 @@ public class ClusterListAdapter extends RecyclerView.Adapter<ClusterListAdapter.
         if (inflater == null) {
             inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
-        View rootView = inflater.inflate(R.layout.cluster_list_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(rootView, activity);
-        return viewHolder;
+        View rootView = inflater.inflate(R.layout.card_cluster_list_item, parent, false);
+        return new ViewHolder(rootView, activity);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         if (clusterListItems != null) {
             ClusterListItem clusterListItem = clusterListItems.get(position);
-            ClusterPagerAdapter clusterPagerAdapter = new ClusterPagerAdapter(activity, clusterListItem.getNews(), clusterListItem.getCategory(), zipId, position);
+            CardClusterPagerAdapter clusterPagerAdapter = new CardClusterPagerAdapter(activity, clusterListItem.getNews(), clusterListItem.getCategory(), zipId, position);
             holder.clusterPager.setAdapter(clusterPagerAdapter);
+            holder.clusterPager.setCurrentItem(2, true);
+            holder.clusterPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                    if (position == holder.clusterPager.getAdapter().getCount() - 1) {
+                        holder.clusterPager.setPageMarginDrawable(R.drawable.background);
+                    }
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
         }
     }
 
@@ -68,7 +86,6 @@ public class ClusterListAdapter extends RecyclerView.Adapter<ClusterListAdapter.
             clusterPager.setPageMargin(15);
             clusterPager.setPageMargin(15);
             clusterPager.setClipChildren(false);
-
         }
 
         @Override

@@ -79,7 +79,7 @@ public class FullNewsFragment extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_full_news, container, false);
         if (checkCache()) {
-            File file = new File(Constants.IMAMGE_CACHE_PATH + location + ".png");
+            File file = new File(Constants.IMAGE_CACHE_PATH + location + ".png");
             imageView = (NewsImageView) rootView.findViewById(R.id.news_image);
             FileInputStream fi = null;
             try {
@@ -91,7 +91,7 @@ public class FullNewsFragment extends Fragment {
             imageView.setImageBitmap(bitmap);
         } else {
             imageView = (NewsImageView) rootView.findViewById(R.id.news_image);
-            File file = new File(Constants.IMAMGE_CACHE_PATH);
+            File file = new File(Constants.IMAGE_CACHE_PATH);
             file.mkdirs();
             imageView.setImageUrl(news.getImage(), "/" + location);
         }
@@ -155,11 +155,11 @@ public class FullNewsFragment extends Fragment {
     }
 
     private boolean checkCache() {
-        File file = new File(Constants.IMAMGE_CACHE_PATH + location + "/");
+        File file = new File(Constants.IMAGE_CACHE_PATH + location + "/");
         if (!file.exists()) {
             file.mkdirs();
         }
-        file = new File(Constants.IMAMGE_CACHE_PATH + location + ".png");
+        file = new File(Constants.IMAGE_CACHE_PATH + location + ".png");
         return file.exists();
     }
 

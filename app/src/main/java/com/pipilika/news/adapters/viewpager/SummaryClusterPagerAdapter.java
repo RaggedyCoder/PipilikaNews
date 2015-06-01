@@ -11,7 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.pipilika.news.R;
@@ -30,9 +30,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class ClusterPagerAdapter extends PagerAdapter {
+public class SummaryClusterPagerAdapter extends PagerAdapter {
 
-    private static final String TAG = ClusterPagerAdapter.class.getSimpleName();
+    private static final String TAG = SummaryClusterPagerAdapter.class.getSimpleName();
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
     private String category;
     private LayoutInflater inflater;
@@ -42,7 +42,7 @@ public class ClusterPagerAdapter extends PagerAdapter {
 
     private Activity activity;
 
-    public ClusterPagerAdapter(Activity activity, List<ClusterPagerItem> clusterPagerItems, String category, String zipId, int positionInList) {
+    public SummaryClusterPagerAdapter(Activity activity, List<ClusterPagerItem> clusterPagerItems, String category, String zipId, int positionInList) {
         super();
         this.activity = activity;
         this.clusterPagerItems = clusterPagerItems;
@@ -68,7 +68,7 @@ public class ClusterPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, final int position) {
         final LayoutInflater inflater = (LayoutInflater) container.getContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View convertView = inflater.inflate(R.layout.cluster_pager_item, null);
+        final View convertView = inflater.inflate(R.layout.cluster_pager__fragment_item, null);
         ClusterPagerItem clusterPagerItem = clusterPagerItems.get(position);
         NewsImageView newsImageView = (NewsImageView) convertView.findViewById(R.id.news_image);
         if (checkCache(position)) {
@@ -108,7 +108,7 @@ public class ClusterPagerAdapter extends PagerAdapter {
             }
         });
         container.addView(convertView, 0);
-        ((LinearLayout) convertView).setGravity(Gravity.CENTER);
+        ((RelativeLayout) convertView).setGravity(Gravity.CENTER);
         return convertView;
     }
 

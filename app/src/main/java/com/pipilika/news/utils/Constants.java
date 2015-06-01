@@ -7,5 +7,5 @@ import android.os.Environment;
  */
 public interface Constants {
     String ZIP_CACHE_PATH = Environment.getExternalStorageDirectory() + "/Android/data/com.pipilika.news/clusters/";
-    String IMAMGE_CACHE_PATH = Environment.getExternalStorageDirectory() + "/Android/data/com.pipilika.news/images/";
+    String IMAGE_CACHE_PATH = Environment.getExternalStorageDirectory() + "/Android/data/com.pipilika.news/images/";
 }

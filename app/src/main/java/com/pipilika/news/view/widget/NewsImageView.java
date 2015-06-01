@@ -83,7 +83,7 @@ public class NewsImageView extends ImageView {
         ImageRequest imageRequest = new ImageRequest(mUrl, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap bitmap) {
-                File file = new File(Constants.IMAMGE_CACHE_PATH + mLocation + ".png");
+                File file = new File(Constants.IMAGE_CACHE_PATH + mLocation + ".png");
                 Log.e("TAG", file.getAbsolutePath());
                 FileOutputStream outStream = null;
                 try {
@@ -113,13 +113,13 @@ public class NewsImageView extends ImageView {
         mPosition = position;
         mZipId = zipId;
         mLocation = mZipId + "/" + mCategory + "/" + "cluster" + mPositionInList + "/" + mPosition;
-        File file = new File(Constants.IMAMGE_CACHE_PATH + mZipId + "/" + mCategory + "/" + "cluster" + mPositionInList + "/");
+        File file = new File(Constants.IMAGE_CACHE_PATH + mZipId + "/" + mCategory + "/" + "cluster" + mPositionInList + "/");
         return file.mkdirs();
     }
 
     private boolean createCacheFolder(String location) {
         mLocation = location;
-        File file = new File(Constants.IMAMGE_CACHE_PATH + mZipId + "/" + mCategory + "/" + "cluster" + mPositionInList + "/");
+        File file = new File(Constants.IMAGE_CACHE_PATH + mZipId + "/" + mCategory + "/" + "cluster" + mPositionInList + "/");
         return file.mkdirs();
     }
 

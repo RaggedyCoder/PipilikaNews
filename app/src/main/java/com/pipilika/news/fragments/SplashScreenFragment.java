@@ -94,17 +94,21 @@ public class SplashScreenFragment extends Fragment implements Response.Listener<
                     newZipFileRequest();
                 }
             } else {
-                File file = new File(Constants.IMAMGE_CACHE_PATH + appManager.getLatestNewsId());
-                Log.e("TAG", file.isDirectory() + " ");
-                FileUtils.deleteDirectory(file);
-                file = new File(Constants.IMAMGE_CACHE_PATH + appManager.getLatestNewsId() + ".zip");
-                FileUtils.forceDelete(file);
-                file = new File(Constants.IMAMGE_CACHE_PATH + appManager.getLatestNewsId() + ".txt");
-                FileUtils.forceDelete(file);
+                try {
+                    File file = new File(Constants.IMAGE_CACHE_PATH + appManager.getLatestNewsId());
+                    Log.e("TAG", file.isDirectory() + " ");
+                    FileUtils.deleteDirectory(file);
+                    file = new File(Constants.ZIP_CACHE_PATH + appManager.getLatestNewsId() + ".zip");
+                    FileUtils.forceDelete(file);
+                    file = new File(Constants.ZIP_CACHE_PATH + appManager.getLatestNewsId() + ".txt");
+                    FileUtils.forceDelete(file);
+                } catch (Exception e) {
+
+                }
                 appManager.setLatestNewsId(jsonObject.getString("latest_id"));
                 newZipFileRequest();
             }
-        } catch (JSONException | IOException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }

@@ -54,14 +54,12 @@ public class ClusterListAdapter extends BaseAdapter implements Response.ErrorLis
         holder = new ViewHolder();
         holder.clusterPager = (ViewPager) convertView.findViewById(R.id.cluster_pager);
         holder.clusterPager.setClipToPadding(false);
-        holder.clusterPager.setPageMargin((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, activity.getResources().getDisplayMetrics()));
-        convertView.setTag(holder);
-        holder.clusterPager.setPageMargin(15);
-        holder.clusterPager.setPageMargin(15);
+        holder.clusterPager.setPageMargin((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, activity.getResources().getDisplayMetrics()));
         holder.clusterPager.setClipChildren(false);
         ClusterListItem clusterListItem = clusterListItems.get(position);
         clusterPagerAdapter = new ClusterPagerAdapter(activity, clusterListItem.getNews(), clusterListItem.getCategory(), zipId, position);
         holder.clusterPager.setAdapter(clusterPagerAdapter);
+        convertView.setTag(holder);
         return convertView;
     }
 

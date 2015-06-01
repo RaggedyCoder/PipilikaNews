@@ -27,6 +27,7 @@ public class ZipDataSource {
 
     public ZipDataSource(Context context) {
         this.context = context;
+        database.beginTransaction();
         dbHelper = new DataBaseOpenHelper(this.context);
     }
 

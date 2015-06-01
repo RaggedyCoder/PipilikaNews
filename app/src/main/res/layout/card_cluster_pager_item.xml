@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/view"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_margin="5dp">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/news_paper_logo"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:src="#000000"
+                app:riv_oval="true" />
+
+            <com.pipilika.news.view.widget.CustomTextView
+                android:id="@+id/news_headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/news_paper_logo"
+                android:layout_toRightOf="@+id/news_paper_logo"
+                android:maxLines="4"
+                android:paddingLeft="2.5dip"
+                android:text="@string/dummy_summary"
+                android:textSize="16sp"
+                app:font="RobotoSlab-Regular.ttf" />
+
+            <com.pipilika.news.view.widget.CustomTextView
+                android:id="@+id/news_paper_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:text="The Daily Star"
+                android:textSize="14sp"
+                app:font="Roboto-Black.ttf" />
+
+            <com.pipilika.news.view.widget.CustomTextView
+                android:id="@+id/news_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/news_paper_name"
+                android:layout_marginRight="5dp"
+                android:layout_toEndOf="@+id/news_paper_name"
+                android:layout_toRightOf="@+id/news_paper_name"
+                android:gravity="end"
+                android:text="5 minutes Ago"
+                android:textSize="14sp"
+                app:font="Roboto-Black.ttf" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

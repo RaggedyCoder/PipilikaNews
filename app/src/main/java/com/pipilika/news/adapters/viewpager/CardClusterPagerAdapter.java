@@ -2,10 +2,8 @@ package com.pipilika.news.adapters.viewpager;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v4.view.PagerAdapter;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -13,27 +11,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.android.volley.toolbox.ImageLoader;
 import com.pipilika.news.R;
-import com.pipilika.news.activities.FullNewsActivity;
-import com.pipilika.news.application.AppController;
 import com.pipilika.news.items.viewpager.ClusterPagerItem;
-import com.pipilika.news.utils.Constants;
 import com.pipilika.news.view.widget.CustomTextView;
-import com.pipilika.news.view.widget.NewsImageView;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class ClusterPagerAdapter extends PagerAdapter {
+public class CardClusterPagerAdapter extends PagerAdapter {
 
-    private static final String TAG = ClusterPagerAdapter.class.getSimpleName();
-    ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+    private static final String TAG = CardClusterPagerAdapter.class.getSimpleName();
+    CardNewsOnClickListner mCardNewsOnClickListner;
     private String category;
     private LayoutInflater inflater;
     private List<ClusterPagerItem> clusterPagerItems;
@@ -42,9 +32,11 @@ public class ClusterPagerAdapter extends PagerAdapter {
 
     private Activity activity;
 
-    public ClusterPagerAdapter(Activity activity, List<ClusterPagerItem> clusterPagerItems, String category, String zipId, int positionInList) {
+    public CardClusterPagerAdapter(Activity activity, List<ClusterPagerItem> clusterPagerItems, String category, String zipId, int positionInList) {
         super();
         this.activity = activity;
+        if (activity instanceof CardNewsOnClickListner)
+            mCardNewsOnClickListner = (CardNewsOnClickListner) activity;
         this.clusterPagerItems = clusterPagerItems;
         Log.e("TAG", "" + clusterPagerItems.size());
         this.category = category;
@@ -64,51 +56,30 @@ public class ClusterPagerAdapter extends PagerAdapter {
         return view == object;
     }
 
+
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
         final LayoutInflater inflater = (LayoutInflater) container.getContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View convertView = inflater.inflate(R.layout.cluster_pager_item, null);
+        final View convertView = inflater.inflate(R.layout.card_cluster_pager_item, null);
         ClusterPagerItem clusterPagerItem = clusterPagerItems.get(position);
-        NewsImageView newsImageView = (NewsImageView) convertView.findViewById(R.id.news_image);
-        if (checkCache(position)) {
-            File file = new File(Constants.IMAGE_CACHE_PATH + zipId + "/" + category + "/" + "cluster" + positionInList + "/" + position + ".png");
-            FileInputStream fi = null;
-            try {
-                fi = new FileInputStream(file);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            Bitmap bitmap = BitmapFactory.decodeStream(fi);
-            newsImageView.setImageBitmap(bitmap);
-        } else {
-            newsImageView.setDrawingCacheEnabled(true);
-            newsImageView.setImageUrl(clusterPagerItem.getImage(), zipId, category, positionInList, position);
-        }
 
         CustomTextView headline = (CustomTextView) convertView.findViewById(R.id.news_headline);
         CustomTextView newsPaper = (CustomTextView) convertView.findViewById(R.id.news_paper_name);
-        CustomTextView tagText = (CustomTextView) convertView.findViewById(R.id.news_category);
-        CustomTextView newsSummary = (CustomTextView) convertView.findViewById(R.id.news_summary);
         CustomTextView newsTime = (CustomTextView) convertView.findViewById(R.id.news_time);
 
         headline.setText(clusterPagerItem.getHeadline());
         newsPaper.setText(clusterPagerItem.getBanglaname());
-        newsSummary.setText(clusterPagerItem.getSummary().replace('\n', ' '));
 
         newsTime.setText(getReadableDate(clusterPagerItem.getPublished_time()));
-        tagText.setText(category);
+        container.addView(convertView, 0);
+        ((LinearLayout) convertView).setGravity(Gravity.CENTER);
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity, FullNewsActivity.class);
-                intent.putExtra("news", clusterPagerItems.get(position));
-                intent.putExtra("location", zipId + "/" + category + "/" + "cluster" + positionInList + "/" + position);
-                activity.startActivity(intent);
+                mCardNewsOnClickListner.onCardItemClick(positionInList, position);
             }
         });
-        container.addView(convertView, 0);
-        ((LinearLayout) convertView).setGravity(Gravity.CENTER);
         return convertView;
     }
 
@@ -125,21 +96,8 @@ public class ClusterPagerAdapter extends PagerAdapter {
                 Log.e(TAG, e.getMessage());
             }
         }
-        SimpleDateFormat readableFormat = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss");
-        return readableFormat.format(date);
-
-
-    }
-
-    private boolean checkCache(int position) {
-        File file = new File(Constants.IMAGE_CACHE_PATH + zipId + "/" + category + "/" + "cluster" + positionInList + "/");
-        Log.e(TAG, file.getAbsolutePath());
-        if (!file.exists()) {
-            Log.e(TAG, "true");
-            file.mkdirs();
-        }
-        file = new File(Constants.IMAGE_CACHE_PATH + zipId + "/" + category + "/" + "cluster" + positionInList + "/" + position + ".png");
-        return file.exists();
+        return DateUtils.getRelativeTimeSpanString(
+                date.getTime(), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString().trim();
     }
 
     @Override
@@ -156,5 +114,9 @@ public class ClusterPagerAdapter extends PagerAdapter {
     @Override
     public void finishUpdate(ViewGroup container) {
         super.finishUpdate(container);
+    }
+
+    public interface CardNewsOnClickListner {
+        void onCardItemClick(int clusterLocation, int selectedNews);
     }
 }
