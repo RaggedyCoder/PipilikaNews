@@ -31,9 +31,9 @@ public class MainActivity extends AppCompatActivity implements CardClusterPagerA
 
     @Override
     public void onBackPressed() {
-        if (view != null & view.getVisibility() == View.VISIBLE) {
+        if (view != null && view.getVisibility() == View.VISIBLE) {
             view.setVisibility(View.GONE);
-            getSupportFragmentManager().beginTransaction().remove(newsSummaryFragment);
+            getSupportFragmentManager().beginTransaction().remove(newsSummaryFragment).commit();
         } else {
             super.onBackPressed();
         }

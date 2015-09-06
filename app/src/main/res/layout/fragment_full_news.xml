@@ -10,12 +10,13 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF">
 
         <ProgressBar
             android:id="@+id/progress_wheel"
             android:layout_width="fill_parent"
-            android:layout_height="200dp"
+            android:layout_height="@dimen/full_news_image_height"
             android:layout_alignTop="@+id/news_image"
             android:layout_centerHorizontal="true"
             android:layout_centerInParent="true"
@@ -25,7 +26,7 @@
         <com.pipilika.news.view.widget.NewsImageView
             android:id="@+id/news_image"
             android:layout_width="wrap_content"
-            android:layout_height="200dip"
+            android:layout_height="@dimen/full_news_image_height"
             android:layout_centerHorizontal="true"
             android:layout_gravity="top"
             android:gravity="top"
@@ -68,7 +69,8 @@
                     android:padding="10dp"
                     android:text="Metro News"
                     android:textColor="#ff002944"
-                    android:textSize="20sp" />
+                    android:textSize="@dimen/full_news_category_text"
+                    app:font="RobotoSlab-Light.ttf" />
 
                 <com.pipilika.news.view.widget.CustomTextView
                     android:id="@+id/news_headline"
@@ -77,8 +79,8 @@
                     android:padding="5dp"
                     android:text="Arsene Wenger perfectly trolled Chelsea with ‘1-0 is usual’ jibe after Arsenal v Reading clash"
                     android:textColor="#ff339aff"
-                    android:textSize="24sp"
-                    app:font="Roboto-Bold.ttf" />
+                    android:textSize="@dimen/full_news_headline_text"
+                    app:font="RobotoSlab-Regular.ttf" />
 
                 <RelativeLayout
                     android:layout_width="fill_parent"
@@ -94,7 +96,7 @@
                         android:padding="10dp"
                         android:text="Metro News"
                         android:textColor="#ff339aff"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/full_news_newspaper_text"
                         app:font="Roboto-Bold.ttf" />
 
                     <com.pipilika.news.view.widget.CustomTextView
@@ -106,7 +108,7 @@
                         android:gravity="end"
                         android:padding="10dp"
                         android:text="21 Apr 2015 10:49 am"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/full_news_news_time_text"
                         app:font="kalpurush.ttf" />
                 </RelativeLayout>
 
@@ -122,7 +124,7 @@
                     android:paddingRight="10dp"
                     android:text="Arsene Wenger’s Arsenal press conferences are boring at the best of times, with the Frenchman famed for his classic straight bat responses.Arsene Wenger’s Arsenal press conferences are boring at the best of times, with the Frenchman famed for his classic straight bat responses.Arsene Wenger’s Arsenal press conferences are boring at the best of times, with the Frenchman famed for his classic straight bat responses."
                     android:textColor="#333333"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/full_news_text"
                     app:font="kalpurush.ttf" />
             </LinearLayout>
         </LinearLayout>

@@ -22,6 +22,9 @@ import android.os.StrictMode;
 
 import com.pipilika.news.activities.MainActivity;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+
 
 /**
  * This class contains static utility methods.
@@ -139,6 +142,27 @@ public class Utils {
 
     public static boolean hasJB_MR1() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1;
+    }
+
+    public static void copyStream(InputStream is, OutputStream os) {
+        final int buffer_size = 1024;
+
+        try {
+
+            byte[] bytes = new byte[buffer_size];
+
+            for (; ; ) {
+
+                int count = is.read(bytes, 0, buffer_size);
+                if (count == -1) {
+                    break;
+                }
+
+                os.write(bytes, 0, count);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

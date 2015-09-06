@@ -3,28 +3,23 @@ package com.pipilika.news.adapters.viewpager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v4.view.PagerAdapter;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.android.volley.toolbox.ImageLoader;
 import com.pipilika.news.R;
 import com.pipilika.news.activities.FullNewsActivity;
-import com.pipilika.news.application.AppController;
 import com.pipilika.news.items.viewpager.ClusterPagerItem;
-import com.pipilika.news.utils.Constants;
+import com.pipilika.news.utils.BanglaTime;
+import com.pipilika.news.utils.ImageLoader;
 import com.pipilika.news.view.widget.CustomTextView;
-import com.pipilika.news.view.widget.NewsImageView;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,13 +28,14 @@ import java.util.List;
 public class ClusterPagerAdapter extends PagerAdapter {
 
     private static final String TAG = ClusterPagerAdapter.class.getSimpleName();
-    ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+
+
     private String category;
     private LayoutInflater inflater;
     private List<ClusterPagerItem> clusterPagerItems;
     private String zipId;
     private int positionInList;
-
+    private ImageLoader imageLoader;
     private Activity activity;
 
     public ClusterPagerAdapter(Activity activity, List<ClusterPagerItem> clusterPagerItems, String category, String zipId, int positionInList) {
@@ -51,6 +47,9 @@ public class ClusterPagerAdapter extends PagerAdapter {
         inflater = (LayoutInflater) this.activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.zipId = zipId;
         this.positionInList = positionInList;
+        imageLoader = new ImageLoader(activity.getApplicationContext());
+
+
     }
 
     @Override
@@ -68,36 +67,28 @@ public class ClusterPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, final int position) {
         final LayoutInflater inflater = (LayoutInflater) container.getContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View convertView = inflater.inflate(R.layout.cluster_pager_item, null);
+        final View convertView = inflater.inflate(R.layout.cluster_pager_item, container, false);
+
+        Log.e("View", (convertView.getVisibility() == View.VISIBLE) + "");
         ClusterPagerItem clusterPagerItem = clusterPagerItems.get(position);
-        NewsImageView newsImageView = (NewsImageView) convertView.findViewById(R.id.news_image);
-        if (checkCache(position)) {
-            File file = new File(Constants.IMAGE_CACHE_PATH + zipId + "/" + category + "/" + "cluster" + positionInList + "/" + position + ".png");
-            FileInputStream fi = null;
-            try {
-                fi = new FileInputStream(file);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            Bitmap bitmap = BitmapFactory.decodeStream(fi);
-            newsImageView.setImageBitmap(bitmap);
-        } else {
-            newsImageView.setDrawingCacheEnabled(true);
-            newsImageView.setImageUrl(clusterPagerItem.getImage(), zipId, category, positionInList, position);
+        ImageView newsImageView = (ImageView) convertView.findViewById(R.id.news_image);
+        ImageView newsPaperLogo = (ImageView) convertView.findViewById(R.id.news_paper_logo);
+        if ((convertView.getVisibility() == View.VISIBLE)) {
+            imageLoader.displayImage(clusterPagerItem.getImage(), newsImageView);
+            imageLoader.displayImage("http://www.google.com/s2/favicons?domain=" + clusterPagerItem.getUrl().split("/")[2], newsPaperLogo);
         }
 
         CustomTextView headline = (CustomTextView) convertView.findViewById(R.id.news_headline);
         CustomTextView newsPaper = (CustomTextView) convertView.findViewById(R.id.news_paper_name);
-        CustomTextView tagText = (CustomTextView) convertView.findViewById(R.id.news_category);
         CustomTextView newsSummary = (CustomTextView) convertView.findViewById(R.id.news_summary);
         CustomTextView newsTime = (CustomTextView) convertView.findViewById(R.id.news_time);
 
+        Log.e("url", clusterPagerItem.getUrl().split("/")[2]);
         headline.setText(clusterPagerItem.getHeadline());
         newsPaper.setText(clusterPagerItem.getBanglaname());
         newsSummary.setText(clusterPagerItem.getSummary().replace('\n', ' '));
 
         newsTime.setText(getReadableDate(clusterPagerItem.getPublished_time()));
-        tagText.setText(category);
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,21 +116,9 @@ public class ClusterPagerAdapter extends PagerAdapter {
                 Log.e(TAG, e.getMessage());
             }
         }
-        SimpleDateFormat readableFormat = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss");
-        return readableFormat.format(date);
-
-
-    }
-
-    private boolean checkCache(int position) {
-        File file = new File(Constants.IMAGE_CACHE_PATH + zipId + "/" + category + "/" + "cluster" + positionInList + "/");
-        Log.e(TAG, file.getAbsolutePath());
-        if (!file.exists()) {
-            Log.e(TAG, "true");
-            file.mkdirs();
-        }
-        file = new File(Constants.IMAGE_CACHE_PATH + zipId + "/" + category + "/" + "cluster" + positionInList + "/" + position + ".png");
-        return file.exists();
+        CharSequence readableFormat = DateUtils.getRelativeTimeSpanString(
+                date.getTime(), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
+        return BanglaTime.getBanglaTime(readableFormat).toString();
     }
 
     @Override

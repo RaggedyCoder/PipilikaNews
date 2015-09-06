@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:newsimage="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="450dp"
         android:background="@drawable/cluster_pager_item_background"
         android:orientation="vertical">
 
@@ -18,81 +17,84 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text="Headline"
-            android:textColor="#ff339aff"
-            android:textSize="17sp"
-            app:font="Roboto-Black.ttf" />
+            android:textColor="#ff2a7acd"
+            android:textSize="@dimen/summary_headline_text"
+            app:font="RobotoSlab-Regular.ttf" />
 
-        <ProgressBar
-            android:id="@+id/progress_wheel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/news_image"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="48dp" />
 
-        <com.pipilika.news.view.widget.NewsImageView
+        <ImageView
             android:id="@+id/news_image"
             android:layout_width="fill_parent"
-            android:layout_height="140dip"
+            android:layout_height="@dimen/summary_news_image"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/news_category"
+            android:layout_below="@+id/news_headline"
             android:layout_margin="5dp"
             android:background="#00000000"
-            android:scaleType="fitCenter"
-            newsimage:loaderViewId="@+id/progress_wheel" />
-
-        <com.pipilika.news.view.widget.CustomTextView
-            android:id="@+id/news_category"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/news_headline"
-            android:background="#ff2c4171"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="Entertainment"
-            android:textColor="#ffffff"
-            android:textSize="15sp"
-            app:font="Roboto-Bold.ttf" />
-
-        <com.pipilika.news.view.widget.CustomTextView
-            android:id="@+id/news_paper_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:scaleType="fitCenter" />
+        <!--newsimage:loaderViewId="@+id/progress_wheel"-->
+        <ImageView
+            android:id="@+id/news_paper_logo"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/news_image"
-            android:layout_marginBottom="10dp"
-            android:paddingLeft="10dip"
-            android:text="Metro News"
-            android:textColor="#ff004f9b"
-            android:textSize="14sp"
-            app:font="Roboto-Regular.ttf" />
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dip"
+            android:src="#ff2a7acd" />
+
+        <LinearLayout
+            android:id="@+id/holder"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_alignBottom="@+id/news_paper_logo"
+            android:layout_alignTop="@+id/news_paper_logo"
+            android:layout_toEndOf="@+id/news_paper_logo"
+            android:layout_toRightOf="@+id/news_paper_logo"
+            android:gravity="center|start"
+            android:orientation="vertical">
+
+            <com.pipilika.news.view.widget.CustomTextView
+                android:id="@+id/news_paper_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center|start"
+                android:paddingLeft="10dip"
+                android:text="Metro News"
+                android:textColor="#ff004f9b"
+                android:textSize="@dimen/summary_newspaper_name_text"
+                app:font="Roboto-Regular.ttf" />
+
+
+        </LinearLayout>
 
         <com.pipilika.news.view.widget.CustomTextView
             android:id="@+id/news_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/news_image"
-            android:paddingRight="20dip"
+            android:layout_alignEnd="@+id/news_image"
+            android:layout_alignRight="@+id/news_image"
+            android:layout_alignTop="@+id/holder"
+            android:paddingRight="10dip"
             android:text="12-12-12"
-            android:textSize="12sp"
+            android:textColor="#ff004f9b"
+            android:textSize="@dimen/summary_news_time_text"
             app:font="Roboto-Light.ttf" />
 
         <com.pipilika.news.view.widget.CustomTextView
             android:id="@+id/news_summary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/news_paper_name"
+            android:layout_below="@+id/holder"
             android:layout_centerHorizontal="true"
-            android:maxLength="400"
+            android:maxLines="12"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
+            android:paddingTop="5dip"
             android:text="@string/dummy_summary"
             android:textColor="#333333"
-            android:textSize="12sp"
+            android:textSize="@dimen/summary_text"
             app:font="kalpurush.ttf" />
     </RelativeLayout>
 </LinearLayout>

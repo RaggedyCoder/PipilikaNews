@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.nineoldandroids.view.ViewHelper;
 import com.pipilika.news.R;
 import com.pipilika.news.appdata.AppManager;
 import com.pipilika.news.items.viewpager.ClusterPagerItem;
+import com.pipilika.news.utils.BanglaTime;
 import com.pipilika.news.utils.Constants;
 import com.pipilika.news.view.widget.CustomTextView;
 import com.pipilika.news.view.widget.NewsImageView;
@@ -148,10 +150,16 @@ public class FullNewsFragment extends Fragment {
         try {
             date = nonReadableFormat.parse(published_time);
         } catch (ParseException e) {
-            e.printStackTrace();
+            nonReadableFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+            try {
+                date = nonReadableFormat.parse(published_time);
+            } catch (ParseException e1) {
+                Log.e(TAG, e.getMessage());
+            }
         }
-        SimpleDateFormat readableFormat = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss");
-        return readableFormat.format(date);
+        CharSequence readableFormat = DateUtils.getRelativeTimeSpanString(
+                date.getTime(), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
+        return BanglaTime.getBanglaTime(readableFormat).toString();
     }
 
     private boolean checkCache() {

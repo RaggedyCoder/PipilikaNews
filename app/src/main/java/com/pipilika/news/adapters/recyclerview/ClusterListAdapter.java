@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.pipilika.news.R;
-import com.pipilika.news.adapters.viewpager.CardClusterPagerAdapter;
+import com.pipilika.news.adapters.viewpager.ClusterPagerAdapter;
 import com.pipilika.news.items.listview.ClusterListItem;
 
 import java.util.List;
@@ -34,7 +34,7 @@ public class ClusterListAdapter extends RecyclerView.Adapter<ClusterListAdapter.
         if (inflater == null) {
             inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
-        View rootView = inflater.inflate(R.layout.card_cluster_list_item, parent, false);
+        View rootView = inflater.inflate(R.layout.cluster_list_item, parent, false);
         return new ViewHolder(rootView, activity);
     }
 
@@ -42,9 +42,9 @@ public class ClusterListAdapter extends RecyclerView.Adapter<ClusterListAdapter.
     public void onBindViewHolder(final ViewHolder holder, int position) {
         if (clusterListItems != null) {
             ClusterListItem clusterListItem = clusterListItems.get(position);
-            CardClusterPagerAdapter clusterPagerAdapter = new CardClusterPagerAdapter(activity, clusterListItem.getNews(), clusterListItem.getCategory(), zipId, position);
+            ClusterPagerAdapter clusterPagerAdapter = new ClusterPagerAdapter(activity, clusterListItem.getNews(), clusterListItem.getCategory(), zipId, position);
+            //CardClusterPagerAdapter clusterPagerAdapter = new CardClusterPagerAdapter(activity, clusterListItem.getNews(), clusterListItem.getCategory(), zipId, position);
             holder.clusterPager.setAdapter(clusterPagerAdapter);
-            holder.clusterPager.setCurrentItem(2, true);
             holder.clusterPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

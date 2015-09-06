@@ -44,7 +44,7 @@ public class SplashScreenFragment extends Fragment implements Response.Listener<
     AlertDialog alertDialog;
     private AppManager appManager;
     private CustomTextView loadingTitle;
-    private String url = "http://pipilika.com:60283/RecentNewsCluster/GetLatestNews";
+    private String url = "http://pipilika.com:60283/RecentNewsClusterEngine/GetLatestNews";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -114,7 +114,7 @@ public class SplashScreenFragment extends Fragment implements Response.Listener<
     }
 
     private void jsonObjectRequest() {
-        url = "http://pipilika.com:60283/RecentNewsCluster/GetLatestNews";
+        url = "http://pipilika.com:60283/RecentNewsClusterEngine/GetLatestNews";
         if (!appManager.getLatestNewsId().equals("0")) {
             url += "?id=" + appManager.getLatestNewsId();
         }
@@ -126,7 +126,7 @@ public class SplashScreenFragment extends Fragment implements Response.Listener<
         HashMap<String, String> params = new HashMap<>();
         params.put("id", appManager.getLatestNewsId());
         loadingTitle.setText("Downloading News Content");
-        url = "http://pipilika.com:60283/RecentNewsCluster/TransferZipFile?id=" + params.get("id");
+        url = "http://pipilika.com:60283/RecentNewsClusterEngine/TransferZipFile?id=" + params.get("id");
         Log.e("URL", url);
         ZipRequest zipRequest = new ZipRequest(Request.Method.GET, url, params, new Response.Listener<ZipFile>() {
             @Override
