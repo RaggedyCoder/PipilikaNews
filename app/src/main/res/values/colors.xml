@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--flat button-->
+    <color name="flat_button_normal">#00F4F5F6</color>
+    <color name="flat_button_pressed">#44000000</color>
+    <color name="flat_button_hovered">#66000000</color>
+    <color name="flat_button_focused">#33000000</color>
+    <color name="flat_button_selected">#88000000</color>
+    <!--grey button-->
+    <color name="grey_button_normal">#898989</color>
+    <color name="grey_button_pressed">#787272</color>
+    <color name="grey_button_hovered">#b7b7b7</color>
+    <color name="grey_button_focused">#b7b7b7</color>
+    <color name="grey_button_selected">#b7b0b0</color>
+
+    <color name="card_light_background">#f7f7f7</color>
+    <!-- Background color for dark CardView. -->
+    <color name="card_dark_background">#424242</color>
+
+    <color name="colorPrimary">#FF4285F4</color>
+    <color name="nightColorPrimary">#B6E057</color>
+    <color name="colorPrimaryDark">#2e5bb5</color>
+    <color name="nightColorPrimaryDark">#87af2c</color>
+
+    <color name="titleTextColor">#1a1a1a</color>
+    <color name="nightTitleTextColor">#eaeaea</color>
+
+</resources>

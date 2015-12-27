@@ -3,18 +3,21 @@ package com.pipilika.news.activities;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.asha.nightowllib.NightOwl;
 import com.pipilika.news.R;
 import com.pipilika.news.appdata.AppManager;
 import com.pipilika.news.fragments.FullNewsFragment;
 import com.pipilika.news.items.viewpager.ClusterPagerItem;
+import com.pipilika.news.utils.Utils;
 
 public class FullNewsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        NightOwl.owlBeforeCreate(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.full_news_activity);
-
+        setContentView(R.layout.activity_full_news);
+        NightOwl.owlAfterCreate(this);
         if (savedInstanceState == null) {
             String location = getIntent().getExtras().getString("location");
             ClusterPagerItem clusterPagerItem = getIntent().getExtras().getParcelable("news");
@@ -26,9 +29,19 @@ public class FullNewsActivity extends AppCompatActivity {
                     break;
                 temp += location.charAt(i);
             }
+            if (Utils.hasLollipop()) {
+                int color = appManager.getAppThemeMode() == 0 ? R.color.colorPrimaryDark : R.color.nightColorPrimaryDark;
+                getWindow().setStatusBarColor(getResources().getColor(color));
+            }
             //getSupportActionBar().setTitle(temp);
             FullNewsFragment fullNewsFragment = FullNewsFragment.newInstance(location, clusterPagerItem);
             getSupportFragmentManager().beginTransaction().add(R.id.container, fullNewsFragment).commit();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        NightOwl.owlResume(this);
     }
 }

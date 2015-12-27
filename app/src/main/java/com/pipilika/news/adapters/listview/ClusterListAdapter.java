@@ -50,7 +50,8 @@ public class ClusterListAdapter extends BaseAdapter implements Response.ErrorLis
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
-        convertView = inflater.inflate(R.layout.cluster_list_item, parent, false);
+        if (convertView == null)
+            convertView = inflater.inflate(R.layout.cluster_list_item, parent, false);
         holder = new ViewHolder();
         holder.clusterPager = (ViewPager) convertView.findViewById(R.id.cluster_pager);
         holder.clusterPager.setClipToPadding(false);

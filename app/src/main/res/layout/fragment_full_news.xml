@@ -1,142 +1,156 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:newsimage="http://schemas.android.com/apk/res-auto"
-    xmlns:paddingview="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="#FFFFFF"
-    android:orientation="vertical">
+    xmlns:paddingview="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <import type="com.pipilika.news.items.viewpager.ClusterPagerItem" />
+
+        <variable
+            name="news"
+            type="ClusterPagerItem" />
+    </data>
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFF">
-
-        <ProgressBar
-            android:id="@+id/progress_wheel"
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/full_news_image_height"
-            android:layout_alignTop="@+id/news_image"
-            android:layout_centerHorizontal="true"
-            android:layout_centerInParent="true"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="48dp" />
-
-        <com.pipilika.news.view.widget.NewsImageView
-            android:id="@+id/news_image"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/full_news_image_height"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="top"
-            android:gravity="top"
-            android:paddingTop="5dp"
-            android:scaleType="fitCenter"
-            newsimage:loaderViewId="@+id/progress_wheel" />
-    </RelativeLayout>
-
-    <ScrollView
-        android:id="@+id/scroll_view"
+        style="@style/background"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#00000000">
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="#00000000"
-            android:orientation="vertical">
 
-            <com.pipilika.news.view.widget.PaddingView
-                android:id="@+id/padding_view"
-                android:layout_width="fill_parent"
+        <RelativeLayout
+            android:id="@+id/news_headline_image_container"
+            style="@style/background"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/full_news_holder_height">
+
+            <com.pipilika.news.view.widget.CustomTextView
+                android:id="@+id/news_headline"
+                style="@style/HeadlineText"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#004285F4"
-                paddingview:viewId="@+id/news_image" />
+                android:layout_marginTop="@dimen/floating_circle_width"
+                android:padding="5dp"
+                android:text="@{news.headline}"
+                android:textSize="@dimen/full_news_headline_text"
+                app:font="RobotoSlab-Regular.ttf" />
+
+            <ImageView
+                android:id="@+id/news_image"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/full_news_image_height"
+                android:layout_below="@+id/news_headline"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="top"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="top"
+                android:paddingTop="5dp"
+                android:scaleType="fitCenter"
+                app:imageUrl="@{news.imageUrl}" />
+        </RelativeLayout>
+
+        <ScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="#FFFFFF"
+                android:background="#00000000"
                 android:orientation="vertical">
 
-                <com.pipilika.news.view.widget.CustomTextView
-                    android:id="@+id/news_category"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:padding="10dp"
-                    android:text="Metro News"
-                    android:textColor="#ff002944"
-                    android:textSize="@dimen/full_news_category_text"
-                    app:font="RobotoSlab-Light.ttf" />
-
-                <com.pipilika.news.view.widget.CustomTextView
-                    android:id="@+id/news_headline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="Arsene Wenger perfectly trolled Chelsea with ‘1-0 is usual’ jibe after Arsenal v Reading clash"
-                    android:textColor="#ff339aff"
-                    android:textSize="@dimen/full_news_headline_text"
-                    app:font="RobotoSlab-Regular.ttf" />
-
-                <RelativeLayout
+                <com.pipilika.news.view.widget.PaddingView
+                    android:id="@+id/padding_view"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:background="#004285F4"
+                    paddingview:viewId="@+id/news_headline_image_container" />
 
-                    <com.pipilika.news.view.widget.CustomTextView
-                        android:id="@+id/news_paper_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:padding="10dp"
-                        android:text="Metro News"
-                        android:textColor="#ff339aff"
-                        android:textSize="@dimen/full_news_newspaper_text"
-                        app:font="Roboto-Bold.ttf" />
-
-                    <com.pipilika.news.view.widget.CustomTextView
-                        android:id="@+id/news_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:gravity="end"
-                        android:padding="10dp"
-                        android:text="21 Apr 2015 10:49 am"
-                        android:textSize="@dimen/full_news_news_time_text"
-                        app:font="kalpurush.ttf" />
-                </RelativeLayout>
-
-
-                <com.pipilika.news.view.widget.CustomTextView
-                    android:id="@+id/news_content"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    style="@style/fullNewsBackground"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/news_image"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="Arsene Wenger’s Arsenal press conferences are boring at the best of times, with the Frenchman famed for his classic straight bat responses.Arsene Wenger’s Arsenal press conferences are boring at the best of times, with the Frenchman famed for his classic straight bat responses.Arsene Wenger’s Arsenal press conferences are boring at the best of times, with the Frenchman famed for his classic straight bat responses."
-                    android:textColor="#333333"
-                    android:textSize="@dimen/full_news_text"
-                    app:font="kalpurush.ttf" />
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:padding="10dp">
+
+                                <ImageView
+                                    android:id="@+id/news_paper_logo"
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp"
+                                    app:favIcon="@{news.url}" />
+
+                                <com.pipilika.news.view.widget.CustomTextView
+                                    android:id="@+id/news_paper_name"
+                                    style="@style/fullNewsPaperTitle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dip"
+                                    android:layout_marginStart="10dip"
+                                    android:text="@{news.paperNameBangla!=null?news.paperNameBangla:news.paperName}"
+                                    android:textSize="@dimen/full_news_newspaper_text"
+                                    app:font="Roboto-Bold.ttf" />
+                            </LinearLayout>
+
+
+                            <com.pipilika.news.view.widget.CustomTextView
+                                android:id="@+id/news_time"
+                                style="@style/HeadlineText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:gravity="end"
+                                android:padding="10dp"
+                                android:textSize="@dimen/full_news_news_time_text"
+                                app:font="kalpurush.ttf"
+                                app:newsTime="@{news.publishedTime}" />
+                        </RelativeLayout>
+
+                        <com.pipilika.news.view.widget.CustomTextView
+                            android:id="@+id/news_content"
+                            style="@style/summaryText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="@{news.content}"
+                            android:textSize="@dimen/full_news_text"
+                            app:font="kalpurush.ttf" />
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
 
-    </ScrollView>
+        </ScrollView>
 
-    <ImageButton
-        android:id="@+id/back"
-        android:layout_width="@dimen/floating_circle_width"
-        android:layout_height="@dimen/floating_circle_height"
-        android:layout_margin="6dp"
-        android:background="@drawable/floating_circle"
-        android:src="@drawable/abc_ic_ab_back_mtrl_am_alpha" />
+        <ImageButton
+            android:id="@+id/back"
+            style="@style/floatingCircle"
+            android:layout_width="@dimen/floating_circle_width"
+            android:layout_height="@dimen/floating_circle_height"
+            android:layout_margin="6dp"
+            android:src="@drawable/abc_ic_ab_back_mtrl_am_alpha" />
 
-</RelativeLayout>
+    </RelativeLayout>
+</layout>

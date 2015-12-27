@@ -24,7 +24,9 @@ public class NumericalExchange {
     private static final char B_9 = '৯';
 
     public static String toBanglaNumerical(int time) {
-        return toBanglaNumerical(Integer.toString(time));
+        String timeString = Integer.toString(time);
+        timeString = timeString.length() == 1 ? "0" + timeString : timeString;
+        return toBanglaNumerical(timeString);
     }
 
     public static String toBanglaNumerical(String digits) {

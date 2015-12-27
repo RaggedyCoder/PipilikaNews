@@ -28,6 +28,7 @@ public class Utf8JsonRequest extends JsonRequest<JSONObject> {
     protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
         try {
             String utf8String = new String(response.data, "UTF-8");
+            Log.e("TAG", utf8String);
             return Response.success(new JSONObject(utf8String), HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException | JSONException e) {
             Log.e(TAG, e.getMessage());

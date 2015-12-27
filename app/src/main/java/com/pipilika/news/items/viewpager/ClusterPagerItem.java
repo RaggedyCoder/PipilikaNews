@@ -3,6 +3,8 @@ package com.pipilika.news.items.viewpager;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ClusterPagerItem extends PagerItem implements Parcelable {
     public static final Parcelable.Creator<ClusterPagerItem> CREATOR = new Parcelable.Creator<ClusterPagerItem>() {
         public ClusterPagerItem createFromParcel(Parcel in) {
@@ -15,11 +17,15 @@ public class ClusterPagerItem extends PagerItem implements Parcelable {
     };
     private String headline;
     private String summary;
-    private String published_time;
+    @SerializedName("published_time")
+    private String publishedTime;
     private String content;
-    private String image;
-    private String papername;
-    private String banglaname;
+    @SerializedName("image")
+    private String imageUrl;
+    @SerializedName("papername")
+    private String paperName;
+    @SerializedName("banglaname")
+    private String paperNameBangla;
     private String url;
 
     public ClusterPagerItem() {
@@ -27,26 +33,26 @@ public class ClusterPagerItem extends PagerItem implements Parcelable {
 
     }
 
-    public ClusterPagerItem(String headline, String summary, String published_time, String content, String image, String papername, String banglaname, String url) {
+    public ClusterPagerItem(String headline, String summary, String publishedTime, String content, String imageUrl, String paperName, String paperNameBangla, String url) {
         this.headline = headline;
         this.summary = summary;
-        this.published_time = published_time;
+        this.publishedTime = publishedTime;
         this.content = content;
-        this.image = image;
-        this.papername = papername;
-        this.banglaname = banglaname;
+        this.imageUrl = imageUrl;
+        this.paperName = paperName;
+        this.paperNameBangla = paperNameBangla;
         this.url = url;
     }
 
     public ClusterPagerItem(Parcel in) {
-        headline = in.readString();
-        summary = in.readString();
-        published_time = in.readString();
-        content = in.readString();
-        image = in.readString();
-        papername = in.readString();
-        banglaname = in.readString();
-        url = in.readString();
+        setHeadline(in.readString());
+        setSummary(in.readString());
+        setPublishedTime(in.readString());
+        setContent(in.readString());
+        setImageUrl(in.readString());
+        setPaperName(in.readString());
+        setPaperNameBangla(in.readString());
+        setUrl(in.readString());
     }
 
     public String getUrl() {
@@ -57,28 +63,28 @@ public class ClusterPagerItem extends PagerItem implements Parcelable {
         this.url = url;
     }
 
-    public String getBanglaname() {
-        return banglaname;
+    public String getPaperNameBangla() {
+        return paperNameBangla;
     }
 
-    public void setBanglaname(String banglaname) {
-        this.banglaname = banglaname;
+    public void setPaperNameBangla(String paperNameBangla) {
+        this.paperNameBangla = paperNameBangla;
     }
 
-    public String getPapername() {
-        return papername;
+    public String getPaperName() {
+        return paperName;
     }
 
-    public void setPapername(String papername) {
-        this.papername = papername;
+    public void setPaperName(String paperName) {
+        this.paperName = paperName;
     }
 
-    public String getImage() {
-        return image;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getContent() {
@@ -89,12 +95,12 @@ public class ClusterPagerItem extends PagerItem implements Parcelable {
         this.content = content;
     }
 
-    public String getPublished_time() {
-        return published_time;
+    public String getPublishedTime() {
+        return publishedTime;
     }
 
-    public void setPublished_time(String published_time) {
-        this.published_time = published_time;
+    public void setPublishedTime(String publishedTime) {
+        this.publishedTime = publishedTime;
     }
 
     public String getSummary() {
@@ -122,11 +128,11 @@ public class ClusterPagerItem extends PagerItem implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.getHeadline());
         dest.writeString(this.getSummary());
-        dest.writeString(this.getPublished_time());
+        dest.writeString(this.getPublishedTime());
         dest.writeString(this.getContent());
-        dest.writeString(this.getImage());
-        dest.writeString(this.getPapername());
-        dest.writeString(this.getBanglaname());
+        dest.writeString(this.getImageUrl());
+        dest.writeString(this.getPaperName());
+        dest.writeString(this.getPaperNameBangla());
         dest.writeString(this.getUrl());
     }
 }

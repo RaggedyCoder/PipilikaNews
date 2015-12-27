@@ -119,7 +119,7 @@ public class ImageLoader {
             int width_tmp = o.outWidth, height_tmp = o.outHeight;
             int scale = 1;
 
-            while (true) {
+            /*while (true) {
                 if (width_tmp / 2 < REQUIRED_SIZE
                         || height_tmp / 2 < REQUIRED_SIZE) {
                     break;
@@ -128,7 +128,7 @@ public class ImageLoader {
                 width_tmp /= 2;
                 height_tmp /= 2;
                 scale *= 2;
-            }
+            }*/
 
             BitmapFactory.Options o2 = new BitmapFactory.Options();
             o2.inSampleSize = scale;

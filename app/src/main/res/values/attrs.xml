@@ -36,4 +36,13 @@
         <attr name="matProg_barWidth" format="dimension" />
         <attr name="matProg_linearProgress" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="nightModeToolbar">
+        <attr name="nightTitleTextColor" format="color|reference" />
+        <attr name="nightPopupTheme" format="color|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="nightModeCardView">
+        <attr name="nightCardBackgroundColor" format="color" />
+    </declare-styleable>
 </resources>

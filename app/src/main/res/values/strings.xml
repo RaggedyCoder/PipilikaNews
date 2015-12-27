@@ -1,9 +1,18 @@
 <resources>
-    <string name="app_name">PipilikaNews</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_full_news">FullNewsActivity</string>
+    <string name="app_name" translatable="false">পিপীলিকা সাম্প্রতিক সংবাদ</string>
+    <string name="hello_world">স্বাগতম দুনিয়া!</string>
+    <string name="action_old_news" translatable="false">পুরোন খবর</string>
+    <string name="action_tutorial" translatable="false">টিউটোরিয়াল</string>
+    <string name="title_activity_full_news">পূর্ণাঙ্গ খবর</string>
+    <string name="no_internet_connection">দুঃখিত এই মুহুর্তে ইন্টার্নেটের সাথে সংযোগ সম্ভব হয়নি।ইন্টার্নেট কানেকশনটি দেখুন এবং আবারও চেষ্টা করুন।</string>
     <string name="dummy_summary">Arsene Wenger’s Arsenal press conferences are boring at the best of times, with the Frenchman famed for his classic straight bat responses.Arsene Wenger’s Arsenal press conferences are boring at the best of times, with the Frenchman famed for his classic straight bat responses.Arsene Wenger’s Arsenal press conferences are boring at the best of times, with theArsene Wenger’s Arsenal press conferences are boring at the best of times, with the Frenchman famed for his classic straight bat responses.Arsene Wenger’s Arsenal press conferences are boring at the best of times, with the Frenchman famed for his classic straight bat responses.Arsene Wenger’s Arsenal press conferences are boring at the best of times, with the Frenchman famed for his classic straight bat responses.Arsene Wenger’s Arsenal press conferences are boring at the best of times, with the Frenchman famed for his classic straight bat responses.Arsene Wenger’s Arsenal press conferences are boring at the best of times, with the Frenchman famed for his classic straight bat responses.Arsene Wenger’s Arsenal press conferences are boring at the best of times, with the Frenchman famed for his classic straight bat responses.Theme.AppCompat.Light.NoActionBar</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="server_news_check_message">খবরের প্রাপ্যতা দেখা হচ্ছে&#8230;</string>
+    <string name="cancel">বাতিল</string>
+    <string name="try_again">পুনরায় চেষ্টা</string>
+    <string name="skip" translatable="false">প্রস্থান</string>
+    <string name="next" translatable="false">পরবর্তী</string>
+    <string name="done" translatable="false">সম্পন্ন করুন</string>
+    <string name="action_about" translatable="false">সম্পর্কে</string>
+    <string name="action_night_mode" translatable="false">নাইট মোড</string>
+    <string name="downloading_news_content">খবর নামানো হচ্ছে। &#8230;</string>
 </resources>

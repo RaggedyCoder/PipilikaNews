@@ -12,22 +12,26 @@ public class FileCache {
     public FileCache(Context context) {
 
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            cacheDir = new File(Environment.getExternalStorageDirectory() + "/com.pipilika.news", "cache");
+            cacheDir = new File(Constants.IMAGE_CACHE_PATH, "cache");
         } else {
             cacheDir = context.getCacheDir();
         }
 
         if (!cacheDir.exists()) {
-            cacheDir.mkdirs();
+            makeDirectories();
         }
     }
 
+    private boolean makeDirectories() {
+        return cacheDir.mkdirs();
+    }
+
+    private boolean deleteFile(File file) {
+        return file.delete();
+    }
+
     public File getFile(String url) {
-
-        String filename = String.valueOf(url.hashCode());
-
-        File f = new File(cacheDir, filename);
-        return f;
+        return new File(cacheDir, String.valueOf(url.hashCode()));
     }
 
     public void clear() {
@@ -36,8 +40,9 @@ public class FileCache {
             return;
         }
 
-        for (File f : files) {
-            f.delete();
+        for (File file : files) {
+            deleteFile(file);
+
         }
     }
 }

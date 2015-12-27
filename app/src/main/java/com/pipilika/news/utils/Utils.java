@@ -144,6 +144,14 @@ public class Utils {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1;
     }
 
+    public static boolean hasLollipop() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    }
+
+    public static String newsFileName(String fileName) {
+        return String.format("%s%s.txt", Constants.ZIP_CACHE_PATH, fileName);
+    }
+
     public static void copyStream(InputStream is, OutputStream os) {
         final int buffer_size = 1024;
 

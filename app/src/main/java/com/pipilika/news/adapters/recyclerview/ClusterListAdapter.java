@@ -9,9 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.asha.nightowllib.NightOwl;
 import com.pipilika.news.R;
 import com.pipilika.news.adapters.viewpager.ClusterPagerAdapter;
 import com.pipilika.news.items.listview.ClusterListItem;
+import com.pipilika.news.view.widget.CustomCardView;
 
 import java.util.List;
 
@@ -45,24 +47,7 @@ public class ClusterListAdapter extends RecyclerView.Adapter<ClusterListAdapter.
             ClusterPagerAdapter clusterPagerAdapter = new ClusterPagerAdapter(activity, clusterListItem.getNews(), clusterListItem.getCategory(), zipId, position);
             //CardClusterPagerAdapter clusterPagerAdapter = new CardClusterPagerAdapter(activity, clusterListItem.getNews(), clusterListItem.getCategory(), zipId, position);
             holder.clusterPager.setAdapter(clusterPagerAdapter);
-            holder.clusterPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                    if (position == holder.clusterPager.getAdapter().getCount() - 1) {
-                        holder.clusterPager.setPageMarginDrawable(R.drawable.background);
-                    }
-                }
 
-                @Override
-                public void onPageSelected(int position) {
-
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-
-                }
-            });
         }
     }
 
@@ -71,14 +56,22 @@ public class ClusterListAdapter extends RecyclerView.Adapter<ClusterListAdapter.
         return clusterListItems.size();
     }
 
+    public void setItems(List<ClusterListItem> clusterListItems) {
+        this.clusterListItems = clusterListItems;
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private static final int CLUSTER_PAGER_ID = R.id.cluster_pager;
         private ViewPager clusterPager;
         private Activity activity;
+        private CustomCardView cardView;
 
         public ViewHolder(View convertView, Activity activity) {
             super(convertView);
+            cardView = (CustomCardView) convertView.findViewById(R.id.card_view);
+            NightOwl.owlRegisterCustom(cardView);
             clusterPager = (ViewPager) convertView.findViewById(CLUSTER_PAGER_ID);
             clusterPager.setClipToPadding(false);
             this.activity = activity;

@@ -2,10 +2,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:wheel="http://schemas.android.com/apk/res-auto"
+    style="@style/splashBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00F700"
     android:orientation="vertical">
+
+    <com.pipilika.news.view.widget.CustomTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/title"
+        android:layout_centerHorizontal="true"
+        android:text="পিপীলিকা"
+        android:textColor="#ED504F"
+        android:textSize="40sp"
+        app:font="Roboto-Light.ttf" />
 
     <com.pipilika.news.view.widget.CustomTextView
         android:id="@+id/title"
@@ -13,19 +23,18 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/imageView"
         android:layout_centerHorizontal="true"
-        android:text="Pipilika News"
+        android:text="সাম্প্রতিক সংবাদ"
         android:textColor="#ED504F"
         android:textSize="40sp"
         app:font="Roboto-Light.ttf" />
 
     <com.pipilika.news.view.widget.CustomTextView
         android:id="@+id/loading_title"
+        style="@style/fullNewsPaperTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/view3"
         android:layout_centerHorizontal="true"
-        android:text="Pipilika News"
-        android:textColor="#ff002944"
         android:textSize="14sp"
         app:font="Roboto-Regular.ttf" />
 

@@ -1,26 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-        <shape android:shape="rectangle">
-            <corners
-                android:topLeftRadius="2.0dip"
-                android:topRightRadius="2.0dip" />
-            <solid android:color="#ffd4d4d4" />
-            <padding
-                android:bottom="1dip"
-                android:left="1dip"
-                android:right="1dip"
-                android:top="1dip" />
-        </shape>
-    </item>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item>
-        <shape android:shape="rectangle">
-            <corners
-                android:topLeftRadius="2.0dip"
-                android:topRightRadius="2.0dip" />
-            <solid android:color="#fff4f4f4" />
-        </shape>
-    </item>
+    <item android:drawable="@drawable/item_background" android:state_enabled="false" />
+    <item android:drawable="@drawable/item_background_pressed" android:state_pressed="true" />
+    <item android:drawable="@drawable/item_background_pressed" android:state_hovered="true" />
+    <item android:drawable="@drawable/item_background" android:state_focused="true" />
+    <item android:drawable="@drawable/item_background" android:state_selected="true" />
+    <item android:drawable="@drawable/item_background" />
 
-</layer-list>
+</selector>

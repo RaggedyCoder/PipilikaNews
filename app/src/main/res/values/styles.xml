@@ -8,26 +8,53 @@
     <style name="splash" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Main theme colors -->
         <!--   your app branding color for the app bar -->
-        <item name="colorPrimary">#FF00F601</item>
+        <item name="colorPrimary">#666666</item>
         <!--   darker variant for the status bar and contextual app bars -->
-        <item name="colorPrimaryDark">#FF1B5E20</item>
+        <item name="colorPrimaryDark">#444444</item>
         <!--   theme UI controls like checkboxes and text fields -->
-        <item name="colorAccent">#FF00F601</item>
+        <item name="colorAccent">#888888</item>
     </style>
 
     <style name="cluster" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Main theme colors -->
-        <!--   your app branding color for the app bar -->
         <item name="colorPrimary">#FF4285F4</item>
-        <item name="android:textColorPrimary">#FFFFFF</item>
-        <!--   darker variant for the status bar and contextual app bars -->
-        <item name="colorPrimaryDark">#FF3367D6</item>
-        <!--   theme UI controls like checkboxes and text fields -->
+        <item name="colorPrimaryDark">#2e5bb5</item>
         <item name="colorAccent">#FF4285F4</item>
+        <item name="android:textColorPrimary">#f1f1f1</item>
+    </style>
+
+    <style name="cluster.night" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="colorPrimary">#bdf441</item>
+        <item name="colorPrimaryDark">#B6E057</item>
+        <item name="colorAccent">#bdf441</item>
+        <item name="android:textColorPrimary">#f1f1f1</item>
+    </style>
+
+    <style name="MyPopupMenu" parent="Theme.AppCompat.Light">
+        <item name="android:colorBackground">#fafafa</item>
+        <item name="android:textColor">#0d0d0d</item>
+        <item name="android:actionOverflowButtonStyle">@style/MyActionOverflowMenu</item>
+    </style>
+
+    <style name="MyPopupMenu.Night" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:colorBackground">@color/card_dark_background</item>
+        <item name="android:textColor">#fdfdfd</item>
+        <item name="android:actionOverflowButtonStyle">@style/MyActionOverflowMenu</item>
+    </style>
+
+    <style name="MyActionOverflowMenu" parent="@style/Widget.AppCompat.PopupMenu.Overflow">
+        <item name="android:popupBackground">#fafafa</item>
+        <item name="android:src">@mipmap/ic_overflow_menu_button</item>
+        <item name="android:background">#00000000</item>
+    </style>
+
+    <style name="MyActionOverflowMenu.Night" parent="@style/Widget.AppCompat.PopupMenu.Overflow">
+        <item name="android:popupBackground">#0a0a0a</item>
+        <item name="android:src">@mipmap/ic_overflow_menu_button</item>
+        <item name="android:background">#00000000</item>
     </style>
 
     <style name="fullNews" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@null</item>
+        <item name="colorPrimary">@android:color/transparent</item>
         <item name="colorPrimaryDark">#FF3367D6</item>
         <item name="actionBarDivider">@null</item>
         <item name="elevation">0dip</item>
@@ -38,4 +65,83 @@
         <item name="windowActionBarOverlay">true</item>
     </style>
 
+    <!-- <style name="ThemeActionBar" parent="Widget.AppCompat.Light.ActionBar.Solid">
+         <item name="android:background">@null</item>
+         &lt;!&ndash; Support library compatibility &ndash;&gt;
+         <item name="background">@null</item>
+     </style>-->
+
+    <style name="HeadlineText">
+        <item name="android:textColor">#ff2a7acd</item>
+        <item name="night_textColor">#B6E057</item>
+    </style>
+
+    <style name="paperName">
+        <item name="android:textColor">#333333</item>
+        <item name="night_textColor">#c4c4c4</item>
+    </style>
+
+    <style name="summaryText">
+        <item name="android:textColor">#333333</item>
+        <item name="night_textColor">#c4c4c4</item>
+    </style>
+
+    <style name="background">
+        <item name="android:background">#DADADA</item>
+        <item name="night_background">#212121</item>
+    </style>
+
+    <style name="timelineBackground">
+        <item name="android:background">#fafafa</item>
+        <item name="night_background">#212121</item>
+    </style>
+
+    <style name="floatingCircle">
+        <item name="android:background">@drawable/floating_circle</item>
+        <item name="night_background">@drawable/floating_circle_night</item>
+    </style>
+
+    <style name="fullNewsBackground">
+        <item name="android:background">@color/card_light_background</item>
+        <item name="night_background">@color/card_dark_background</item>
+    </style>
+
+    <style name="fullNewsPaperTitle">
+        <item name="android:textColor">#ff002944</item>
+        <item name="night_textColor">#daff8e</item>
+    </style>
+
+    <style name="splashBackground">
+        <item name="android:background">#EEEEEE</item>
+        <item name="night_background">#222222</item>
+    </style>
+
+    <style name="welcomeBackground">
+        <item name="android:background">#339aff</item>
+        <item name="night_background">#749131</item>
+    </style>
+
+    <style name="welcomeActivityButtonTextColor">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="night_textColor">@android:color/black</item>
+    </style>
+
+    <style name="dialogStyle" parent="AlertDialog.AppCompat.Light">
+        <item name="colorAccent">#FF4285F4</item>
+    </style>
+
+    <style name="dialogStyle.night" parent="AlertDialog.AppCompat">
+        <item name="colorAccent">#bdf441</item>
+    </style>
+
+    <style name="dividerStyle">
+        <item name="android:background">@android:color/black</item>
+        <item name="night_background">@android:color/white</item>
+    </style>
+
+    <style name="newsBackground">
+        <item name="android:background">@drawable/cluster_pager_item_background</item>
+        <!-- Support library compatibility -->
+        <item name="night_background">@drawable/cluster_pager_item_background_night</item>
+    </style>
 </resources>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/timeline_date_picker_holder"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.pipilika.news.view.widget.CustomTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip"
+                    android:text="Timeline Date"
+                    android:textColor="#222222"
+                    android:textSize="22sp"
+                    app:font="RobotoSlab-Regular.ttf" />
+
+                <DatePicker
+                    android:id="@+id/timeline_date_picker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="400dip"
+                    android:layout_marginTop="5dip"
+                    android:calendarViewShown="false"
+                    android:minDate="1/1/2015" />
+
+                <com.pipilika.news.view.widget.CustomButton
+                    android:id="@+id/timeline_get_button"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dip"
+                    android:text="Check"
+                    android:textColor="#000000"
+                    app:font="RobotoSlab-Regular.ttf" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</LinearLayout>

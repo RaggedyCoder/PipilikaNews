@@ -6,31 +6,34 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        style="@style/newsBackground"
         android:layout_width="match_parent"
-        android:layout_height="450dp"
-        android:background="@drawable/cluster_pager_item_background"
+        android:layout_height="370dp"
+        android:gravity="center"
         android:orientation="vertical">
 
         <com.pipilika.news.view.widget.CustomTextView
             android:id="@+id/news_headline"
+            style="@style/HeadlineText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text="Headline"
-            android:textColor="#ff2a7acd"
             android:textSize="@dimen/summary_headline_text"
             app:font="RobotoSlab-Regular.ttf" />
 
 
         <ImageView
             android:id="@+id/news_image"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/summary_news_image"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/news_headline"
+            android:layout_gravity="center"
             android:layout_margin="5dp"
             android:background="#00000000"
+            android:elevation="3dip"
             android:scaleType="fitCenter" />
         <!--newsimage:loaderViewId="@+id/progress_wheel"-->
         <ImageView
@@ -57,12 +60,13 @@
 
             <com.pipilika.news.view.widget.CustomTextView
                 android:id="@+id/news_paper_name"
+                style="@style/paperName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center|start"
                 android:paddingLeft="10dip"
                 android:text="Metro News"
-                android:textColor="#ff004f9b"
+                android:textColor="#333333"
                 android:textSize="@dimen/summary_newspaper_name_text"
                 app:font="Roboto-Regular.ttf" />
 
@@ -71,6 +75,7 @@
 
         <com.pipilika.news.view.widget.CustomTextView
             android:id="@+id/news_time"
+            style="@style/HeadlineText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/news_image"
@@ -78,22 +83,21 @@
             android:layout_alignTop="@+id/holder"
             android:paddingRight="10dip"
             android:text="12-12-12"
-            android:textColor="#ff004f9b"
             android:textSize="@dimen/summary_news_time_text"
             app:font="Roboto-Light.ttf" />
 
         <com.pipilika.news.view.widget.CustomTextView
             android:id="@+id/news_summary"
+            style="@style/summaryText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/holder"
             android:layout_centerHorizontal="true"
-            android:maxLines="12"
+            android:ellipsize="end"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="5dip"
             android:text="@string/dummy_summary"
-            android:textColor="#333333"
             android:textSize="@dimen/summary_text"
             app:font="kalpurush.ttf" />
     </RelativeLayout>

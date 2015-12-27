@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/timelineBackground"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:id="@+id/timeline_date_picker_holder"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <DatePicker
+                android:id="@+id/timeline_date_picker_normal"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/date_picker_height"
+                android:layout_marginTop="5dip"
+                android:calendarViewShown="true"
+                android:minDate="1/1/2015"
+                android:spinnersShown="false"
+                android:visibility="gone" />
+
+            <DatePicker
+                android:id="@+id/timeline_date_picker_night"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/date_picker_height"
+                android:layout_marginTop="5dip"
+                android:calendarViewShown="true"
+                android:minDate="1/1/2015"
+                android:spinnersShown="false"
+                android:theme="@style/cluster.night"
+                android:visibility="gone" />
+        </FrameLayout>
+
+        <com.pipilika.news.view.widget.CustomButton
+            android:id="@+id/timeline_get_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dip"
+            android:text="খুঁজুন"
+            android:textColor="#333333"
+            app:font="RobotoSlab-Regular.ttf" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/timeline_cluster_recycler_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <ProgressBar
+                android:id="@+id/progress_wheel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+
+            <ProgressBar
+                android:id="@+id/progress_wheel_night"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:theme="@style/cluster.night"
+                android:visibility="gone" />
+        </FrameLayout>
+    </FrameLayout>
+</LinearLayout>

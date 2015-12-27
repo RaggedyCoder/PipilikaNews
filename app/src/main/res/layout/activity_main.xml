@@ -1,23 +1,36 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:night="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    tools:ignore="MergeRootFrame">
+    android:fitsSystemWindows="true"
+    tools:context=".activities.MainActivity">
 
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity"
-        tools:ignore="MergeRootFrame" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <FrameLayout
-        android:id="@+id/sub_container"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        tools:context=".MainActivity"
-        tools:ignore="MergeRootFrame" />
+        android:layout_height="wrap_content"
+        app:theme="@style/cluster">
 
-</FrameLayout>
+        <com.pipilika.news.view.widget.CustomToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/MyPopupMenu"
+            app:titleTextColor="#1a1a1a"
+            night:nightPopupTheme="@style/MyPopupMenu.Night"
+            night:nightTitleTextColor="#eaeaea" />
+
+
+    </android.support.design.widget.AppBarLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>
