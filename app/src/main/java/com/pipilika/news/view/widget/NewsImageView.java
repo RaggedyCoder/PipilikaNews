@@ -15,7 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.pipilika.news.R;
 import com.pipilika.news.application.AppController;
-import com.pipilika.news.utils.Constants;
+import com.pipilika.news.util.Constants;
 
 import java.io.File;
 import java.io.FileNotFoundException;

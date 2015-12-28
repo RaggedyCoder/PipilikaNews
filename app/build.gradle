@@ -34,7 +34,6 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile 'com.android.support:recyclerview-v7:23.1.1'
     compile 'com.google.code.gson:gson:2.4'
-    compile 'com.makeramen:roundedimageview:2.0.1'
     compile 'commons-io:commons-io:2.4'
     compile 'com.asha.nightowllib:nightowllib:0.2'
     compile 'com.github.bumptech.glide:glide:3.6.1'

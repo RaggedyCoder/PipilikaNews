@@ -139,6 +139,11 @@
         <item name="night_background">@android:color/white</item>
     </style>
 
+    <style name="dividerStyle.Inverse">
+        <item name="android:background">@android:color/white</item>
+        <item name="night_background">@android:color/black</item>
+    </style>
+
     <style name="newsBackground">
         <item name="android:background">@drawable/cluster_pager_item_background</item>
         <!-- Support library compatibility -->

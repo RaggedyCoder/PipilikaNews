@@ -21,7 +21,7 @@ import android.util.AttributeSet;
 import android.widget.EditText;
 import android.widget.RemoteViews;
 
-import com.pipilika.news.utils.fonts.CustomFontHelper;
+import com.pipilika.news.util.font.CustomFontHelper;
 
 @RemoteViews.RemoteView
 public class CustomEditText extends EditText {

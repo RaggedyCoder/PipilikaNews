@@ -6,7 +6,7 @@ import android.content.SharedPreferences.Editor;
 import android.text.format.DateUtils;
 import android.util.Log;
 
-import com.pipilika.news.utils.BanglaTime;
+import com.pipilika.news.util.BanglaTime;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

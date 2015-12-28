@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="com.pipilika.news.item.recyclerview.AboutItem" />
+
+        <variable
+            name="aboutItem"
+            type="AboutItem" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/rect_flat_button"
+        android:clickable="true"
+        android:orientation="vertical">
+
+        <com.pipilika.news.view.widget.CustomTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="@{aboutItem.title}"
+            android:textSize="18sp" />
+    </LinearLayout>
+</layout>

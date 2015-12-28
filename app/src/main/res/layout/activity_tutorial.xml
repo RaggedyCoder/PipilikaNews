@@ -20,7 +20,7 @@
         android:orientation="vertical">
 
         <View
-            style="@style/dividerStyle"
+            style="@style/dividerStyle.Inverse"
             android:layout_width="match_parent"
             android:layout_height="2dip" />
 

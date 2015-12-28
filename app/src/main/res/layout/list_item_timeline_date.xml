@@ -4,7 +4,7 @@
 
     <data>
 
-        <import type="com.pipilika.news.adapters.recyclerview.item.TimeLine" />
+        <import type="com.pipilika.news.item.recyclerview.TimeLine" />
 
         <variable
             name="timeLine"

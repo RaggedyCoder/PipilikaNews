@@ -23,7 +23,7 @@ import android.util.AttributeSet;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 
-import com.pipilika.news.utils.fonts.CustomFontHelper;
+import com.pipilika.news.util.font.CustomFontHelper;
 
 @RemoteViews.RemoteView
 public class CustomTextView extends TextView {

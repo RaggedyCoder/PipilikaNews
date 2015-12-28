@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">পিপীলিকা সাম্প্রতিক সংবাদ</string>
+    <string name="about_app" translatable="false">অ্যাপটির সম্পর্কে</string>
     <string name="hello_world">স্বাগতম দুনিয়া!</string>
     <string name="action_old_news" translatable="false">পুরোন খবর</string>
     <string name="action_tutorial" translatable="false">টিউটোরিয়াল</string>
@@ -12,7 +13,12 @@
     <string name="skip" translatable="false">প্রস্থান</string>
     <string name="next" translatable="false">পরবর্তী</string>
     <string name="done" translatable="false">সম্পন্ন করুন</string>
-    <string name="action_about" translatable="false">সম্পর্কে</string>
+    <string name="action_about" translatable="false">অ্যাপটির সম্পর্কে</string>
     <string name="action_night_mode" translatable="false">নাইট মোড</string>
     <string name="downloading_news_content">খবর নামানো হচ্ছে। &#8230;</string>
+
+    <string name="version_info">ভার্সন তথ্য</string>
+    <string name="open_source_library">ওপেন সোর্স লাইব্রেরী</string>
+    <string name="privacy_policy">গোপনীয়তা নীতি</string>
+
 </resources>

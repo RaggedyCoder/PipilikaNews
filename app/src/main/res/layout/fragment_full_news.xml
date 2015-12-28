@@ -4,7 +4,7 @@
 
     <data>
 
-        <import type="com.pipilika.news.items.viewpager.ClusterPagerItem" />
+        <import type="com.pipilika.news.item.viewpager.ClusterPagerItem" />
 
         <variable
             name="news"

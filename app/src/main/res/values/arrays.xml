@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="about_app_array">
+        <item>@string/version_info</item>
+        <item>@string/privacy_policy</item>
+        <item>@string/open_source_library</item>
+    </string-array>
+</resources>

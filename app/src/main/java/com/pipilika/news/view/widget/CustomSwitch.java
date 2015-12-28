@@ -6,7 +6,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.Switch;
 
-import com.pipilika.news.utils.fonts.CustomFontHelper;
+import com.pipilika.news.util.font.CustomFontHelper;
 
 /**
  * Created by tuman on 9/12/2014.

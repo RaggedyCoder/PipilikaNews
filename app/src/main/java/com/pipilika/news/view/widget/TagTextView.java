@@ -12,7 +12,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 
 import com.pipilika.news.R;
-import com.pipilika.news.utils.graphics.RightTriangleF;
+import com.pipilika.news.util.graphics.RightTriangleF;
 
 /**
  * Created by tuman on 21/4/2015.

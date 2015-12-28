@@ -20,7 +20,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.CheckBox;
 
-import com.pipilika.news.utils.fonts.CustomFontHelper;
+import com.pipilika.news.util.font.CustomFontHelper;
 
 public class CustomCheckBox extends CheckBox {
 

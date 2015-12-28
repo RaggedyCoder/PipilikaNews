@@ -16,7 +16,7 @@ import com.pipilika.news.appdata.AppManager;
 import com.pipilika.news.nightmode.handler.CardViewHandler;
 import com.pipilika.news.nightmode.handler.ToolBarHandler;
 import com.pipilika.news.nightmode.switcher.NightModeTable;
-import com.pipilika.news.utils.LruBitmapCache;
+import com.pipilika.news.util.LruBitmapCache;
 
 public class AppController extends Application {
 
