@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/welcomeBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -29,26 +30,30 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <Button
+            <com.pipilika.news.view.widget.CustomButton
                 android:id="@+id/skip_button"
                 style="@style/welcomeActivityButtonTextColor"
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:layout_margin="0dip"
                 android:layout_weight="1"
+                android:textSize="18sp"
+                app:font="kalpurush.ttf"
                 android:background="@drawable/round_rect_flat_button"
                 android:text="@string/skip" />
 
-            <Button
+            <com.pipilika.news.view.widget.CustomButton
                 android:id="@+id/next_button"
                 style="@style/welcomeActivityButtonTextColor"
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:layout_margin="0dip"
                 android:layout_weight="1"
+                android:textSize="18sp"
                 android:background="@drawable/round_rect_flat_button"
                 android:text="@string/next"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                app:font="kalpurush.ttf" />
         </LinearLayout>
     </LinearLayout>
 

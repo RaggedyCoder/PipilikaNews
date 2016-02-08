@@ -19,7 +19,7 @@
         <item name="colorPrimary">#FF4285F4</item>
         <item name="colorPrimaryDark">#2e5bb5</item>
         <item name="colorAccent">#FF4285F4</item>
-        <item name="android:textColorPrimary">#f1f1f1</item>
+        <item name="android:textColorPrimary">#0f0f0f</item>
     </style>
 
     <style name="cluster.night" parent="ThemeOverlay.AppCompat.Dark">

@@ -17,6 +17,7 @@
 package com.pipilika.news.util;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.os.Build;
 import android.os.StrictMode;
 
@@ -148,8 +149,8 @@ public class Utils {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
 
-    public static String newsFileName(String fileName) {
-        return String.format("%s%s.txt", Constants.ZIP_CACHE_PATH, fileName);
+    public static String newsFileName(Activity activity,String fileName) {
+        return String.format(activity.getCacheDir().getAbsolutePath() +"%s%s.txt", Constants.ZIP_CACHE_PATH, fileName);
     }
 
     public static void copyStream(InputStream is, OutputStream os) {

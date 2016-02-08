@@ -1,5 +1,6 @@
 package com.pipilika.news.util.volley;
 
+import android.app.Activity;
 import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -26,6 +27,7 @@ public class ZipRequest extends Request<ZipFile> {
     private final Response.Listener<ZipFile> listener;
     private Map<String, String> params;
     private File mFile;
+    private Activity activity;
 
     public ZipRequest(String url, Map<String, String> params, Response.Listener<ZipFile> listener, Response.ErrorListener errorListener) {
         this(Method.GET, url, params, listener, errorListener);
@@ -36,7 +38,11 @@ public class ZipRequest extends Request<ZipFile> {
         this.params = params;
         this.listener = listener;
         this.setRetryPolicy(new DefaultRetryPolicy(ZIP_TIMEOUT_MS, ZIP_MAX_RETRIES, ZIP_BACKOFF_MULTI));
-        mFile = new File(Constants.ZIP_CACHE_PATH);
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+        mFile = new File(this.activity.getCacheDir().getAbsolutePath() + Constants.ZIP_CACHE_PATH);
         if (!mFile.exists()) {
             mFile.mkdirs();
         }
@@ -53,7 +59,7 @@ public class ZipRequest extends Request<ZipFile> {
         }
         ZipFile zipFile;
         try {
-            zipFile = new ZipFile(Constants.ZIP_CACHE_PATH + params.get("id") + ".zip");
+            zipFile = new ZipFile(this.activity.getCacheDir().getAbsolutePath() + Constants.ZIP_CACHE_PATH + params.get("id") + ".zip");
         } catch (IOException e) {
             Log.e(TAG, e.getMessage());
             return Response.error(new VolleyError(e));
@@ -65,7 +71,7 @@ public class ZipRequest extends Request<ZipFile> {
     }
 
     private void createZipCache(byte[] data) throws Exception {
-        FileOutputStream zipOutputStream = new FileOutputStream(Constants.ZIP_CACHE_PATH + params.get("id") + ".zip");
+        FileOutputStream zipOutputStream = new FileOutputStream(activity.getCacheDir().getAbsolutePath() + Constants.ZIP_CACHE_PATH + params.get("id") + ".zip");
         zipOutputStream.write(data);
         zipOutputStream.flush();
         zipOutputStream.close();

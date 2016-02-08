@@ -93,7 +93,7 @@ public class NewsClusterFragment extends Fragment {
     }
 
     private List<ClusterListItem> newCluster(String id) {
-        File file = new File(newsFileName(id));
+        File file = new File(newsFileName(getActivity(), id));
         byte[] bytes = new byte[1024];
         try {
             InputStream inputStream = new FileInputStream(file);
@@ -108,6 +108,7 @@ public class NewsClusterFragment extends Fragment {
         String jsonData = "";
         try {
             jsonData = new String(bytes, "UTF-8");
+            Log.d(TAG, jsonData);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -116,7 +117,11 @@ public class NewsClusterFragment extends Fragment {
             return gson.fromJson(jsonData.trim(), new TypeToken<ArrayList<ClusterListItem>>() {
             }.getType());
         } catch (Exception e) {
-            return gson.fromJson(jsonData.trim(), SingleClusterNews.class).getNews();
+            try {
+                return gson.fromJson(jsonData.trim(), SingleClusterNews.class).getNews();
+            } catch (Exception e1) {
+                return null;
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 package com.pipilika.news.activity;
 
+
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private Fragment mFragment;
-
+   /* AdView adView;*/
     private AppManager appManager = AppController.getAppManager();
 
     @Override
@@ -42,6 +43,11 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().setTitle("");
         Log.d(TAG, "onCreate(Bundle savedInstanceState)");
         setContentView(R.layout.activity_main);
+        /*adView = (AdView) findViewById(R.id.adView);
+        adView.setVisibility(View.VISIBLE);
+        AdRequest adRequest = new AdRequest.Builder()
+                .setRequestAgent("android_studio:ad_template").build();
+        adView.loadAd(adRequest);*/
         CustomToolbar toolbar = (CustomToolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         NightOwl.owlAfterCreate(this);
@@ -86,6 +92,9 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, fragment)
                 .commit();
+        if (fragment instanceof NewsClusterFragment) {
+           /* adView.setVisibility(View.VISIBLE);*/
+        }
     }
 
     @Override
@@ -98,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.container, timeLineFragment)
                         .commit();
+               /* adView.setVisibility(View.GONE);*/
                 break;
             case R.id.action_tutorial:
                 Intent intent = new Intent(this, WelcomeActivity.class);
@@ -136,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, newsClusterFragment)
                     .commit();
+           /* adView.setVisibility(View.VISIBLE);*/
         } else {
             super.onBackPressed();
         }

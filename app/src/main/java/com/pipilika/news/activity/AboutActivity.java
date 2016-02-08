@@ -1,5 +1,7 @@
 package com.pipilika.news.activity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
+import android.widget.Button;
 
 import com.pipilika.news.R;
 import com.pipilika.news.adapter.recyclerview.AboutAdapter;
@@ -24,12 +27,14 @@ import java.util.List;
 /**
  * Created by sajid on 12/28/2015.
  */
-public class AboutActivity extends AppCompatActivity implements RecyclerView.OnItemTouchListener {
+public class AboutActivity extends AppCompatActivity implements RecyclerView.OnItemTouchListener, View.OnClickListener {
 
     private static final String LICENSE_URL = "file:///android_asset/licences.html";
 
-    private static final int LICENSE = 2;
+    private static final int SERVICES = 0;
+    private static final int LICENSE = 1;
     private RecyclerView aboutRecyclerView;
+    private View extraServiceView;
     private WebView licenseWebView;
     private AboutAdapter aboutAdapter;
     private List<AboutItem> aboutItems;
@@ -39,6 +44,11 @@ public class AboutActivity extends AppCompatActivity implements RecyclerView.OnI
 
     private Animation animOpen;
     private Animation animClose;
+
+    private Button pipilikaJob;
+    private Button pipilikaLibrary;
+    private Button pipilikaRecentNews;
+    private Button pipilikaProduct;
 
     private Animation.AnimationListener mAnimationListener;
 
@@ -51,6 +61,11 @@ public class AboutActivity extends AppCompatActivity implements RecyclerView.OnI
         initializeAdapter();
 
         initializeAnimation();
+    }
+
+    private void startBrowser(String url) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(browserIntent);
     }
 
     private void initializeAnimation() {
@@ -82,8 +97,25 @@ public class AboutActivity extends AppCompatActivity implements RecyclerView.OnI
 
 
     private void initializeView() {
+
+        pipilikaJob = (Button) findViewById(R.id.pipilika_job);
+        pipilikaLibrary = (Button) findViewById(R.id.pipilika_library);
+        pipilikaProduct = (Button) findViewById(R.id.pipilika_product);
+        pipilikaRecentNews = (Button) findViewById(R.id.pipilika_recent_news);
+
+        pipilikaJob.setTag("http://jobs.pipilika.com/");
+        pipilikaLibrary.setTag("http://library.pipilika.com/");
+        pipilikaProduct.setTag("http://product.pipilika.com/");
+        pipilikaRecentNews.setTag("http://news.pipilika.com/");
+
+        pipilikaJob.setOnClickListener(this);
+        pipilikaLibrary.setOnClickListener(this);
+        pipilikaProduct.setOnClickListener(this);
+        pipilikaRecentNews.setOnClickListener(this);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         aboutRecyclerView = (RecyclerView) findViewById(R.id.about_recycler_view);
+        extraServiceView = findViewById(R.id.extra_service_view);
         licenseWebView = (WebView) findViewById(R.id.license_web_view);
         licenseWebView.loadUrl(LICENSE_URL);
         layoutManager = new LinearLayoutManager(this);
@@ -127,6 +159,10 @@ public class AboutActivity extends AppCompatActivity implements RecyclerView.OnI
         if (child != null && mGestureDetector.onTouchEvent(motionEvent)) {
             int position = recyclerView.getChildAdapterPosition(child);
             switch (position) {
+                case SERVICES:
+                    extraServiceView.setVisibility(View.VISIBLE);
+                    extraServiceView.startAnimation(animOpen);
+                    break;
                 case LICENSE:
                     licenseWebView.setVisibility(View.VISIBLE);
                     licenseWebView.startAnimation(animOpen);
@@ -138,7 +174,9 @@ public class AboutActivity extends AppCompatActivity implements RecyclerView.OnI
 
     @Override
     public void onBackPressed() {
-        if (licenseWebView.getVisibility() == View.VISIBLE) {
+        if (extraServiceView.getVisibility() == View.VISIBLE) {
+            extraServiceView.setVisibility(View.GONE);
+        } else if (licenseWebView.getVisibility() == View.VISIBLE) {
             licenseWebView.setVisibility(View.GONE);
         } else {
             super.onBackPressed();
@@ -153,5 +191,13 @@ public class AboutActivity extends AppCompatActivity implements RecyclerView.OnI
     @Override
     public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        Object tag = v.getTag();
+        if (tag != null && tag instanceof String) {
+            startBrowser((String) tag);
+        }
     }
 }

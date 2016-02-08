@@ -87,7 +87,6 @@ public class SplashScreenFragment extends Fragment implements Response.ErrorList
             }
         });
         alertDialog = alertDialogBuilder.create();
-
         latestNewsListener = new Response.Listener<LatestNews>() {
             @Override
             public void onResponse(LatestNews latestNews) {
@@ -135,11 +134,11 @@ public class SplashScreenFragment extends Fragment implements Response.ErrorList
 
     private String zipFileName(String fileName) {
 
-        return String.format("%s%s.zip", Constants.ZIP_CACHE_PATH, fileName);
+        return String.format(getActivity().getCacheDir().getAbsolutePath() + "%s%s.zip", Constants.ZIP_CACHE_PATH, fileName);
     }
 
     private String newsFileName(String fileName) {
-        return String.format("%s%s.txt", Constants.ZIP_CACHE_PATH, fileName);
+        return String.format(getActivity().getCacheDir().getAbsolutePath() +"%s%s.txt", Constants.ZIP_CACHE_PATH, fileName);
     }
 
     @Override
@@ -168,11 +167,12 @@ public class SplashScreenFragment extends Fragment implements Response.ErrorList
         String url = API_URL + API_TRANSFER_ZIPPED_NEWS + "?id=" + appManager.getLatestNewsId();
         Log.e("URL", url);
         ZipRequest zipRequest = new ZipRequest(Request.Method.GET, url, params, zipFileListener, this);
+        zipRequest.setActivity(getActivity());
         AppController.getInstance().addToRequestQueue(zipRequest);
     }
 
     private void extractFile(ZipInputStream zipInputStream, String name, final int bufferSize) throws IOException {
-        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(Constants.ZIP_CACHE_PATH + name));
+        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(getActivity().getCacheDir().getAbsolutePath() + Constants.ZIP_CACHE_PATH + name));
         byte[] bytesIn = new byte[bufferSize];
         int read;
         while ((read = zipInputStream.read(bytesIn)) != -1) {

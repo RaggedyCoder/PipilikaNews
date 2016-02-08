@@ -54,6 +54,7 @@ public class ObjectRequest<T> extends Request<T> {
         JSONObject jsonObject;
         try {
             jsonObject = new JSONObject(new String(networkResponse.data, "UTF-8"));
+            Log.d("TAG",jsonObject.toString(1));
         } catch (JSONException | UnsupportedEncodingException e) {
             VolleyLog.e(e.getMessage());
             return Response.error(new VolleyError(e));

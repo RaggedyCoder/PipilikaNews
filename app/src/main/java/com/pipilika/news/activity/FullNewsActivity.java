@@ -17,6 +17,11 @@ public class FullNewsActivity extends AppCompatActivity {
         NightOwl.owlBeforeCreate(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_news);
+       /* AdView adView = (AdView) findViewById(R.id.adView);
+        adView.setVisibility(View.VISIBLE);
+        AdRequest adRequest = new AdRequest.Builder()
+                .setRequestAgent("android_studio:ad_template").build();
+        adView.loadAd(adRequest);*/
         NightOwl.owlAfterCreate(this);
         if (savedInstanceState == null) {
             String location = getIntent().getExtras().getString("location");

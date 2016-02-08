@@ -143,7 +143,10 @@ public class TimeLineFragment extends Fragment implements View.OnClickListener, 
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.timeline_get_button:
-
+                if (timelineDatePicker.getYear() < 2016 || (timelineDatePicker.getYear() == 2016 && timelineDatePicker.getMonth() < 1)) {
+                    Toast.makeText(getContext(), "দুঃখিত এ তারিখের কোনো খবর সার্ভারে নেই", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Calendar calendar = new GregorianCalendar();
                 Calendar selectedDate = new GregorianCalendar(timelineDatePicker.getYear(),
                         timelineDatePicker.getMonth(), timelineDatePicker.getDayOfMonth());
@@ -152,8 +155,9 @@ public class TimeLineFragment extends Fragment implements View.OnClickListener, 
                 progressWheel.setVisibility(View.VISIBLE);
                 timelineClusterRecyclerView.setVisibility(View.GONE);
                 date = timelineDatePicker.getYear() + "-" +
-                        timelineDatePicker.getMonth() + "-" + timelineDatePicker.getDayOfMonth();
+                        (timelineDatePicker.getMonth()+1) + "-" + timelineDatePicker.getDayOfMonth();
                 String url = API_URL + API_RECENT_CLUSTER_NEWS + "?date=" + date;
+                Log.d(TAG, url);
                 ObjectRequest<TimeLineDate> timeLineDateObjectRequest = new ObjectRequest<>(Request.Method.GET, url, this, this, TimeLineDate.class);
                 AppController.getInstance().addToRequestQueue(timeLineDateObjectRequest);
                 Log.d(TAG, url);
@@ -176,7 +180,9 @@ public class TimeLineFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onErrorResponse(VolleyError volleyError) {
-
+        progressWheel.setVisibility(View.GONE);
+        Toast.makeText(getContext(), "সায়মিক গোলযোগ দেখা দিয়েছে।পুনরায় চেষ্টা করুন", Toast.LENGTH_SHORT).show();
+        timelineClusterRecyclerView.setVisibility(View.GONE);
     }
 
     //,Response.Listener<SingleClusterNews>
@@ -232,7 +238,7 @@ public class TimeLineFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void newClusterSave(String id, List<ClusterListItem> news) {
-        File file = new File(newsFileName(id));
+        File file = new File(newsFileName(getActivity(), id));
         byte[] bytes = new GsonBuilder().create().toJson(news).getBytes();
         try {
             BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file), 1024);
