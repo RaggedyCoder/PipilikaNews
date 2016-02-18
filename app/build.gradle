@@ -9,8 +9,8 @@ android {
         applicationId "com.pipilika.news"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 3
-        versionName "P.S.N.1.0.2.Beta"
+        versionCode 4
+        versionName "P.S.N.1.0.3.Beta"
     }
     packagingOptions {
         exclude 'META-INF/ASL2.0'

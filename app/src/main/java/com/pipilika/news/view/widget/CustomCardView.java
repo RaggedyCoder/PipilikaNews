@@ -32,6 +32,6 @@ public class CustomCardView extends CardView implements IOwlObserver {
     public void onSkinChange(int mode, Activity activity) {
         @ColorRes
         int color = mode == 0 ? R.color.card_light_background : R.color.card_dark_background;
-        setBackgroundColor(getResources().getColor(color));
+        setCardBackgroundColor(getResources().getColor(color));
     }
 }

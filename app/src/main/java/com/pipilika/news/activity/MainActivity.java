@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.action_night_mode:
                 Log.d(TAG, "skin change action attempt");
-                item.setChecked(!item.isChecked());
+                item.setChecked(appManager.getAppThemeMode() == 0);
                 NightOwl.owlNewDress(this);
                 if (Utils.hasLollipop()) {
                     int color = appManager.getAppThemeMode() == 0 ? R.color.colorPrimaryDark : R.color.nightColorPrimaryDark;
